@@ -4,7 +4,8 @@
   "description": "DCS Credential Issuer user interface for the Identity Proofing and Verification (IPV) system within the GDS digital identity platform, GOV.UK Sign In.",
   "main": "index.js",
   "engine": {
-    "node": "16.8.0"
+    "node": "16.8.0",
+    "yarn": "1.22.10"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
