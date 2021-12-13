@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/alphagov/di-ipv-cri-uk-passport-front/issues"
   },
-  "homepage": "https://github.com/alphagov/di-ipv-cri-uk-passport-front#readme"
+  "homepage": "https://github.com/alphagov/di-ipv-cri-uk-passport-front#readme",
+  "devDependencies": {
+    "prettier": "2.4.1"
+  }
 }
