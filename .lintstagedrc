@@ -1,0 +1,3 @@
+{
+  "*": ["yarn lint", "prettier --write"]
+}
