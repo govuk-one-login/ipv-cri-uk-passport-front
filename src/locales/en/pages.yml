@@ -1,2 +1,4 @@
-index:
-  title: di-ipv-cri-uk-passport-front
+passportDetails:
+  title: Enter your passport details
+  content:
+    - Enter your passport details as they appear on your passport
