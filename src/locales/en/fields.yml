@@ -20,13 +20,6 @@ dateOfBirth:
     default: 'You need to supply your date of birth'
     before: 'Issue date must be in the past'
 
-issueDate:
-  legend: Issue date
-  validation:
-    default: 'You need to supply the issue date of your passport'
-    afterField: 'Issue date must be after date of birth'
-    before: 'Issue date must be in the past'
-
 expiryDate:
   legend: Expiry date
   validation:
