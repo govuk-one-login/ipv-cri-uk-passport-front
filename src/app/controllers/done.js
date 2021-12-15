@@ -14,7 +14,7 @@ class DoneController extends BaseController {
     };
 
     try {
-      const response = await axios.post(`${API_BASE_URL}${API_VALIDATE_PASSPORT_PATH}`, attributes);
+      await axios.post(`${API_BASE_URL}${API_VALIDATE_PASSPORT_PATH}`, attributes);
     } catch (error) {
       res.error = error.name;
       return next(error);
