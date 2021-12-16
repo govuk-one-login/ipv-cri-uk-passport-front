@@ -1,6 +1,7 @@
 require("dotenv").config();
-
 const { setup } = require("hmpo-app");
+
+const { PORT, SESSION_SECRET } = require("./lib/config");
 
 const loggerConfig = {
   console: true,
@@ -10,12 +11,12 @@ const loggerConfig = {
 
 const sessionConfig = {
   cookieName: "service_session",
-  secret: process.env.SESSION_SECRET,
+  secret: SESSION_SECRET,
 };
 
 const { router } = setup({
   config: { APP_ROOT: __dirname },
-  port: process.env.PORT || 3000,
+  port: PORT,
   logs: loggerConfig,
   session: sessionConfig,
   urls: {
