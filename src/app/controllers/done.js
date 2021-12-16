@@ -1,26 +1,32 @@
-const axios = require("axios");
 const BaseController = require("hmpo-form-wizard").Controller;
 
-const { API_BASE_URL, API_VALIDATE_PASSPORT_PATH } = require("../../lib/config");
-
 class DoneController extends BaseController {
-  async saveValues(req, res, next) {
-    const attributes = {
-      passportNumber: req.sessionModel.get("passportNumber"),
-      surname: req.sessionModel.get("surname"),
-      forenames: req.sessionModel.get("givenNames").split(' '),
-      dateOfBirth: req.sessionModel.get("dateOfBirth"),
-      expiryDate: req.sessionModel.get("expiryDate"),
+  mapItemToSummaryListRow(item) {
+    return {
+      key: {
+        text: item[0],
+      },
+      value: {
+        text: item[1],
+      },
     };
+  }
 
-    try {
-      await axios.post(`${API_BASE_URL}${API_VALIDATE_PASSPORT_PATH}`, attributes);
-    } catch (error) {
-      res.error = error.name;
-      return next(error);
-    }
+  locals(req, res, callback) {
+    super.locals(req, res, (err, locals) => {
+      const requestValue = req.sessionModel.toJSON();
+      delete requestValue["csrf-secret"];
 
-    super.saveValues(req, res, next);
+      locals.sentValuesSummaryList = Object.entries(requestValue).map(
+        this.mapItemToSummaryListRow
+      );
+
+      locals.responseValuesSummaryList = Object.entries(req.session.passportParams).map(
+        this.mapItemToSummaryListRow
+      );
+
+      callback(null, locals);
+    });
   }
 }
 

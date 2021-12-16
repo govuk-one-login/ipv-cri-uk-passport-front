@@ -1,2 +1,19 @@
 {% extends "form-template.njk" %}
-{% set hmpoPageKey = "passportDone" %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% set hmpoPageKey = "done" %}
+
+{% block innerContent %}
+    {{ super() }}
+
+    <h2 class="govuk-heading-l">Data sent out</h2>
+
+    {{ govukSummaryList({
+        rows: sentValuesSummaryList
+    }) }}
+
+    <h2 class="govuk-heading-l">Data received</h2>
+
+    {{ govukSummaryList({
+        rows: responseValuesSummaryList
+    }) }}
+{% endblock %}
