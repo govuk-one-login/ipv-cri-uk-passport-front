@@ -14,7 +14,9 @@ yarn install
 
 ## Environment Variables
 
+- `API_BASE_URL` - URL to the cri-passport-back api.
 - `PORT` - Default port to run webserver on. (Default to `3000`)
+- `SESSION_SECRET` - Secret used when configuring the HMPO session.
 
 ### Code Owners
 
