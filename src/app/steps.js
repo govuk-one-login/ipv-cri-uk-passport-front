@@ -1,5 +1,7 @@
-const done = require("./controllers/done");
+const validateController = require("./controllers/validate");
+const doneController = require('./controllers/done');
 const passportDetails = require("./controllers/passport-details");
+
 module.exports = {
   "/": {
     resetJourney: true,
@@ -13,15 +15,18 @@ module.exports = {
       "surname",
       "givenNames",
       "dateOfBirth",
-      "issueDate",
       "expiryDate",
     ],
     controller: passportDetails,
-    next: "done",
+    next: "validate",
+  },
+  "/validate": {
+    controller: validateController,
+    skip: true,
+    next: "done"
   },
   "/done": {
-    controller: done,
-    skip: true,
-    next: "redirect-uri-here"
+    controller: doneController,
+    next: "/redirect-uri"
   },
 };

@@ -27,3 +27,9 @@ const { router } = setup({
 });
 
 router.use("/", require("./app/router"));
+
+//TODO: handle oauth redirect here
+router.use("/redirect-uri", () => {
+  // eslint-disable-next-line no-console
+  console.log("Handle redirect oauth stuff here!");
+});
