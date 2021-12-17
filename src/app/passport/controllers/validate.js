@@ -1,7 +1,7 @@
 const axios = require("axios");
 const BaseController = require("hmpo-form-wizard").Controller;
 
-const { API_BASE_URL, API_VALIDATE_PASSPORT_PATH } = require("../../lib/config");
+const { API_BASE_URL, API_VALIDATE_PASSPORT_PATH } = require("../../../lib/config");
 
 class ValidateController extends BaseController {
   async saveValues(req, res, next) {
@@ -14,13 +14,18 @@ class ValidateController extends BaseController {
     };
 
     try {
-      await axios.post(`${API_BASE_URL}${API_VALIDATE_PASSPORT_PATH}`, attributes);
+      const apiResponse = await axios.post(`${API_BASE_URL}${API_VALIDATE_PASSPORT_PATH}`, attributes);
 
-      //TODO: get these values from response when ready
-      req.session.passportParams = {
-        authorizationCode: "THIS-IS-A-FAKE-AUTH-CODE!!!!!!",
-        isValid: true
-      };
+      const code = apiResponse?.data?.code?.value;
+
+      if (!code) {
+        res.status(500);
+        return res.send("Missing authorization code");
+      }
+
+      req.authorization_code = code;
+
+      req.session.passportParams = apiResponse.data;
 
       super.saveValues(req, res, next);
     } catch (error) {

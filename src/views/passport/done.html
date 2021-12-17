@@ -1,8 +1,9 @@
-{% extends "form-template.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% extends "hmpo-template.njk" %}
 {% set hmpoPageKey = "done" %}
 
-{% block innerContent %}
+{% block mainContent %}
     {{ super() }}
 
     <h2 class="govuk-heading-l">Data sent out</h2>
@@ -16,4 +17,8 @@
     {{ govukSummaryList({
         rows: responseValuesSummaryList
     }) }}
+
+    <form action="/oauth2/authorize" method="POST">
+        {{ govukButton({ text: translate("buttons.authorizeAndReturn") }) }}
+    </form>
 {% endblock %}
