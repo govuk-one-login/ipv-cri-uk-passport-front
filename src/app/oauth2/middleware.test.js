@@ -75,8 +75,8 @@ describe("oauth middleware", () => {
           authParams: {
             redirect_uri: "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb",
           },
+          authorization_code: "1234",
         },
-        authorization_code: "1234",
       };
     });
 
