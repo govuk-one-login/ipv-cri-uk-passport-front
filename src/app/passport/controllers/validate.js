@@ -14,7 +14,13 @@ class ValidateController extends BaseController {
     };
 
     try {
-      const apiResponse = await axios.post(`${API_BASE_URL}${API_VALIDATE_PASSPORT_PATH}`, attributes);
+      const oauthParams = {
+        ...req.session.authParams,
+        scope: "openid",
+      };
+
+      const queryParams = this.getQueryStringParams(oauthParams);
+      const apiResponse = await axios.post(`${API_BASE_URL}${API_VALIDATE_PASSPORT_PATH}${queryParams}`, attributes);
 
       const code = apiResponse?.data?.code?.value;
 
@@ -23,15 +29,17 @@ class ValidateController extends BaseController {
         return res.send("Missing authorization code");
       }
 
-      req.authorization_code = code;
-
-      req.session.passportParams = apiResponse.data;
+      req.session.authorization_code = code;
 
       super.saveValues(req, res, next);
     } catch (error) {
       res.error = error.name;
       return next(error);
     }
+  }
+
+  getQueryStringParams(authParams) {
+    return '?' + Object.keys(authParams).map(key => key + '=' + authParams[key]).join('&');
   }
 }
 

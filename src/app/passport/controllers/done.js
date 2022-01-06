@@ -21,9 +21,16 @@ class DoneController extends BaseController {
         this.mapItemToSummaryListRow
       );
 
-      locals.responseValuesSummaryList = Object.entries(req.session.passportParams).map(
-        this.mapItemToSummaryListRow
-      );
+      locals.responseValuesSummaryList = [
+        {
+          key: {
+            text: "code",
+          },
+          value: {
+            text: req.session.authorization_code,
+          },
+        }
+      ]
 
       callback(null, locals);
     });
