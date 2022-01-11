@@ -1,4 +1,5 @@
 buttons:
+  authorizeAndReturn: Authorize And Return
   next: Continue
   cancel: Cancel
 govuk:
