@@ -10,7 +10,7 @@ const loggerConfig = {
 };
 
 const sessionConfig = {
-  cookieName: "service_session",
+  cookieName: "cri_passport_service_session",
   secret: SESSION_SECRET,
 };
 
