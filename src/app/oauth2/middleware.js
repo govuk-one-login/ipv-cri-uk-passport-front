@@ -17,7 +17,7 @@ module.exports = {
   },
 
   redirectToCallback: async (req, res) => {
-    const redirectURL = `${req.session.authParams.redirect_uri}?code=${req.session.authorization_code}`;
+    const redirectURL = `${req.session.authParams.redirect_uri}&code=${req.session.authorization_code}`;
 
     res.redirect(redirectURL);
   },
