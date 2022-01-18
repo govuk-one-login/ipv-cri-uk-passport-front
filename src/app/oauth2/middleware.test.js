@@ -73,7 +73,7 @@ describe("oauth middleware", () => {
       req = {
         session: {
           authParams: {
-            redirect_uri: "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb?criId=PassportIssuer",
+            redirect_uri: "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb?id=PassportIssuer",
           },
           authorization_code: "1234",
         },
@@ -84,7 +84,7 @@ describe("oauth middleware", () => {
       await middleware.redirectToCallback(req, res);
 
       expect(res.redirect).to.have.been.calledWith(
-        `https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb?criId=PassportIssuer&code=1234`
+        `https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb?id=PassportIssuer&code=1234`
       );
     });
   });
