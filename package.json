@@ -5,7 +5,7 @@
   "main": "src/app.js",
   "engine": {
     "node": "16.8.0",
-    "yarn": "1.22.10"
+    "yarn": "1.22.17"
   },
   "scripts": {
     "start": "node src/app.js",
