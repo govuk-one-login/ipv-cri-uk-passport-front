@@ -1,3 +1,6 @@
+const axios = require("axios");
+const {API_BASE_URL, API_JWT_VERIFICATION_PATH} = require("../../lib/config");
+
 module.exports = {
   addAuthParamsToSession: async (req, res, next) => {
     const authParams = {
@@ -9,6 +12,15 @@ module.exports = {
 
     req.session.authParams = authParams;
 
+    next();
+  },
+
+  parseSharedAttributesJWT: async (req, res, next) => {
+    const requestJWT = req.query.request;
+    if (requestJWT) {
+      const apiResponse = await axios.post(`${API_BASE_URL}${API_JWT_VERIFICATION_PATH}`, requestJWT);
+      req.sessionModel.set(apiResponse?.data);
+    }
     next();
   },
 
