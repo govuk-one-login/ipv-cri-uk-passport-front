@@ -19,7 +19,7 @@ module.exports = {
     const requestJWT = req.query.request;
     if (requestJWT) {
       const apiResponse = await axios.post(`${API_BASE_URL}${API_JWT_VERIFICATION_PATH}`, requestJWT);
-      req.sessionModel.set(apiResponse?.data);
+      req.session.sharedAttributes = apiResponse?.data;
     }
     next();
   },
