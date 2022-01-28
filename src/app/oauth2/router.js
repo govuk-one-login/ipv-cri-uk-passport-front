@@ -6,11 +6,13 @@ const {
   addAuthParamsToSession,
   redirectToCallback,
   redirectToPassportDetailsPage,
+  parseSharedAttributesJWT,
 } = require("./middleware");
 
 router.get(
   "/authorize",
   addAuthParamsToSession,
+  parseSharedAttributesJWT,
   redirectToPassportDetailsPage
 );
 router.post("/authorize", redirectToCallback);
