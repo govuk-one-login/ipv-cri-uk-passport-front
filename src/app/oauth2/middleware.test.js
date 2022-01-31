@@ -133,4 +133,36 @@ describe("oauth middleware", () => {
       );
     });
   });
+
+  describe("passClientIdToJwtVerifyPostHeader", () => {
+
+    let postStub;
+    const clientId = 's6BhdRkqt3'
+    beforeEach(() => {
+      req = {
+        query: {
+          response_type: "code",
+          client_id: clientId,
+          state: "xyz",
+          redirect_uri: "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb",
+          unusedParam: "not used",
+          request: "eyJuYW1lcyI6W3siZ2l2ZW5OYW1lcyI6WyJEYW4iXSwiZmFtaWx5TmFtZSI6IldhdHNvbiJ9LHsiZ2l2ZW5OYW1lcyI6WyJEYW5pZWwiXSwiZmFtaWx5TmFtZSI6IldhdHNvbiJ9LHsiZ2l2ZW5OYW1lcyI6WyJEYW5ueSwgRGFuIl0sImZhbWlseU5hbWUiOiJXYXRzb24ifV0sImRhdGVPZkJpcnRocyI6WyIyMDIxLTAzLTAxIiwiMTk5MS0wMy0wMSJdfQ=="
+        },
+        session: { authParams: { client_id: clientId }},
+        sessionModel: {
+          set: sinon.fake(),
+        }
+      };
+      const resolvedPromise = new Promise((resolve) => resolve({}));
+      postStub = sandbox.stub(axios, 'post').returns(resolvedPromise);
+    });
+
+    afterEach(() => sandbox.restore())
+
+    it("should pass client_id in header", async function () {
+      await middleware.parseSharedAttributesJWT(req, res, next);
+
+      expect(postStub.firstCall.args[2]?.headers?.client_id).to.be.equal(clientId)
+    });
+  });
 });
