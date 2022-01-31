@@ -17,7 +17,7 @@ module.exports = {
 
   parseSharedAttributesJWT: async (req, res, next) => {
     const requestJWT = req.query.request;
-    const headers = {'client_id': req.session?.authParams?.client_id }
+    const headers = { 'client_id': req.session?.authParams?.client_id };
 
     if (requestJWT) {
       const apiResponse = await axios.post(`${API_BASE_URL}${API_JWT_VERIFICATION_PATH}`, requestJWT, {headers: headers});
