@@ -9,7 +9,7 @@ if (!appEnv.isLocal) {
 }
 
 module.exports = {
-  API_BASE_URL: serviceConfig.coreBackAPIUrl || process.env.API_BASE_URL,
+  API_BASE_URL: serviceConfig.criPassportBackAPIUrl || process.env.API_BASE_URL,
   API_VALIDATE_PASSPORT_PATH: "/passport",
   API_JWT_VERIFICATION_PATH: "/jwt-verification",
   PORT: process.env.PORT || 3000,

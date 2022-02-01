@@ -20,8 +20,8 @@ module.exports = {
     const headers = { 'client_id': req.session?.authParams?.client_id };
 
     if (requestJWT) {
-      const apiResponse = await axios.post(`${API_BASE_URL}${API_JWT_VERIFICATION_PATH}`, requestJWT, {headers: headers});
-      req.sessionModel.set(apiResponse?.data);
+      const apiResponse = await axios.post(`${API_BASE_URL}${API_JWT_VERIFICATION_PATH}`, requestJWT, { headers: headers });
+      req.session.sharedAttributes = apiResponse?.data;
     }
     next();
   },

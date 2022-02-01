@@ -61,9 +61,15 @@ describe("oauth middleware", () => {
 
   describe("addSharedAttributesToSession", () => {
     const data = {
-      claims: {
-        name: ["Danny", "Dan"]
-      }
+      names : [
+        {givenNames: ["Dan John"],    familyName: "Watson"},
+        {givenNames: ["Daniel"], familyName: "Watson"},
+        {givenNames: ["Danny, Dan"],  familyName: "Watson"},
+      ],
+      dateOfBirths:[
+        "2021-03-01",
+        "1991-03-01"
+      ]
     };
 
     beforeEach(() => {
@@ -90,7 +96,7 @@ describe("oauth middleware", () => {
     it("should save sharedAttributes to session", async function () {
       await middleware.parseSharedAttributesJWT(req, res, next);
 
-      expect(req.sessionModel.set.lastArg).to.deep.equal(data);
+      expect(req.session.sharedAttributes).to.deep.equal(data);
     });
 
     it("should call next", async function () {

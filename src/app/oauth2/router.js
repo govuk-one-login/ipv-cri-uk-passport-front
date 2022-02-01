@@ -11,8 +11,8 @@ const {
 
 router.get(
   "/authorize",
-  addAuthParamsToSession,
   parseSharedAttributesJWT,
+  addAuthParamsToSession,
   redirectToPassportDetailsPage
 );
 router.post("/authorize", redirectToCallback);
