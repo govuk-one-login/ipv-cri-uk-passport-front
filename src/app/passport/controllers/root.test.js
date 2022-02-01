@@ -59,7 +59,7 @@ describe("root controller", () => {
     expect(root).to.be.an.instanceof(BaseController);
   });
 
-  it("should retrieve sharedAttributes from sessiona and store it in the journeyModel", async () => {
+  it("should retrieve sharedAttributes from session and store it in the journeyModel", async () => {
     await root.saveValues(req, res, next);
 
     expect(req.journeyModel.set.getCall(0).args[0]).to.eq("surname");
@@ -72,7 +72,7 @@ describe("root controller", () => {
     expect(req.journeyModel.set.getCall(2).args[1]).to.eq(req.session.sharedAttributes.dateOfBirths[0]);
   });
 
-  it("should not update journeyModel if not shared attributes present", async () => {
+  it("should not update journeyModel if no shared attributes present", async () => {
 
     req.session.sharedAttributes = {
       names: [],
