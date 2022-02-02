@@ -19,9 +19,13 @@ module.exports = {
     const requestJWT = req.query?.request;
     const headers = { 'client_id': req.query?.client_id };
 
-    if (requestJWT) {
-      const apiResponse = await axios.post(`${API_BASE_URL}${API_JWT_VERIFICATION_PATH}`, requestJWT, { headers: headers });
-      req.session.sharedAttributes = apiResponse?.data;
+    try {
+      if (requestJWT) {
+        const apiResponse = await axios.post(`${API_BASE_URL}${API_JWT_VERIFICATION_PATH}`, requestJWT, { headers: headers });
+        req.session.sharedAttributes = apiResponse?.data;
+      }
+    } catch(error) {
+      next(error);
     }
     next();
   },
