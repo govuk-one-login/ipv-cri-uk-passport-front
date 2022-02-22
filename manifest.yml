@@ -4,3 +4,5 @@ applications:
     memory: 256M
     buildpack: nodejs_buildpack
     command: yarn start
+    env:
+      API_BASE_URL: https://8zdmjzou27.execute-api.eu-west-2.amazonaws.com/((environment))
