@@ -1,6 +1,6 @@
 ---
 applications:
-  - name: di-ipv-cri-uk-passport-front
+  - name: ((environment))-di-ipv-cri-uk-passport-front
     memory: 256M
     buildpack: nodejs_buildpack
     command: yarn start
