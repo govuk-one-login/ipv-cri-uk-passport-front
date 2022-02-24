@@ -1,4 +1,7 @@
 require("dotenv").config();
+require("express");
+require("express-async-errors");
+
 const { setup } = require("hmpo-app");
 
 const { PORT, SESSION_SECRET } = require("./lib/config");
