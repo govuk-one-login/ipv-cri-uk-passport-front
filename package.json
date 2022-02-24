@@ -50,6 +50,7 @@
     "cfenv": "1.2.4",
     "dotenv": "^10.0.0",
     "express": "4.17.1",
+    "express-async-errors": "^3.1.1",
     "govuk-frontend": "3.14.0",
     "hmpo-app": "1.0.2",
     "hmpo-components": "4.6.0",
