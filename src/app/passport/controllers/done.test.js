@@ -75,4 +75,52 @@ describe("done controller", () => {
     expect(next.firstCall.args[1].responseValuesSummaryList[0].key.text).to.eq("code");
     expect(next.firstCall.args[1].responseValuesSummaryList[0].value.text).to.eq("test-auth-code-12345");
   });
+
+  it("should display empty details if missing auth code response", () => {
+    req.sessionModel.unset("authorization_code");
+
+    done.locals(req, res, next);
+
+    expect(next.calledOnce).to.be.true;
+
+    expect(next.firstCall.args[1].responseValuesSummaryList.length).to.eq(0);
+  });
+
+  it("should display error details if CRI returned an error response", () => {
+    req.sessionModel.unset("authorization_code");
+    req.sessionModel.set("error", {
+      code: "permission_denied",
+      description: "User is now allowed",
+    });
+
+    done.locals(req, res, next);
+
+    expect(next.calledOnce).to.be.true;
+
+    expect(next.firstCall.args[1].responseValuesSummaryList[0].key.text).to.eq("error_code");
+    expect(next.firstCall.args[1].responseValuesSummaryList[0].value.text).to.eq("permission_denied");
+
+    expect(next.firstCall.args[1].responseValuesSummaryList[1].key.text).to.eq("error_description");
+    expect(next.firstCall.args[1].responseValuesSummaryList[1].value.text).to.eq("User is now allowed");
+  });
+
+  it("should display both auth code and error details if CRI returned both", () => {
+    req.sessionModel.set("error", {
+      code: "permission_denied",
+      description: "User is now allowed",
+    });
+
+    done.locals(req, res, next);
+
+    expect(next.calledOnce).to.be.true;
+
+    expect(next.firstCall.args[1].responseValuesSummaryList[0].key.text).to.eq("code");
+    expect(next.firstCall.args[1].responseValuesSummaryList[0].value.text).to.eq("test-auth-code-12345");
+
+    expect(next.firstCall.args[1].responseValuesSummaryList[1].key.text).to.eq("error_code");
+    expect(next.firstCall.args[1].responseValuesSummaryList[1].value.text).to.eq("permission_denied");
+
+    expect(next.firstCall.args[1].responseValuesSummaryList[2].key.text).to.eq("error_description");
+    expect(next.firstCall.args[1].responseValuesSummaryList[2].value.text).to.eq("User is now allowed");
+  });
 });

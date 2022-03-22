@@ -123,18 +123,49 @@ describe("oauth middleware", () => {
           authParams: {
             redirect_uri: "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb?id=PassportIssuer",
           },
-          "hmpo-wizard-cri-passport-front": {
-            authorization_code: "1234",
-          },
         },
       };
     });
 
-    it("should successfully redirects when code is valid", async function () {
+    it("should successfully redirect when code is valid", async function () {
+      req.session["hmpo-wizard-cri-passport-front"] = {
+        authorization_code: "1234",
+      };
+
       await middleware.redirectToCallback(req, res);
 
       expect(res.redirect).to.have.been.calledWith(
         `https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb?id=PassportIssuer&code=1234`
+      );
+    });
+
+    it("should successfully redirect when error is provided with description field", async function () {
+      req.session["hmpo-wizard-cri-passport-front"] = {
+        error: {
+          code: "permission_denied",
+          description: "User is not allowed",
+        },
+      };
+
+      await middleware.redirectToCallback(req, res);
+
+      expect(res.redirect).to.have.been.calledWith(
+        `https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb?id=PassportIssuer&error=permission_denied&error_description=User is not allowed`
+      );
+    });
+
+    it("should successfully redirect when error is provided with message field", async function () {
+      req.session["hmpo-wizard-cri-passport-front"] = {
+        error: {
+          code: "permission_denied",
+          message: "User is not allowed",
+        },
+      };
+
+      await middleware.redirectToCallback(req, res);
+
+      expect(res.redirect).to.have.been.calledWith(
+        `https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb?id=PassportIssuer&error=permission_denied&error_description=User is not allowed`
       );
     });
   });
