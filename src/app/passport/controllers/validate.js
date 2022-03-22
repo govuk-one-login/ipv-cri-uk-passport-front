@@ -1,7 +1,7 @@
 const axios = require("axios");
 const BaseController = require("hmpo-form-wizard").Controller;
 
-const { API_BASE_URL, API_VALIDATE_PASSPORT_PATH } = require("../../../lib/config");
+const { API_BASE_URL, API_AUTHORIZE_PATH } = require("../../../lib/config");
 
 class ValidateController extends BaseController {
   async saveValues(req, res, next) {
@@ -20,7 +20,7 @@ class ValidateController extends BaseController {
       };
 
       const queryParams = this.getQueryStringParams(oauthParams);
-      const apiResponse = await axios.post(`${API_BASE_URL}${API_VALIDATE_PASSPORT_PATH}${queryParams}`, attributes);
+      const apiResponse = await axios.post(`${API_BASE_URL}${API_AUTHORIZE_PATH}${queryParams}`, attributes);
 
       const code = apiResponse?.data?.code?.value;
 
