@@ -20,34 +20,25 @@ describe("done controller", () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
+    const setup = setupDefaultMocks();
+    req = setup.req;
+    res = setup.res;
+    next = setup.next;
 
-    res = {
-      status: sinon.fake(),
-      redirect: sinon.fake(),
-      send: sinon.fake(),
-      render: sinon.fake(),
+    req.query = {
+      response_type: "code",
+      client_id: "s6BhdRkqt3",
+      state: "xyz",
+      redirect_uri: "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb",
+      unusedParam: "not used",
     };
-
-    const sessionModelStub = sinon.stub();
-    sessionModelStub.returns(sessionModelJson);
-
-    req = {
-      query: {
-        response_type: "code",
-        client_id: "s6BhdRkqt3",
-        state: "xyz",
-        redirect_uri: "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb",
-        unusedParam: "not used",
-      },
-      session: {
-        authorization_code: "test-auth-code-12345"
-      },
-      sessionModel: {
-        toJSON: sessionModelStub,
-      }
-    };
-
-    next = sinon.fake();
+    req.sessionModel.set("authorization_code", "test-auth-code-12345");
+    req.sessionModel.set("passportNumber", sessionModelJson.passportNumber);
+    req.sessionModel.set("surname", sessionModelJson.surname);
+    req.sessionModel.set("givenNames", sessionModelJson.givenNames);
+    req.sessionModel.set("dateOfBirth", sessionModelJson.dateOfBirth);
+    req.sessionModel.set("expiryDate", sessionModelJson.expiryDate);
+    req.sessionModel.set("csrf-secret", sessionModelJson["csrf-secret"]);
   });
   afterEach(() => sandbox.restoreContext());
 

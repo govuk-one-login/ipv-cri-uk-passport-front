@@ -12,36 +12,10 @@ describe("validate controller", () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-
-    res = {
-      status: sinon.fake(),
-      redirect: sinon.fake(),
-      send: sinon.fake(),
-      render: sinon.fake(),
-    };
-
-    const sessionModelStub = sinon.stub();
-    sessionModelStub.onCall(0).returns("12345678");
-    sessionModelStub.onCall(1).returns("Smith");
-    sessionModelStub.onCall(2).returns("John Paul");
-    sessionModelStub.onCall(3).returns("12-03-1990");
-    sessionModelStub.onCall(4).returns("24-01-2025");
-
-    req = {
-      query: {
-        response_type: "code",
-        client_id: "s6BhdRkqt3",
-        state: "xyz",
-        redirect_uri: "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb",
-        unusedParam: "not used",
-      },
-      session: {},
-      sessionModel: {
-        get: sessionModelStub,
-      }
-    };
-
-    next = sinon.fake();
+    const setup = setupDefaultMocks();
+    req = setup.req;
+    res = setup.res;
+    next = setup.next;
   });
   afterEach(() => sandbox.restore());
 
@@ -50,20 +24,33 @@ describe("validate controller", () => {
   });
 
   it("should retrieve auth code from cri-passport-back and store in session", async () => {
+    req.sessionModel.set("passportNumber", "123456789");
+    req.sessionModel.set("surname", "Jones Smith");
+    req.sessionModel.set("givenNames", "Dan");
+    req.sessionModel.set("dateOfBirth", "10/02/1975");
+    req.sessionModel.set("expiryDate", "15/01/2035");
+
     const data = {
       code: {
         value: "test-auth-code-12345"
       }
     };
+
     const resolvedPromise = new Promise((resolve) => resolve({ data }))
     sandbox.stub(axios, 'post').returns(resolvedPromise)
 
     await validate.saveValues(req, res, next);
 
-    expect(req.session.authorization_code).to.eq(data.code.value);
+    expect(req.session.test.authorization_code).to.eq(data.code.value);
   });
 
-  it("should return a 500 response if auth code is missing", async () => {
+  it("should set an error object in the session if auth code is missing", async () => {
+    req.sessionModel.set("passportNumber", "123456789");
+    req.sessionModel.set("surname", "Jones Smith");
+    req.sessionModel.set("givenNames", "Dan");
+    req.sessionModel.set("dateOfBirth", "10/02/1975");
+    req.sessionModel.set("expiryDate", "15/01/2035");
+
     const data = {
       invalidData: {
         value: "test invalid data"
@@ -74,20 +61,34 @@ describe("validate controller", () => {
 
     await validate.saveValues(req, res, next);
 
-    expect(res.status.lastArg).to.eq(500);
-    expect(res.send.lastArg).to.eq("Missing authorization code");
+    const sessionError = req.sessionModel.get("error");
+    expect(sessionError.code).to.eq("server_error");
+    expect(sessionError.error_description).to.eq("Failed to retrieve authorization code");
   });
 
-  it("should return error on request failure", async () => {
+  it("should save error in session when error caught from cri-back", async () => {
+    req.sessionModel.set("passportNumber", "123456789");
+    req.sessionModel.set("surname", "Jones Smith");
+    req.sessionModel.set("givenNames", "Dan");
+    req.sessionModel.set("dateOfBirth", "10/02/1975");
+    req.sessionModel.set("expiryDate", "15/01/2035");
+
     const testError = {
-      name: "Test error name"
+      name: "Test error name",
+      response: {
+        data: {
+          code: "access_denied",
+          error_description: "Permission denied to token endpoint"
+        }
+      }
     };
     const resolvedPromise = new Promise((resolve, error) => error(testError))
     sandbox.stub(axios, 'post').returns(resolvedPromise)
 
     await validate.saveValues(req, res, next);
 
-    expect(res.error).to.eq(testError.name);
-    expect(next.lastArg).to.eq(testError)
+    const sessionError = req.sessionModel.get("error");
+    expect(sessionError.code).to.eq(testError.response.data.code);
+    expect(sessionError.error_description).to.eq(testError.response.data.error_description);
   });
 });

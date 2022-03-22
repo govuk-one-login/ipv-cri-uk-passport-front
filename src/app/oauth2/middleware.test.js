@@ -17,14 +17,11 @@ describe("oauth middleware", () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    res = {
-      status: sinon.fake(),
-      redirect: sinon.fake(),
-      send: sinon.fake(),
-      render: sinon.fake(),
-    };
 
-    next = sinon.fake();
+    const setup = setupDefaultMocks();
+    req = setup.req;
+    res = setup.res;
+    next = setup.next;
   });
 
   describe("addAuthParamsToSession", () => {
@@ -126,7 +123,9 @@ describe("oauth middleware", () => {
           authParams: {
             redirect_uri: "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb?id=PassportIssuer",
           },
-          authorization_code: "1234",
+          "hmpo-wizard-cri-passport-front": {
+            authorization_code: "1234",
+          },
         },
       };
     });
