@@ -9,7 +9,7 @@ class RootController extends BaseController {
         req.journeyModel.set("givenNames", sharedAttributes.names[0]?.givenNames)
       }
 
-      if (sharedAttributes.dateOfBirths.length > 0) {
+      if (sharedAttributes?.dateOfBirths?.length > 0) {
         req.journeyModel.set("dateOfBirth", sharedAttributes.dateOfBirths[0])
       }
     }
