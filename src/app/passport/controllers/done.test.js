@@ -20,34 +20,25 @@ describe("done controller", () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
+    const setup = setupDefaultMocks();
+    req = setup.req;
+    res = setup.res;
+    next = setup.next;
 
-    res = {
-      status: sinon.fake(),
-      redirect: sinon.fake(),
-      send: sinon.fake(),
-      render: sinon.fake(),
+    req.query = {
+      response_type: "code",
+      client_id: "s6BhdRkqt3",
+      state: "xyz",
+      redirect_uri: "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb",
+      unusedParam: "not used",
     };
-
-    const sessionModelStub = sinon.stub();
-    sessionModelStub.returns(sessionModelJson);
-
-    req = {
-      query: {
-        response_type: "code",
-        client_id: "s6BhdRkqt3",
-        state: "xyz",
-        redirect_uri: "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb",
-        unusedParam: "not used",
-      },
-      session: {
-        authorization_code: "test-auth-code-12345"
-      },
-      sessionModel: {
-        toJSON: sessionModelStub,
-      }
-    };
-
-    next = sinon.fake();
+    req.sessionModel.set("authorization_code", "test-auth-code-12345");
+    req.sessionModel.set("passportNumber", sessionModelJson.passportNumber);
+    req.sessionModel.set("surname", sessionModelJson.surname);
+    req.sessionModel.set("givenNames", sessionModelJson.givenNames);
+    req.sessionModel.set("dateOfBirth", sessionModelJson.dateOfBirth);
+    req.sessionModel.set("expiryDate", sessionModelJson.expiryDate);
+    req.sessionModel.set("csrf-secret", sessionModelJson["csrf-secret"]);
   });
   afterEach(() => sandbox.restoreContext());
 
@@ -83,5 +74,53 @@ describe("done controller", () => {
 
     expect(next.firstCall.args[1].responseValuesSummaryList[0].key.text).to.eq("code");
     expect(next.firstCall.args[1].responseValuesSummaryList[0].value.text).to.eq("test-auth-code-12345");
+  });
+
+  it("should display empty details if missing auth code response", () => {
+    req.sessionModel.unset("authorization_code");
+
+    done.locals(req, res, next);
+
+    expect(next.calledOnce).to.be.true;
+
+    expect(next.firstCall.args[1].responseValuesSummaryList.length).to.eq(0);
+  });
+
+  it("should display error details if CRI returned an error response", () => {
+    req.sessionModel.unset("authorization_code");
+    req.sessionModel.set("error", {
+      code: "permission_denied",
+      description: "User is now allowed",
+    });
+
+    done.locals(req, res, next);
+
+    expect(next.calledOnce).to.be.true;
+
+    expect(next.firstCall.args[1].responseValuesSummaryList[0].key.text).to.eq("error_code");
+    expect(next.firstCall.args[1].responseValuesSummaryList[0].value.text).to.eq("permission_denied");
+
+    expect(next.firstCall.args[1].responseValuesSummaryList[1].key.text).to.eq("error_description");
+    expect(next.firstCall.args[1].responseValuesSummaryList[1].value.text).to.eq("User is now allowed");
+  });
+
+  it("should display both auth code and error details if CRI returned both", () => {
+    req.sessionModel.set("error", {
+      code: "permission_denied",
+      description: "User is now allowed",
+    });
+
+    done.locals(req, res, next);
+
+    expect(next.calledOnce).to.be.true;
+
+    expect(next.firstCall.args[1].responseValuesSummaryList[0].key.text).to.eq("code");
+    expect(next.firstCall.args[1].responseValuesSummaryList[0].value.text).to.eq("test-auth-code-12345");
+
+    expect(next.firstCall.args[1].responseValuesSummaryList[1].key.text).to.eq("error_code");
+    expect(next.firstCall.args[1].responseValuesSummaryList[1].value.text).to.eq("permission_denied");
+
+    expect(next.firstCall.args[1].responseValuesSummaryList[2].key.text).to.eq("error_description");
+    expect(next.firstCall.args[1].responseValuesSummaryList[2].value.text).to.eq("User is now allowed");
   });
 });

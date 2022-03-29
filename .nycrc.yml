@@ -4,7 +4,10 @@ include:
   - "src/**/*.js"
 exclude:
   - "**/*.test.js"
+  - "**/*router.js"
   - "src/app/passport/*.js"
+  - "src/lib/config.js"
+  - "src/assets/javascripts/app.js"
 report-dir: coverage
 statements: 70
 branches: 80

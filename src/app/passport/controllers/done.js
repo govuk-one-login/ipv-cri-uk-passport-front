@@ -16,21 +16,48 @@ class DoneController extends BaseController {
     super.locals(req, res, (err, locals) => {
       const requestValue = req.sessionModel.toJSON();
       delete requestValue["csrf-secret"];
+      delete requestValue["authorization_code"];
+      delete requestValue["error"];
 
       locals.sentValuesSummaryList = Object.entries(requestValue).map(
         this.mapItemToSummaryListRow
       );
 
-      locals.responseValuesSummaryList = [
+      locals.responseValuesSummaryList = []
+
+      const authCode = req.sessionModel.get("authorization_code");
+
+      authCode && locals.responseValuesSummaryList.push(
         {
           key: {
             text: "code",
           },
           value: {
-            text: req.session.authorization_code,
+            text: authCode,
           },
         }
-      ]
+      );
+
+      const error = req.sessionModel.get("error");
+      error && locals.responseValuesSummaryList.push(
+        {
+          key: {
+            text: "error_code",
+          },
+          value: {
+            text: error?.code
+          }
+        },
+        {
+          key: {
+            text: "error_description",
+          },
+          value: {
+            text: error?.description ?? error?.message
+          }
+        },
+      );
+
 
       callback(null, locals);
     });
