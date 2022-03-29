@@ -16,7 +16,8 @@ module.exports = {
     fields: [
       "passportNumber",
       "surname",
-      "givenNames",
+      "firstName",
+      "middleNames",
       "dateOfBirth",
       "expiryDate",
     ],

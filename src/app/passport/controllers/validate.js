@@ -9,7 +9,7 @@ class ValidateController extends BaseController {
     const attributes = {
       passportNumber: req.sessionModel.get("passportNumber"),
       surname: req.sessionModel.get("surname"),
-      forenames: req.sessionModel.get("givenNames").split(' '),
+      forenames: req.sessionModel.get("firstName").split(' ').concat(req.sessionModel.get("middleNames").split(' ')),
       dateOfBirth: req.sessionModel.get("dateOfBirth"),
       expiryDate: req.sessionModel.get("expiryDate"),
     };

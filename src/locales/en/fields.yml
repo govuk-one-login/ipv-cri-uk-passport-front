@@ -1,5 +1,6 @@
 passportNumber:
   label: Passport number
+  hint: 'This is the 9 digit number in the top right hand corner of the photo page in your passport'
   validation:
     default: 'You need to supply your passport number'
     exactlength: 'UK passports are 9 digits long'
@@ -10,19 +11,25 @@ surname:
   validation:
     default: 'You need to supply your surname as it is printed on your passport'
 
-givenNames:
-  label: Given names
+firstName:
+  label: First name
   validation:
-    default: 'You need to supply your given names as they are printed on your passport'
+    default: 'You need to supply your first name as they are printed on your passport'
+
+middleNames:
+  label: Middle names
+  hint: 'You do not have to fill this in if you do not have any middle names'
 
 dateOfBirth:
   legend: Date of birth
+  hint: 'For example, 5 9 1973'
   validation:
     default: 'You need to supply your date of birth'
     before: 'Issue date must be in the past'
 
 expiryDate:
   legend: Expiry date
+  hint: 'For example, 27 5 2029'
   validation:
     default: 'You need to supply the expiry date of your passport'
     after: 'Expiry date must not be more than 18 months in the past'
