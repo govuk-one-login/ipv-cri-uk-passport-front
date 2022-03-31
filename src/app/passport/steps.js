@@ -1,4 +1,3 @@
-const done = require('./controllers/done');
 const details = require("./controllers/details");
 
 const validate = require("./controllers/validate");
@@ -24,10 +23,6 @@ module.exports = {
   "/validate": {
     controller: validate,
     skip: true,
-    next: "done"
+    next: "/oauth2/callback",
   },
-  "/done": {
-    controller: done,
-    noPost: true,
-  }
 };
