@@ -5,11 +5,13 @@ const { API_BASE_URL, API_AUTHORIZE_PATH } = require("../../../lib/config");
 
 class ValidateController extends BaseController {
   async saveValues(req, res, next) {
-
+    const firstName = req.sessionModel.get("firstName");
+    const middleNames = req.sessionModel.get("middleNames");
+    const forenames = middleNames === "" ? firstName.split(' ') : firstName.split(' ').concat(middleNames.split(' '));
     const attributes = {
       passportNumber: req.sessionModel.get("passportNumber"),
       surname: req.sessionModel.get("surname"),
-      forenames: req.sessionModel.get("firstName").split(' ').concat(req.sessionModel.get("middleNames").split(' ')),
+      forenames: forenames,
       dateOfBirth: req.sessionModel.get("dateOfBirth"),
       expiryDate: req.sessionModel.get("expiryDate"),
     };
