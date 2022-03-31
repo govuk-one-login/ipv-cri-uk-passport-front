@@ -2,16 +2,24 @@ module.exports = {
   passportNumber: {
     type: "text",
     validate: ["required", "numeric", { type: "exactlength", arguments: [9] }, { type: "limit", fn: value => !value.startsWith('9')}],
+    classes: "govuk-input--width-10",
   },
   surname: {
     type: "text",
     validate: ["required"],
     journeyKey: "surname",
+    classes: "govuk-input",
   },
-  givenNames: {
+  firstName: {
     type: "text",
     validate: ["required"],
-    journeyKey: "givenNames",
+    journeyKey: "firstName",
+    classes: "govuk-input",
+  },
+  middleNames: {
+    type: "text",
+    journeyKey: "middleNames",
+    classes: "govuk-input",
   },
   dateOfBirth: {
     type: "date",
