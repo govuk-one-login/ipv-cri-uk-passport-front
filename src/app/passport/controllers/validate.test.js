@@ -26,7 +26,8 @@ describe("validate controller", () => {
   it("should retrieve auth code from cri-passport-back and store in session", async () => {
     req.sessionModel.set("passportNumber", "123456789");
     req.sessionModel.set("surname", "Jones Smith");
-    req.sessionModel.set("givenNames", "Dan");
+    req.sessionModel.set("firstName", "Dan");
+    req.sessionModel.set("middleNames", "Joe");
     req.sessionModel.set("dateOfBirth", "10/02/1975");
     req.sessionModel.set("expiryDate", "15/01/2035");
 
@@ -47,7 +48,8 @@ describe("validate controller", () => {
   it("should set an error object in the session if auth code is missing", async () => {
     req.sessionModel.set("passportNumber", "123456789");
     req.sessionModel.set("surname", "Jones Smith");
-    req.sessionModel.set("givenNames", "Dan");
+    req.sessionModel.set("firstName", "Dan");
+    req.sessionModel.set("middleNames", "Joe");
     req.sessionModel.set("dateOfBirth", "10/02/1975");
     req.sessionModel.set("expiryDate", "15/01/2035");
 
@@ -69,7 +71,8 @@ describe("validate controller", () => {
   it("should save error in session when error caught from cri-back", async () => {
     req.sessionModel.set("passportNumber", "123456789");
     req.sessionModel.set("surname", "Jones Smith");
-    req.sessionModel.set("givenNames", "Dan");
+    req.sessionModel.set("firstName", "Dan");
+    req.sessionModel.set("middleNames", "Joe");
     req.sessionModel.set("dateOfBirth", "10/02/1975");
     req.sessionModel.set("expiryDate", "15/01/2035");
 
