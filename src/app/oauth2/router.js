@@ -15,6 +15,6 @@ router.get(
   addAuthParamsToSession,
   redirectToPassportDetailsPage
 );
-router.post("/authorize", redirectToCallback);
+router.get("/callback", redirectToCallback);
 
 module.exports = router;
