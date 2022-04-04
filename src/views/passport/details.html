@@ -1,6 +1,9 @@
 {% extends "form-template.njk" %}
 {% set hmpoPageKey = "details" %}
 {% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
+{% from "hmpo-text/macro.njk" import hmpoText %}
+{% from "hmpo-form/macro.njk" import hmpoForm %}
+{% from "hmpo-date/macro.njk" import hmpoDate %}
 
 {% block beforeContent %}
     {{ govukPhaseBanner({
@@ -9,4 +12,68 @@
     },
         html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
     }) }}
+{% endblock %}
+
+{% block mainContent %}
+    <h1 class="govuk-heading-l">
+        {{ translate("passport.title") }}
+    </h1>
+    <p> {{ translate("passport.passportInformationContext") }} </p>
+    <p> {{ translate("passport.checkDetailsContext") }}  </p>
+
+    {% call hmpoForm(ctx) %}
+
+    {{ hmpoText(ctx, {
+        id: "passportNumber",
+        label: {
+            classes: "govuk-label"
+        }
+    }) }}
+
+    {{ hmpoText(ctx, {
+        id: "surname",
+        label: {
+            classes: "govuk-label"
+        },
+        classes: "govuk-input"
+    }) }}
+
+    <label class="govuk-label"> {{ translate("passport.passportGivenNames") }} </label>
+
+    <div class="govuk-inset-text">
+        {{ hmpoText(ctx, {
+            id: "firstName",
+            label: {
+                classes: "govuk-label"
+            },
+            classes: "govuk-input"
+        }) }}
+
+        {{ hmpoText(ctx, {
+            id: "middleNames",
+            label: {
+                classes: "govuk-label"
+            },
+            classes: "govuk-input"
+        }) }}
+    </div>
+
+    {{ hmpoDate(ctx, {
+        id: "dateOfBirth",
+        legend: {
+            classes: "govuk-label"
+        }
+    }) }}
+
+    {{ hmpoDate(ctx, {
+        id: "expiryDate",
+        legend: {
+            classes: "govuk-label"
+        }
+    }) }}
+
+    {{ hmpoSubmit(ctx) }}
+
+    {% endcall %}
+
 {% endblock %}
