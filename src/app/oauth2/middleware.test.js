@@ -58,15 +58,12 @@ describe("oauth middleware", () => {
 
   describe("addSharedAttributesToSession", () => {
     const data = {
-      names : [
-        {givenNames: ["Dan John"],    familyName: "Watson"},
-        {givenNames: ["Daniel"], familyName: "Watson"},
-        {givenNames: ["Danny, Dan"],  familyName: "Watson"},
+      names: [
+        { givenNames: ["Dan John"], familyName: "Watson" },
+        { givenNames: ["Daniel"], familyName: "Watson" },
+        { givenNames: ["Danny, Dan"], familyName: "Watson" },
       ],
-      dateOfBirths:[
-        "2021-03-01",
-        "1991-03-01"
-      ]
+      dateOfBirths: ["2021-03-01", "1991-03-01"],
     };
 
     beforeEach(() => {
@@ -77,15 +74,16 @@ describe("oauth middleware", () => {
           state: "xyz",
           redirect_uri: "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb",
           unusedParam: "not used",
-          request: "eyJuYW1lcyI6W3siZ2l2ZW5OYW1lcyI6WyJEYW4iXSwiZmFtaWx5TmFtZSI6IldhdHNvbiJ9LHsiZ2l2ZW5OYW1lcyI6WyJEYW5pZWwiXSwiZmFtaWx5TmFtZSI6IldhdHNvbiJ9LHsiZ2l2ZW5OYW1lcyI6WyJEYW5ueSwgRGFuIl0sImZhbWlseU5hbWUiOiJXYXRzb24ifV0sImRhdGVPZkJpcnRocyI6WyIyMDIxLTAzLTAxIiwiMTk5MS0wMy0wMSJdfQ=="
+          request:
+            "eyJuYW1lcyI6W3siZ2l2ZW5OYW1lcyI6WyJEYW4iXSwiZmFtaWx5TmFtZSI6IldhdHNvbiJ9LHsiZ2l2ZW5OYW1lcyI6WyJEYW5pZWwiXSwiZmFtaWx5TmFtZSI6IldhdHNvbiJ9LHsiZ2l2ZW5OYW1lcyI6WyJEYW5ueSwgRGFuIl0sImZhbWlseU5hbWUiOiJXYXRzb24ifV0sImRhdGVPZkJpcnRocyI6WyIyMDIxLTAzLTAxIiwiMTk5MS0wMy0wMSJdfQ==",
         },
         session: {},
         sessionModel: {
           set: sinon.fake(),
-        }
+        },
       };
-      const resolvedPromise = new Promise((resolve) => resolve({data}));
-      sandbox.stub(axios, 'post').returns(resolvedPromise);
+      const resolvedPromise = new Promise((resolve) => resolve({ data }));
+      sandbox.stub(axios, "post").returns(resolvedPromise);
     });
 
     afterEach(() => sandbox.restore());
@@ -103,25 +101,43 @@ describe("oauth middleware", () => {
     });
   });
 
+  describe("addSharedAttributesToSession error in api call", () => {
+    afterEach(() => sandbox.restore());
+    beforeEach(() => {
+      req = {
+        query: {
+          request:
+            "eyJuYW1lcyI6W3siZ2l2ZW5OYW1lcyI6WyJEYW4iXSwiZmFtaWx5TmFtZSI6IldhdHNvbiJ9LHsiZ2l2ZW5OYW1lcyI6WyJEYW5pZWwiXSwiZmFtaWx5TmFtZSI6IldhdHNvbiJ9LHsiZ2l2ZW5OYW1lcyI6WyJEYW5ueSwgRGFuIl0sImZhbWlseU5hbWUiOiJXYXRzb24ifV0sImRhdGVPZkJpcnRocyI6WyIyMDIxLTAzLTAxIiwiMTk5MS0wMy0wMSJdfQ==",
+        },
+        session: {},
+        sessionModel: {
+          set: sinon.fake(),
+        },
+      };
+      sandbox.stub(axios, "post").throws(new Error());
+    });
+
+    it("should call next once", async function () {
+      await middleware.parseSharedAttributesJWT(req, res, next);
+      expect(next).calledOnce;
+    });
+  });
 
   describe("redirectToPassportDetailsPage", () => {
-
     it("should successfully redirects when code is valid", async function () {
       await middleware.redirectToPassportDetailsPage(req, res);
 
-      expect(res.redirect).to.have.been.calledWith(
-        `/passport`
-      );
+      expect(res.redirect).to.have.been.calledWith(`/passport`);
     });
   });
 
   describe("redirectToCallback", () => {
-
     beforeEach(() => {
       req = {
         session: {
           authParams: {
-            redirect_uri: "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb?id=PassportIssuer",
+            redirect_uri:
+              "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb?id=PassportIssuer",
           },
         },
       };
@@ -171,9 +187,8 @@ describe("oauth middleware", () => {
   });
 
   describe("passClientIdToJwtVerifyPostHeader", () => {
-
     let postStub;
-    const clientId = 's6BhdRkqt3'
+    const clientId = "s6BhdRkqt3";
     beforeEach(() => {
       req = {
         query: {
@@ -182,23 +197,26 @@ describe("oauth middleware", () => {
           state: "xyz",
           redirect_uri: "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb",
           unusedParam: "not used",
-          request: "eyJuYW1lcyI6W3siZ2l2ZW5OYW1lcyI6WyJEYW4iXSwiZmFtaWx5TmFtZSI6IldhdHNvbiJ9LHsiZ2l2ZW5OYW1lcyI6WyJEYW5pZWwiXSwiZmFtaWx5TmFtZSI6IldhdHNvbiJ9LHsiZ2l2ZW5OYW1lcyI6WyJEYW5ueSwgRGFuIl0sImZhbWlseU5hbWUiOiJXYXRzb24ifV0sImRhdGVPZkJpcnRocyI6WyIyMDIxLTAzLTAxIiwiMTk5MS0wMy0wMSJdfQ=="
+          request:
+            "eyJuYW1lcyI6W3siZ2l2ZW5OYW1lcyI6WyJEYW4iXSwiZmFtaWx5TmFtZSI6IldhdHNvbiJ9LHsiZ2l2ZW5OYW1lcyI6WyJEYW5pZWwiXSwiZmFtaWx5TmFtZSI6IldhdHNvbiJ9LHsiZ2l2ZW5OYW1lcyI6WyJEYW5ueSwgRGFuIl0sImZhbWlseU5hbWUiOiJXYXRzb24ifV0sImRhdGVPZkJpcnRocyI6WyIyMDIxLTAzLTAxIiwiMTk5MS0wMy0wMSJdfQ==",
         },
-        session: { authParams: { client_id: clientId }},
+        session: { authParams: { client_id: clientId } },
         sessionModel: {
           set: sinon.fake(),
-        }
+        },
       };
       const resolvedPromise = new Promise((resolve) => resolve({}));
-      postStub = sandbox.stub(axios, 'post').returns(resolvedPromise);
+      postStub = sandbox.stub(axios, "post").returns(resolvedPromise);
     });
 
-    afterEach(() => sandbox.restore())
+    afterEach(() => sandbox.restore());
 
     it("should pass client_id in header", async function () {
       await middleware.parseSharedAttributesJWT(req, res, next);
 
-      expect(postStub.firstCall.args[2]?.headers?.client_id).to.be.equal(clientId)
+      expect(postStub.firstCall.args[2]?.headers?.client_id).to.be.equal(
+        clientId
+      );
     });
   });
 });

@@ -1,5 +1,8 @@
 const axios = require("axios");
-const {API_BASE_URL, API_SHARED_ATTRIBUTES_PATH} = require("../../lib/config");
+const {
+  API_BASE_URL,
+  API_SHARED_ATTRIBUTES_PATH,
+} = require("../../lib/config");
 
 module.exports = {
   addAuthParamsToSession: async (req, res, next) => {
@@ -17,17 +20,21 @@ module.exports = {
 
   parseSharedAttributesJWT: async (req, res, next) => {
     const requestJWT = req.query?.request;
-    const headers = { 'client_id': req.query?.client_id };
+    const headers = { client_id: req.query?.client_id };
 
     try {
       if (requestJWT) {
-        const apiResponse = await axios.post(`${API_BASE_URL}${API_SHARED_ATTRIBUTES_PATH}`, requestJWT, { headers: headers });
+        const apiResponse = await axios.post(
+          `${API_BASE_URL}${API_SHARED_ATTRIBUTES_PATH}`,
+          requestJWT,
+          { headers: headers }
+        );
         req.session.sharedAttributes = apiResponse?.data;
       }
-    } catch(error) {
+      next();
+    } catch (error) {
       next(error);
     }
-    next();
   },
 
   redirectToPassportDetailsPage: async (req, res) => {
@@ -35,14 +42,17 @@ module.exports = {
   },
 
   redirectToCallback: async (req, res) => {
-    const authCode = req.session["hmpo-wizard-cri-passport-front"].authorization_code;
+    const authCode =
+      req.session["hmpo-wizard-cri-passport-front"].authorization_code;
     if (authCode) {
       res.redirect(`${req.session.authParams.redirect_uri}&code=${authCode}`);
     } else {
       const error = req.session["hmpo-wizard-cri-passport-front"].error;
       const errorCode = error?.code;
       const errorDescription = error?.description ?? error?.message;
-      res.redirect(`${req.session.authParams.redirect_uri}&error=${errorCode}&error_description=${errorDescription}`)
+      res.redirect(
+        `${req.session.authParams.redirect_uri}&error=${errorCode}&error_description=${errorDescription}`
+      );
     }
   },
 };
