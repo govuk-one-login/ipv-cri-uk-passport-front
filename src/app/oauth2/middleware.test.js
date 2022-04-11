@@ -151,7 +151,20 @@ describe("oauth middleware", () => {
       await middleware.redirectToCallback(req, res);
 
       expect(res.redirect).to.have.been.calledWith(
-        `https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb?id=PassportIssuer&code=1234`
+        `https://client.example.com/cb?id=PassportIssuer&code=1234`
+      );
+    });
+
+    it("should include state in redirect param if in session", async function () {
+      req.session["hmpo-wizard-cri-passport-front"] = {
+        authorization_code: "1234",
+      };
+      req.session.authParams.state = 'state-to-return'
+
+      await middleware.redirectToCallback(req, res);
+
+      expect(res.redirect).to.have.been.calledWith(
+        `https://client.example.com/cb?id=PassportIssuer&code=1234&state=state-to-return`
       );
     });
 
@@ -166,7 +179,7 @@ describe("oauth middleware", () => {
       await middleware.redirectToCallback(req, res);
 
       expect(res.redirect).to.have.been.calledWith(
-        `https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb?id=PassportIssuer&error=permission_denied&error_description=User is not allowed`
+        `https://client.example.com/cb?id=PassportIssuer&error=permission_denied&error_description=User+is+not+allowed`
       );
     });
 
@@ -181,7 +194,7 @@ describe("oauth middleware", () => {
       await middleware.redirectToCallback(req, res);
 
       expect(res.redirect).to.have.been.calledWith(
-        `https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb?id=PassportIssuer&error=permission_denied&error_description=User is not allowed`
+        `https://client.example.com/cb?id=PassportIssuer&error=permission_denied&error_description=User+is+not+allowed`
       );
     });
   });
