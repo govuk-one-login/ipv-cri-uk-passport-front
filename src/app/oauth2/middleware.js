@@ -44,15 +44,21 @@ module.exports = {
   redirectToCallback: async (req, res) => {
     const authCode =
       req.session["hmpo-wizard-cri-passport-front"].authorization_code;
+    const redirectUrl = new URL(decodeURIComponent(req.session.authParams.redirect_uri))
     if (authCode) {
-      res.redirect(`${req.session.authParams.redirect_uri}&code=${authCode}`);
+      redirectUrl.searchParams.append('code', authCode)
+      if (req.session.authParams.state) {
+        redirectUrl.searchParams.append('state', req.session.authParams.state)
+      }
+
+      res.redirect(redirectUrl.href);
     } else {
       const error = req.session["hmpo-wizard-cri-passport-front"].error;
       const errorCode = error?.code;
       const errorDescription = error?.description ?? error?.message;
-      res.redirect(
-        `${req.session.authParams.redirect_uri}&error=${errorCode}&error_description=${errorDescription}`
-      );
+      redirectUrl.searchParams.append('error', errorCode)
+      redirectUrl.searchParams.append('error_description', errorDescription)
+      res.redirect(redirectUrl.href);
     }
   },
 };
