@@ -1,6 +1,7 @@
 {% extends "form-template.njk" %}
 {% set hmpoPageKey = "details" %}
 {% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "hmpo-text/macro.njk" import hmpoText %}
 {% from "hmpo-form/macro.njk" import hmpoForm %}
 {% from "hmpo-date/macro.njk" import hmpoDate %}
@@ -38,25 +39,30 @@
         classes: "govuk-input"
     }) }}
 
-    <label class="govuk-label"> {{ translate("passport.passportGivenNames") }} </label>
+    {% call govukFieldset({
+        legend: {
+            text: translate("passport.passportGivenNames"),
+            classes: "govuk-!-margin-0"
+        }
+    }) %}
+        <div class="govuk-inset-text govuk-!-margin-top-2 govuk-!-padding-top-1">
+            {{ hmpoText(ctx, {
+                id: "firstName",
+                label: {
+                    classes: "govuk-label"
+                },
+                classes: "govuk-input"
+            }) }}
 
-    <div class="govuk-inset-text">
-        {{ hmpoText(ctx, {
-            id: "firstName",
-            label: {
-                classes: "govuk-label"
-            },
-            classes: "govuk-input"
-        }) }}
-
-        {{ hmpoText(ctx, {
-            id: "middleNames",
-            label: {
-                classes: "govuk-label"
-            },
-            classes: "govuk-input"
-        }) }}
-    </div>
+            {{ hmpoText(ctx, {
+                id: "middleNames",
+                label: {
+                    classes: "govuk-label"
+                },
+                classes: "govuk-input"
+            }) }}
+        </div>
+    {% endcall %}
 
     {{ hmpoDate(ctx, {
         id: "dateOfBirth",
