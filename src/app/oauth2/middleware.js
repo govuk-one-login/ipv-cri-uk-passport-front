@@ -3,6 +3,7 @@ const {
   API_BASE_URL,
   API_SHARED_ATTRIBUTES_PATH,
 } = require("../../lib/config");
+const {redirectOnAuthError} = require("../shared/oauth");
 
 module.exports = {
   addAuthParamsToSession: async (req, res, next) => {
@@ -20,20 +21,20 @@ module.exports = {
 
   parseSharedAttributesJWT: async (req, res, next) => {
     const requestJWT = req.query?.request;
-    const headers = { client_id: req.query?.client_id };
+    const headers = {client_id: req.query?.client_id};
 
     try {
-      if (requestJWT) {
-        const apiResponse = await axios.post(
-          `${API_BASE_URL}${API_SHARED_ATTRIBUTES_PATH}`,
-          requestJWT,
-          { headers: headers }
-        );
-        req.session.sharedAttributes = apiResponse?.data;
-      }
-      next();
+      const apiResponse = await axios.post(
+        `${API_BASE_URL}${API_SHARED_ATTRIBUTES_PATH}`,
+        requestJWT,
+        {headers: headers}
+      )
+
+      req.session.sharedAttributes = apiResponse?.data;
+      return next();
+
     } catch (error) {
-      next(error);
+      return redirectOnAuthError(error, res, next);
     }
   },
 

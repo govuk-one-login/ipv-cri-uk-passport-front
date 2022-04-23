@@ -123,6 +123,45 @@ describe("oauth middleware", () => {
     });
   });
 
+  describe("addSharedAttributesToSession error in api call and error contains redirect_uri", () => {
+    afterEach(() => sandbox.restore());
+    beforeEach(() => {
+      req = {
+        query: {
+          request:
+            "eyJuYW1lcyI6W3siZ2l2ZW5OYW1lcyI6WyJEYW4iXSwiZmFtaWx5TmFtZSI6IldhdHNvbiJ9LHsiZ2l2ZW5OYW1lcyI6WyJEYW5pZWwiXSwiZmFtaWx5TmFtZSI6IldhdHNvbiJ9LHsiZ2l2ZW5OYW1lcyI6WyJEYW5ueSwgRGFuIl0sImZhbWlseU5hbWUiOiJXYXRzb24ifV0sImRhdGVPZkJpcnRocyI6WyIyMDIxLTAzLTAxIiwiMTk5MS0wMy0wMSJdfQ==",
+        },
+      };
+
+    });
+
+    it("should redirect using redirect_uri", async function () {
+      sandbox.stub(axios, "post").throws({response: {data: {redirect_uri: 'https://xxxx/xxx.com'}}});
+      await middleware.parseSharedAttributesJWT(req, res, next);
+      expect(res.redirect).to.have.been.calledWith(`https://xxxx/xxx.com`);
+    });
+
+    it("should redirect using redirect_uri with error code", async function () {
+      sandbox.stub(axios, "post").throws({response: {data: {redirect_uri: 'https://xxxx/xxx.com', code: 'err'}}});
+      await middleware.parseSharedAttributesJWT(req, res, next);
+      expect(res.redirect).to.have.been.calledWith(`https://xxxx/xxx.com?error=err`);
+    });
+
+    it("should redirect using redirect_uri with error code and error description", async function () {
+      sandbox.stub(axios, "post").throws({
+        response: {
+          data: {
+            redirect_uri: 'https://xxxx/xxx.com',
+            code: 'err',
+            description: 'description'
+          }
+        }
+      });
+      await middleware.parseSharedAttributesJWT(req, res, next);
+      expect(res.redirect).to.have.been.calledWith(`https://xxxx/xxx.com?error=err&error_description=description`);
+    });
+  });
+
   describe("redirectToPassportDetailsPage", () => {
     it("should successfully redirects when code is valid", async function () {
       await middleware.redirectToPassportDetailsPage(req, res);
