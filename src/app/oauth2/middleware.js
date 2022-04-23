@@ -23,6 +23,10 @@ module.exports = {
     const requestJWT = req.query?.request;
     const headers = {client_id: req.query?.client_id};
 
+    if(!requestJWT) {
+      return next(new Error('JWT Missing'));
+    }
+
     try {
       const apiResponse = await axios.post(
         `${API_BASE_URL}${API_SHARED_ATTRIBUTES_PATH}`,

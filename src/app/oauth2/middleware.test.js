@@ -123,6 +123,23 @@ describe("oauth middleware", () => {
     });
   });
 
+  describe("addSharedAttributesToSession jwt missing from request", () => {
+    afterEach(() => sandbox.restore());
+    beforeEach(() => {
+      req = {
+        query: {
+          request: ''
+        },
+      };
+    });
+
+    it("should next to be called with error message", async function () {
+      await middleware.parseSharedAttributesJWT(req, res, next);
+      expect(next).calledOnce;
+      expect(next.firstArg.message).to.include('JWT Missing');
+    });
+  });
+
   describe("addSharedAttributesToSession error in api call and error contains redirect_uri", () => {
     afterEach(() => sandbox.restore());
     beforeEach(() => {
