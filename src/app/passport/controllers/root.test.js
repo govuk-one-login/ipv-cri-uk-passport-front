@@ -21,14 +21,11 @@ describe("root controller", () => {
 
     req = {
       query: {
-        response_type: "code",
         client_id: "s6BhdRkqt3",
-        state: "xyz",
-        redirect_uri: "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb",
-        unusedParam: "not used",
       },
       session: {
-        sharedAttributes: {
+        JWTData : {
+        shared_claims: {
           names : [
             {givenNames: ["Dan John"],    familyName: "Watson"},
             {givenNames: ["Daniel"], familyName: "Watson"},
@@ -39,7 +36,7 @@ describe("root controller", () => {
             "1991-03-01"
           ]
         }
-      },
+      }},
       sessionModel: {
         get: sinon.fake(),
         set: sinon.fake(),
@@ -59,22 +56,22 @@ describe("root controller", () => {
     expect(root).to.be.an.instanceof(BaseController);
   });
 
-  it("should retrieve sharedAttributes from session and store it in the journeyModel", async () => {
+  it("should retrieve shared_claims from session and store it in the journeyModel", async () => {
     await root.saveValues(req, res, next);
 
     expect(req.journeyModel.set.getCall(0).args[0]).to.eq("surname");
-    expect(req.journeyModel.set.getCall(0).args[1]).to.eq(req.session.sharedAttributes.names[0].familyName);
+    expect(req.journeyModel.set.getCall(0).args[1]).to.eq(req.session.JWTData.shared_claims.names[0].familyName);
 
     expect(req.journeyModel.set.getCall(1).args[0]).to.eq("givenNames");
-    expect(req.journeyModel.set.getCall(1).args[1]).to.eq(req.session.sharedAttributes.names[0].givenNames);
+    expect(req.journeyModel.set.getCall(1).args[1]).to.eq(req.session.JWTData.shared_claims.names[0].givenNames);
 
     expect(req.journeyModel.set.getCall(2).args[0]).to.eq("dateOfBirth");
-    expect(req.journeyModel.set.getCall(2).args[1]).to.eq(req.session.sharedAttributes.dateOfBirths[0]);
+    expect(req.journeyModel.set.getCall(2).args[1]).to.eq(req.session.JWTData.shared_claims.dateOfBirths[0]);
   });
 
   it("should not update journeyModel if no shared attributes present", async () => {
 
-    req.session.sharedAttributes = {
+    req.session.JWTData.shared_claims = {
       names: [],
       dateOfBirths: []
     }

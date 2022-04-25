@@ -24,40 +24,42 @@ describe("oauth middleware", () => {
     next = setup.next;
   });
 
-  describe("addAuthParamsToSession", () => {
+  describe("decryptJWTAuthorizeRequest and store oauth params in session", () => {
+    const authParams = {
+      response_type: "code",
+      client_id: "s6BhdRkqt3",
+      state: "xyz",
+      redirect_uri: "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb"
+    }
+
     beforeEach(() => {
       req = {
         query: {
-          response_type: "code",
+          request: "someToken",
           client_id: "s6BhdRkqt3",
-          state: "xyz",
-          redirect_uri: "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb",
-          unusedParam: "not used",
         },
         session: {},
       };
+
+      const resolvedPromise = new Promise((resolve) => resolve({ data : {authParams} }));
+      sandbox.stub(axios, "post").returns(resolvedPromise);
     });
 
-    it("should save authParams to session", async function () {
-      await middleware.addAuthParamsToSession(req, res, next);
+    afterEach(() => sandbox.restore());
 
-      expect(req.session.authParams).to.deep.equal({
-        response_type: req.query.response_type,
-        client_id: req.query.client_id,
-        state: req.query.state,
-        redirect_uri: req.query.redirect_uri,
-      });
+    it("should save authParams to session", async function () {
+      await middleware.decryptJWTAuthorizeRequest(req, res, next);
+      expect(req.session.JWTData.authParams).to.deep.equal(authParams);
     });
 
     it("should call next", async function () {
-      await middleware.addAuthParamsToSession(req, res, next);
-
+      await middleware.decryptJWTAuthorizeRequest(req, res, next);
       expect(next).to.have.been.called;
     });
   });
 
-  describe("addSharedAttributesToSession", () => {
-    const data = {
+  describe("decryptJWTAuthorizeRequest store shared_claims", () => {
+    const sharedClaims = {
       names: [
         { givenNames: ["Dan John"], familyName: "Watson" },
         { givenNames: ["Daniel"], familyName: "Watson" },
@@ -69,11 +71,7 @@ describe("oauth middleware", () => {
     beforeEach(() => {
       req = {
         query: {
-          response_type: "code",
           client_id: "s6BhdRkqt3",
-          state: "xyz",
-          redirect_uri: "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb",
-          unusedParam: "not used",
           request:
             "eyJuYW1lcyI6W3siZ2l2ZW5OYW1lcyI6WyJEYW4iXSwiZmFtaWx5TmFtZSI6IldhdHNvbiJ9LHsiZ2l2ZW5OYW1lcyI6WyJEYW5pZWwiXSwiZmFtaWx5TmFtZSI6IldhdHNvbiJ9LHsiZ2l2ZW5OYW1lcyI6WyJEYW5ueSwgRGFuIl0sImZhbWlseU5hbWUiOiJXYXRzb24ifV0sImRhdGVPZkJpcnRocyI6WyIyMDIxLTAzLTAxIiwiMTk5MS0wMy0wMSJdfQ==",
         },
@@ -82,26 +80,26 @@ describe("oauth middleware", () => {
           set: sinon.fake(),
         },
       };
-      const resolvedPromise = new Promise((resolve) => resolve({ data }));
+      const resolvedPromise = new Promise((resolve) => resolve({ data : {shared_claims: sharedClaims} }));
       sandbox.stub(axios, "post").returns(resolvedPromise);
     });
 
     afterEach(() => sandbox.restore());
 
-    it("should save sharedAttributes to session", async function () {
-      await middleware.parseSharedAttributesJWT(req, res, next);
+    it("should save sharedClaims to session", async function () {
+      await middleware.decryptJWTAuthorizeRequest(req, res, next);
 
-      expect(req.session.sharedAttributes).to.deep.equal(data);
+      expect(req.session.JWTData.shared_claims).to.deep.equal(sharedClaims);
     });
 
     it("should call next", async function () {
-      await middleware.parseSharedAttributesJWT(req, res, next);
+      await middleware.decryptJWTAuthorizeRequest(req, res, next);
 
       expect(next).to.have.been.called;
     });
   });
 
-  describe("addSharedAttributesToSession error in api call", () => {
+  describe("decryptJWTAuthorizeRequest error in api call", () => {
     afterEach(() => sandbox.restore());
     beforeEach(() => {
       req = {
@@ -118,12 +116,12 @@ describe("oauth middleware", () => {
     });
 
     it("should call next once", async function () {
-      await middleware.parseSharedAttributesJWT(req, res, next);
+      await middleware.decryptJWTAuthorizeRequest(req, res, next);
       expect(next).calledOnce;
     });
   });
 
-  describe("addSharedAttributesToSession jwt missing from request", () => {
+  describe("decryptJWTAuthorizeRequest JWT missing from request", () => {
     afterEach(() => sandbox.restore());
     beforeEach(() => {
       req = {
@@ -134,7 +132,7 @@ describe("oauth middleware", () => {
     });
 
     it("should next to be called with error message", async function () {
-      await middleware.parseSharedAttributesJWT(req, res, next);
+      await middleware.decryptJWTAuthorizeRequest(req, res, next);
       expect(next).calledOnce;
 
       expect(next).to.have.been.calledWith(
@@ -145,7 +143,7 @@ describe("oauth middleware", () => {
     });
   });
 
-  describe("addSharedAttributesToSession error in api call and error contains redirect_uri", () => {
+  describe("decryptJWTAuthorizeRequest error in api call and error contains redirect_uri", () => {
     afterEach(() => sandbox.restore());
     beforeEach(() => {
       req = {
@@ -159,13 +157,13 @@ describe("oauth middleware", () => {
 
     it("should redirect using redirect_uri", async function () {
       sandbox.stub(axios, "post").throws({response: {data: {redirect_uri: 'https://xxxx/xxx.com'}}});
-      await middleware.parseSharedAttributesJWT(req, res, next);
+      await middleware.decryptJWTAuthorizeRequest(req, res, next);
       expect(res.redirect).to.have.been.calledWith(`https://xxxx/xxx.com`);
     });
 
     it("should redirect using redirect_uri with error code", async function () {
       sandbox.stub(axios, "post").throws({response: {data: {redirect_uri: 'https://xxxx/xxx.com', code: 'err'}}});
-      await middleware.parseSharedAttributesJWT(req, res, next);
+      await middleware.decryptJWTAuthorizeRequest(req, res, next);
       expect(res.redirect).to.have.been.calledWith(`https://xxxx/xxx.com?error=err`);
     });
 
@@ -179,7 +177,7 @@ describe("oauth middleware", () => {
           }
         }
       });
-      await middleware.parseSharedAttributesJWT(req, res, next);
+      await middleware.decryptJWTAuthorizeRequest(req, res, next);
       expect(res.redirect).to.have.been.calledWith(`https://xxxx/xxx.com?error=err&error_description=description`);
     });
   });
@@ -196,9 +194,11 @@ describe("oauth middleware", () => {
     beforeEach(() => {
       req = {
         session: {
-          authParams: {
-            redirect_uri:
-              "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb?id=PassportIssuer",
+          JWTData: {
+            authParams: {
+              redirect_uri:
+                "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb?id=PassportIssuer",
+            }
           },
         },
       };
@@ -220,7 +220,7 @@ describe("oauth middleware", () => {
       req.session["hmpo-wizard-cri-passport-front"] = {
         authorization_code: "1234",
       };
-      req.session.authParams.state = 'state-to-return'
+      req.session.JWTData.authParams.state = 'state-to-return'
 
       await middleware.redirectToCallback(req, res);
 
@@ -286,7 +286,7 @@ describe("oauth middleware", () => {
     afterEach(() => sandbox.restore());
 
     it("should pass client_id in header", async function () {
-      await middleware.parseSharedAttributesJWT(req, res, next);
+      await middleware.decryptJWTAuthorizeRequest(req, res, next);
 
       expect(postStub.firstCall.args[2]?.headers?.client_id).to.be.equal(
         clientId

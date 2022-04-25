@@ -3,16 +3,14 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  addAuthParamsToSession,
   redirectToCallback,
   redirectToPassportDetailsPage,
-  parseSharedAttributesJWT,
+  decryptJWTAuthorizeRequest,
 } = require("./middleware");
 
 router.get(
   "/authorize",
-  parseSharedAttributesJWT,
-  addAuthParamsToSession,
+  decryptJWTAuthorizeRequest,
   redirectToPassportDetailsPage
 );
 router.get("/callback", redirectToCallback);

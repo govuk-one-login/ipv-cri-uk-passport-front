@@ -1,25 +1,13 @@
 const axios = require("axios");
 const {
   API_BASE_URL,
-  API_SHARED_ATTRIBUTES_PATH,
+  API_JWT_AUTHORIZE_REQ_PATH,
 } = require("../../lib/config");
 const {redirectOnError} = require("../shared/oauth");
 
 module.exports = {
-  addAuthParamsToSession: async (req, res, next) => {
-    const authParams = {
-      response_type: req.query.response_type,
-      client_id: req.query.client_id,
-      state: req.query.state,
-      redirect_uri: req.query.redirect_uri,
-    };
 
-    req.session.authParams = authParams;
-
-    next();
-  },
-
-  parseSharedAttributesJWT: async (req, res, next) => {
+  decryptJWTAuthorizeRequest: async (req, res, next) => {
     const requestJWT = req.query?.request;
     const headers = {client_id: req.query?.client_id};
 
@@ -29,12 +17,12 @@ module.exports = {
 
     try {
       const apiResponse = await axios.post(
-        `${API_BASE_URL}${API_SHARED_ATTRIBUTES_PATH}`,
+        `${API_BASE_URL}${API_JWT_AUTHORIZE_REQ_PATH}`,
         requestJWT,
         {headers: headers}
       )
 
-      req.session.sharedAttributes = apiResponse?.data;
+      req.session.JWTData = apiResponse?.data;
       return next();
 
     } catch (error) {
@@ -49,11 +37,12 @@ module.exports = {
   redirectToCallback: async (req, res) => {
     const authCode =
       req.session["hmpo-wizard-cri-passport-front"].authorization_code;
-    const redirectUrl = new URL(decodeURIComponent(req.session.authParams.redirect_uri))
+    const {authParams} = req.session.JWTData;
+    const redirectUrl = new URL(decodeURIComponent(authParams.redirect_uri))
     if (authCode) {
       redirectUrl.searchParams.append('code', authCode)
-      if (req.session.authParams.state) {
-        redirectUrl.searchParams.append('state', req.session.authParams.state)
+      if (authParams.state) {
+        redirectUrl.searchParams.append('state', authParams.state)
       }
 
       res.redirect(redirectUrl.href);

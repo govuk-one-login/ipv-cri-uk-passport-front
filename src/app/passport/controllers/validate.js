@@ -18,7 +18,7 @@ class ValidateController extends BaseController {
 
     try {
       const oauthParams = {
-        ...req.session.authParams,
+        ...req.session.JWTData.authParams,
         scope: "openid",
       };
 

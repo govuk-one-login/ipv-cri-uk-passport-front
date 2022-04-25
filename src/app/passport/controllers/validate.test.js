@@ -16,6 +16,9 @@ describe("validate controller", () => {
     req = setup.req;
     res = setup.res;
     next = setup.next;
+
+    req.session.JWTData = {authParams: {}}
+
   });
   afterEach(() => sandbox.restore());
 
