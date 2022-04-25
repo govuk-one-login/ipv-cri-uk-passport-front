@@ -136,7 +136,12 @@ describe("oauth middleware", () => {
     it("should next to be called with error message", async function () {
       await middleware.parseSharedAttributesJWT(req, res, next);
       expect(next).calledOnce;
-      expect(next.firstArg.message).to.include('JWT Missing');
+
+      expect(next).to.have.been.calledWith(
+        sinon.match
+          .instanceOf(Error)
+          .and(sinon.match.has("message", 'JWT Missing'))
+      );
     });
   });
 
