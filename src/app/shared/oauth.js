@@ -1,5 +1,5 @@
 module.exports = {
-  redirectOnAuthError: (error, res, next) => {
+  redirectOnError: (error, res, next) => {
     if (error.response && error.response.data.redirect_uri) {
       const errorData = error.response.data;
       const redirectUrl = new URL(decodeURIComponent(errorData.redirect_uri));

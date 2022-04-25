@@ -3,7 +3,7 @@ const {
   API_BASE_URL,
   API_SHARED_ATTRIBUTES_PATH,
 } = require("../../lib/config");
-const {redirectOnAuthError} = require("../shared/oauth");
+const {redirectOnError} = require("../shared/oauth");
 
 module.exports = {
   addAuthParamsToSession: async (req, res, next) => {
@@ -38,7 +38,7 @@ module.exports = {
       return next();
 
     } catch (error) {
-      return redirectOnAuthError(error, res, next);
+      return redirectOnError(error, res, next);
     }
   },
 
