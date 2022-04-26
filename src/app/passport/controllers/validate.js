@@ -23,8 +23,14 @@ class ValidateController extends BaseController {
       };
 
       const queryParams = this.getQueryStringParams(oauthParams);
+      
+      const headers = { user_id: req.session.JWTData?.user_id };
 
-      const apiResponse = await axios.post(`${API_BASE_URL}${API_AUTHORIZE_PATH}${queryParams}`, attributes);
+      const apiResponse = await axios.post(
+        `${API_BASE_URL}${API_AUTHORIZE_PATH}${queryParams}`, 
+        attributes,
+        { headers: headers }
+      );
 
       const code = apiResponse?.data?.code?.value;
 
