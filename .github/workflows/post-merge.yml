@@ -2,7 +2,7 @@ name: Docker build, ECR push, template copy to S3
 on:
   push:
     branches:
-      - PYIC-1139_Github_actions_workflow_build_passportfront_push_ECR
+      - main
 jobs:
   dockerBuildAndPush:
     name: Docker build and push
