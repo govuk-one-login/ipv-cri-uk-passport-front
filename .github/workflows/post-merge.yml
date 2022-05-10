@@ -47,4 +47,4 @@ jobs:
           cd ${GITHUB_WORKSPACE}/deploy || exit 1
           echo "${IMAGE_TAG}" > image_tag.txt
           zip template.zip template.yaml image_tag.txt
-          aws s3 cp template.zip "s3://$ARTIFACT_BUCKET/passport-front/template.zip"
+          aws s3 cp template.zip "s3://$ARTIFACT_BUCKET/passport/passport-front/template.zip"
