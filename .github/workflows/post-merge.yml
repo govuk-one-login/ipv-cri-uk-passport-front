@@ -41,17 +41,19 @@ jobs:
           docker tag "passport-front-build:${IMAGE_TAG}" "${{ secrets.DEVELOPMENT_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com/passport-front-development:latest"
       - name: Push docker image to build
         env:
+          ECR_REGISTRY: ${{ secrets.BUILD_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com
+          ECR_REPOSITORY: passport-front-development
           IMAGE_TAG: ${{ steps.create-tag.outputs.image_tag }}
         run: |
-          docker push "${{ secrets.BUILD_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com/passport-front-build:${IMAGE_TAG}"
+          docker push "${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}"
       - name: Push docker image to development
         env:
           ECR_REGISTRY: ${{ secrets.DEVELOPMENT_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com
           ECR_REPOSITORY: passport-front-development
           IMAGE_TAG: ${{ steps.create-tag.outputs.image_tag }}
         run: |
-           docker push "${{ secrets.DEVELOPMENT_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com/passport-front-development:${IMAGE_TAG}"
-           docker push "${{ secrets.DEVELOPMENT_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com/passport-front-development:latest"
+           docker push "${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}"
+           docker push "${ECR_REGISTRY}/${ECR_REPOSITORY}:latest"
       - name: Create template.yaml and sha zip file and upload to artifacts S3
         env:
           IMAGE_TAG: ${{ steps.create-tag.outputs.image_tag }}
