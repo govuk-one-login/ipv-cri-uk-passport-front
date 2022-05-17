@@ -363,3 +363,8 @@ Outputs:
     Description: >-
       The API Gateway URL which Passport Front can be invoked on.
     Value: !GetAtt  ApiGwHttpEndpoint.ApiEndpoint
+  PassportFrontGatewayID:
+    Description: Passport Front API Gateway ID
+    Export:
+      Name: !Sub "${AWS::StackName}-PassportFrontGatewayID"
+    Value: !Ref ApiGwHttpEndpoint
