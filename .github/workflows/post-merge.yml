@@ -42,7 +42,7 @@ jobs:
       - name: Push docker image to build
         env:
           ECR_REGISTRY: ${{ secrets.BUILD_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com
-          ECR_REPOSITORY: passport-front-development
+          ECR_REPOSITORY: passport-front-build
           IMAGE_TAG: ${{ steps.create-tag.outputs.image_tag }}
         run: |
           docker push "${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}"
