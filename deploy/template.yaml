@@ -224,7 +224,7 @@ Resources:
     Properties:
       ContainerDefinitions:
         - Essential: true
-          Image: !If [IsNotDevelopment, !Sub "${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/passport-front-${Environment}:${ImageTag}", !Sub "${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/passport-front-development:${ImageTag}"]
+          Image: !If [IsNotDevelopment, !Sub "057202043894.dkr.ecr.${AWS::Region}.amazonaws.com/passport-front-build:${ImageTag}", !Sub "${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/passport-front-development:${ImageTag}"]
           Name: app
           Environment:
             - Name: API_BASE_URL
