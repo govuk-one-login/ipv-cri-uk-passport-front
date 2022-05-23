@@ -23,6 +23,9 @@ Parameters:
   ApiBaseUrl:
     Description: The url for the passport internal API gateway.
     Type: String
+  ApiKeyPathforPassportBack:
+    Description: The Api Key path for the passport external API gateway.
+    Type: String
   SubnetIds:
     Description: >-
       A comma separated list of subnet ids to create the ECS service and Load Balancer
@@ -232,7 +235,7 @@ Resources:
             - Name: EXTERNAL_WEBSITE_HOST
               Value: !GetAtt ApiGwHttpEndpoint.ApiEndpoint
             - Name: API_GATEWAY_KEY
-              Value: '{{resolve:secretsmanager:ApiKeyforPassportBack:SecretString:access_token}}'
+              Value: !Ref ApiKeyPathforPassportBack
           PortMappings:
             - ContainerPort: 8080
               Protocol: tcp
@@ -279,6 +282,14 @@ Resources:
                 Resource:
                   - !GetAtt "ECSAccessLogsGroup.Arn"
                   - !Sub "${ECSAccessLogsGroup.Arn}:*"
+              - Effect: Allow
+                Action:
+                  - "secretsmanager:GetResourcePolicy",
+                  - "secretsmanager:GetSecretValue",
+                  - "secretsmanager:DescribeSecret",
+                  - "secretsmanager:ListSecretVersionIds"
+                Resource:
+                  - !Sub "arn:aws:secretsmanager:eu-west-2:*:secret:${ApiKeyPathforPassportBack}"
   ECSTaskRole:
     Type: 'AWS::IAM::Role'
     Properties:
