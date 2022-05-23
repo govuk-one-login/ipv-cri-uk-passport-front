@@ -231,6 +231,8 @@ Resources:
               Value: !Ref ApiBaseUrl
             - Name: EXTERNAL_WEBSITE_HOST
               Value: !GetAtt ApiGwHttpEndpoint.ApiEndpoint
+            - Name: API_GATEWAY_KEY
+              Value: '{{resolve:secretsmanager:ApiKeyforPassportBack:SecretString:access_token}}'
           PortMappings:
             - ContainerPort: 8080
               Protocol: tcp
