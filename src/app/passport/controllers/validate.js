@@ -23,11 +23,11 @@ class ValidateController extends BaseController {
       };
 
       const queryParams = this.getQueryStringParams(oauthParams);
-      
+
       const headers = { user_id: req.session.JWTData?.user_id };
 
       const apiResponse = await axios.post(
-        `${API_BASE_URL}${API_AUTHORIZE_PATH}${queryParams}`, 
+        `${API_BASE_URL}${API_AUTHORIZE_PATH}${queryParams}`,
         attributes,
         { headers: headers }
       );
@@ -37,7 +37,7 @@ class ValidateController extends BaseController {
       super.saveValues(req, res, () => {
         if (!code) {
           const error = {
-            code: "server_error",
+            error: "server_error",
             error_description:  "Failed to retrieve authorization code"
           }
           req.sessionModel.set("error", error);

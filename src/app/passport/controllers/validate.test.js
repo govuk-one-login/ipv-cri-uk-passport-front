@@ -67,7 +67,7 @@ describe("validate controller", () => {
     await validate.saveValues(req, res, next);
 
     const sessionError = req.sessionModel.get("error");
-    expect(sessionError.code).to.eq("server_error");
+    expect(sessionError.error).to.eq("server_error");
     expect(sessionError.error_description).to.eq("Failed to retrieve authorization code");
   });
 
