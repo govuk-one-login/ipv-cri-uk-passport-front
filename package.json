@@ -10,9 +10,10 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon --inspect=0.0.0.0:9229 src/app.js",
-    "build": "yarn build-sass && yarn copy-assets",
+    "build": "yarn minfiy-build-front-end-gov-js && yarn build-sass && yarn copy-locales",
     "build-sass": "rm -rf dist/public/style.css && sass --no-source-map src/assets/scss/application.scss dist/public/stylesheets/application.css --style compressed",
-    "copy-assets": "mkdir -p dist && copyfiles -u 1 src/**/*.njk dist/ src/locales/**/** dist/ && copyfiles -u 3 src/assets/javascripts/*.js dist/public/javascripts",
+    "copy-locales": "mkdir -p dist && copyfiles -u 1 src/**/*.njk dist/ src/locales/**/** dist/ ",
+    "minfiy-build-front-end-gov-js": "mkdir -p dist/public/javascripts; uglifyjs node_modules/govuk-frontend/govuk/all.js node_modules/hmpo-components/all.js -o dist/public/javascripts/application.js -c -m ",
     "test": "mocha",
     "test:coverage": "nyc --reporter=lcov --reporter=text-summary yarn test",
     "test:watch": "mocha --watch",
@@ -43,7 +44,8 @@
     "proxyquire": "2.1.3",
     "sass": "1.52.1",
     "sinon": "14.0.0",
-    "sinon-chai": "3.7.0"
+    "sinon-chai": "3.7.0",
+    "uglify-js": "latest"
   },
   "dependencies": {
     "axios": "0.27.2",
