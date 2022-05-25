@@ -229,33 +229,33 @@ describe("oauth middleware", () => {
       );
     });
 
-    it("should successfully redirect when error is provided with description field", async function () {
+    it("should successfully redirect when error is provided with error field", async function () {
       req.session["hmpo-wizard-cri-passport-front"] = {
         error: {
-          code: "permission_denied",
-          description: "User is not allowed",
+          error: "server_error",
+          error_description: "User is not allowed",
         },
       };
 
       await middleware.redirectToCallback(req, res);
 
       expect(res.redirect).to.have.been.calledWith(
-        `https://client.example.com/cb?id=PassportIssuer&error=permission_denied&error_description=User+is+not+allowed`
+        `https://client.example.com/cb?id=PassportIssuer&error=server_error&error_description=User+is+not+allowed`
       );
     });
 
-    it("should successfully redirect when error is provided with message field", async function () {
+    it("should successfully redirect when error is provided with error_description field", async function () {
       req.session["hmpo-wizard-cri-passport-front"] = {
         error: {
-          code: "permission_denied",
-          message: "User is not allowed",
+          error: "server_error",
+          error_description: "User is not allowed",
         },
       };
 
       await middleware.redirectToCallback(req, res);
 
       expect(res.redirect).to.have.been.calledWith(
-        `https://client.example.com/cb?id=PassportIssuer&error=permission_denied&error_description=User+is+not+allowed`
+        `https://client.example.com/cb?id=PassportIssuer&error=server_error&error_description=User+is+not+allowed`
       );
     });
   });

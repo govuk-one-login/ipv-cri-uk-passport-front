@@ -48,8 +48,8 @@ module.exports = {
       res.redirect(redirectUrl.href);
     } else {
       const error = req.session["hmpo-wizard-cri-passport-front"].error;
-      const errorCode = error?.code;
-      const errorDescription = error?.description ?? error?.message;
+      const errorCode = error?.error ?? 'unknown';
+      const errorDescription = error?.error_description ?? error?.message;
       redirectUrl.searchParams.append('error', errorCode)
       redirectUrl.searchParams.append('error_description', errorDescription)
       res.redirect(redirectUrl.href);
