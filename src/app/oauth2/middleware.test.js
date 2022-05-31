@@ -162,7 +162,16 @@ describe("oauth middleware", () => {
     });
 
     it("should redirect using redirect_uri with error code", async function () {
-      sandbox.stub(axios, "post").throws({response: {data: {redirect_uri: 'https://xxxx/xxx.com', code: 'err'}}});
+      sandbox.stub(axios, "post").throws({
+        response: {
+          data: {
+            redirect_uri: 'https://xxxx/xxx.com',
+            oauth_error: {
+              'error': 'err'
+            }
+          }
+        }
+      });
       await middleware.decryptJWTAuthorizeRequest(req, res, next);
       expect(res.redirect).to.have.been.calledWith(`https://xxxx/xxx.com?error=err`);
     });
@@ -172,8 +181,10 @@ describe("oauth middleware", () => {
         response: {
           data: {
             redirect_uri: 'https://xxxx/xxx.com',
-            code: 'err',
-            description: 'description'
+            oauth_error: {
+              error: 'err',
+              error_description: 'description'
+            }
           }
         }
       });
