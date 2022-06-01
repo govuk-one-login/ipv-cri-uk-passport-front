@@ -3,8 +3,9 @@ module.exports = {
     if (error.response && error.response.data.redirect_uri) {
       const errorData = error.response.data;
       const redirectUrl = new URL(decodeURIComponent(errorData.redirect_uri));
-      if (errorData?.code) redirectUrl.searchParams.append('error', errorData.code)
-      if (errorData?.description) redirectUrl.searchParams.append('error_description', errorData.description)
+      const oauthError = errorData.oauth_error;
+      if (oauthError?.error) redirectUrl.searchParams.append('error', oauthError.error)
+      if (oauthError?.error_description) redirectUrl.searchParams.append('error_description', oauthError.error_description)
 
       return res.redirect(redirectUrl.href);
     }
