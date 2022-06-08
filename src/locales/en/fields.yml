@@ -2,37 +2,45 @@ passportNumber:
   label: Passport number
   hint: 'This is the 9 digit number in the top right hand corner of the photo page in your passport'
   validation:
-    default: 'You need to supply your passport number'
-    exactlength: 'UK passports are 9 digits long'
-    limit: 'UK passport numbers must be a number between 1 and 899999999'
+    default: 'Enter the number as it appears on your passport'
+    exactlength: 'Your passport number should be 9 digits long'
+    numeric: 'Your passport number should not include letters or symbols'
+    limit: 'Passport numbers do not start with 9 – enter the number as it appears on your passport'
 
 surname:
   label: Surname
   validation:
-    default: 'You need to supply your surname as it is printed on your passport'
+    default: 'Enter your surname as it appears on your passport'
+    maxlength: 'Enter your surname as it appears on your passport'
+    regexpassport: 'Enter your surname as it appears on your passport'
 
 firstName:
   label: First name
   validation:
-    default: 'You need to supply your first name as they are printed on your passport'
+    default: 'Enter your first name as it appears on your passport'
+    maxlength: 'Enter your first name as it appears on your passport'
+    regexpassport: 'Enter your first name as it appears on your passport'
 
 middleNames:
   label: Middle names
   hint: 'You do not have to fill this in if you do not have any middle names'
+  validation:
+    maxlength: 'Enter your middle names as they appear on your passport'
+    regexpassport: 'Enter your middle names as they appear on your passport'
 
 dateOfBirth:
   legend: Date of birth
   hint: 'For example, 5 9 1973'
   validation:
-    default: 'You need to supply your date of birth'
-    before: 'Issue date must be in the past'
+    default: 'Enter your date of birth as it appears on your passport'
+    before: 'Your date of birth must be in the past'
 
 expiryDate:
   legend: Expiry date
   hint: 'For example, 27 5 2029'
   validation:
-    default: 'You need to supply the expiry date of your passport'
-    after: 'Expiry date must not be more than 18 months in the past'
+    default: 'Enter the expiry date as it appears on your passport'
+    after: 'Your passport must not have expired more than 18 months ago'
 
 "date-day":
   label: Day
