@@ -1,2 +1,18 @@
 {% extends "hmpo-template.njk" %}
+{% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
 {% set hmpoPageKey = "errors.error" %}
+{# generate the specific footer items required for the PYI flows #}
+{% set footerNavItems = translate("govuk.footerNavItems") %}
+
+{% block beforeContent %}
+    {{ govukPhaseBanner({
+        tag: {
+        text: "beta"
+    },
+        html: 'This is a new service – your <a class="govuk-link" href="https://signin.account.gov.uk/contact-us">feedback</a> will help us to improve it.'
+    }) }}
+{% endblock %}
+
+{% block footer %}
+    {{ govukFooter( footerNavItems ) }}
+{% endblock %}
