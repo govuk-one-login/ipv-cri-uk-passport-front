@@ -2,8 +2,8 @@ const {Controller: BaseController} = require("hmpo-form-wizard");
 
 class RootController extends BaseController {
   async saveValues(req, res, next) {
-    //const sharedClaims = req.session.JWTData.shared_claims;
-    const sharedClaims = 'testing';
+    const sharedClaims = req.session.JWTData.shared_claims;
+
     if (sharedClaims) {
       if (sharedClaims?.names?.length > 0) {
         req.journeyModel.set("surname", sharedClaims.names[0]?.familyName)
