@@ -1,5 +1,6 @@
 error:
   title: Sorry, there is a problem with this service
+  serviceNameRequired: false
   content:
     - We cannot prove your identity right now.
     - <h2 class="govuk-heading-m"> What you can do </h2>
@@ -9,6 +10,7 @@ error:
 
 pageNotFound:
   title: Page not found
+  serviceNameRequired: false
   content:
     - If you typed the web address, check it’s correct.
     - If you pasted the web address, check you copied the entire address.
@@ -18,3 +20,4 @@ pageNotFound:
 
 sessionEnded:
   title: Session expired
+  serviceNameRequired: false

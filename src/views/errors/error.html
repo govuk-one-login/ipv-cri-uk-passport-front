@@ -1,2 +1,12 @@
-{% extends "hmpo-template.njk" %}
+{% extends "shared/ipv-template.html" %}
 {% set hmpoPageKey = "errors.error" %}
+
+{% block mainContent %}
+<h1 id="header" data-page="{{hmpoPageKey}}">
+{{ translate(hmpoPageKey+'.title', { default: [] }) | safe }}
+</h1>
+
+{% from "hmpo-html/macro.njk" import hmpoHtml %}
+    {{ hmpoHtml(translate(hmpoPageKey + ".content", { default: [] })) }}
+
+{% endblock %}
