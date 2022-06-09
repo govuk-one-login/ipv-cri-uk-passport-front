@@ -24,6 +24,7 @@ govuk:
             text: 'Terms and conditions'
 passport:
   title: Enter your details exactly as they appear on your UK passport
+  serviceNameRequired: true
   passportInformationContext: Your passport includes a lot of information that we can check to make sure that you are who you say you are.
   checkDetailsContext: We'll check your details with the HM Passport Office to make sure your passport has not been cancelled or reported as lost  or stolen.
   passportGivenNames: Given names
