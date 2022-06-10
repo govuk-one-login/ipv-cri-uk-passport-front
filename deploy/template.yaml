@@ -20,6 +20,9 @@ Parameters:
   ImageTag:
     Description: The tag of passport-front image to deploy in the task definition.
     Type: String
+  ApiBaseUrl:
+    Description: The url for the passport internal API gateway.
+    Type: String
   SubnetIds:
     Description: >-
       A comma separated list of subnet ids to create the ECS service and Load Balancer
