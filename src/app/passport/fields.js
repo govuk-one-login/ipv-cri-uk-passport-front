@@ -1,4 +1,29 @@
+const { validators } = require("hmpo-form-wizard/lib/validation");
+
+function firstNameMiddleNameLengthValidator(
+  value,
+  length,
+  firstNameField,
+  middleNameField
+) {
+  const firstName = this.values[firstNameField];
+  const middleName = this.values[middleNameField];
+
+  const middleNameLength = validators.string(middleName)
+    ? middleName.length
+    : 0;
+  const firstNameLength = validators.string(firstName) ? firstName.length : 0;
+
+  return middleNameLength + firstNameLength <= length;
+}
+
+const firstNameMiddleNameLengthValidatorObj = {
+  fn: firstNameMiddleNameLengthValidator,
+  arguments: [30, "firstName", "middleNames"],
+};
+
 module.exports = {
+  firstNameMiddleNameLengthValidator: firstNameMiddleNameLengthValidator,
   passportNumber: {
     type: "text",
     journeyKey: "passportNumber",
@@ -25,6 +50,10 @@ module.exports = {
       "required",
       { type: "maxlength", arguments: [30] },
       { type: "regexpassport", fn: (value) => value.match(/^[a-zA-Z .'-]*$/) },
+      {
+        type: "firstNameMiddleNameLength",
+        ...firstNameMiddleNameLengthValidatorObj,
+      },
     ],
     journeyKey: "firstName",
   },
@@ -34,6 +63,10 @@ module.exports = {
     validate: [
       { type: "maxlength", arguments: [30] },
       { type: "regexpassport", fn: (value) => value.match(/^[a-zA-Z .'-]*$/) },
+      {
+        type: "firstNameMiddleNameLength",
+        ...firstNameMiddleNameLengthValidatorObj,
+      },
     ],
   },
   dateOfBirth: {

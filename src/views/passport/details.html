@@ -31,30 +31,41 @@
         classes: "govuk-input"
     }) }}
 
-    {% call govukFieldset({
+    {%- set firstNameError = hmpoGetError(ctx, {id: 'firstName'}) %}
+    {%- set middleNameError = hmpoGetError(ctx, {id: 'middleNames'}) %}
+
+    {% if firstNameError and middleNameError %}
+        <div class="govuk-form-group govuk-form-group--error">
+    {% else %}
+        <div class="govuk-form-group ">
+    {% endif %}
+
+        {% call govukFieldset({
         legend: {
-            text: translate("passport.passportGivenNames"),
-            classes: "govuk-!-margin-0"
+        text: translate("passport.passportGivenNames"),
+        classes: "govuk-!-margin-0"
         }
-    }) %}
+        }) %}
         <div class="govuk-inset-text govuk-!-margin-top-2 govuk-!-padding-top-1">
             {{ hmpoText(ctx, {
-                id: "firstName",
-                label: {
-                    classes: "govuk-label"
-                },
-                classes: "govuk-input"
+            id: "firstName",
+            label: {
+            classes: "govuk-label"
+            },
+            classes: "govuk-input"
             }) }}
 
             {{ hmpoText(ctx, {
-                id: "middleNames",
-                label: {
-                    classes: "govuk-label"
-                },
-                classes: "govuk-input"
+            id: "middleNames",
+            label: {
+            classes: "govuk-label"
+            },
+            classes: "govuk-input"
             }) }}
         </div>
-    {% endcall %}
+        {% endcall %}
+    </div>
+
 
     {{ hmpoDate(ctx, {
         id: "dateOfBirth",
