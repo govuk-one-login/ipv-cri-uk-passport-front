@@ -70,7 +70,9 @@
         }
     }) }}
 
-    {{ hmpoSubmit(ctx) }}
+    {{ hmpoSubmit(ctx,{
+      attributes: { 'data-prevent-double-click': "true" }
+    }) }}
 
     {% endcall %}
 
