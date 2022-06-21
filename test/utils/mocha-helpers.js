@@ -6,7 +6,6 @@ const reqres = require("reqres");
 const JourneyModel = require("hmpo-form-wizard/lib/journey-model");
 const WizardModel = require("hmpo-form-wizard/lib/wizard-model.js");
 
-
 chai.should();
 chai.use(sinonChai);
 chai.use(chaiAsPromised);

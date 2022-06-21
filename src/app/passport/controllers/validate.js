@@ -7,7 +7,10 @@ class ValidateController extends BaseController {
   async saveValues(req, res, next) {
     const firstName = req.sessionModel.get("firstName");
     const middleNames = req.sessionModel.get("middleNames");
-    const forenames = middleNames === "" ? firstName.split(' ') : firstName.split(' ').concat(middleNames.split(' '));
+    const forenames =
+      middleNames === ""
+        ? firstName.split(" ")
+        : firstName.split(" ").concat(middleNames.split(" "));
     const attributes = {
       passportNumber: req.sessionModel.get("passportNumber"),
       surname: req.sessionModel.get("surname"),
@@ -38,8 +41,8 @@ class ValidateController extends BaseController {
         if (!code) {
           const error = {
             error: "server_error",
-            error_description:  "Failed to retrieve authorization code"
-          }
+            error_description: "Failed to retrieve authorization code",
+          };
           req.sessionModel.set("error", error);
           next();
         } else {
@@ -56,7 +59,12 @@ class ValidateController extends BaseController {
   }
 
   getQueryStringParams(authParams) {
-    return '?' + Object.keys(authParams).map(key => key + '=' + authParams[key]).join('&');
+    return (
+      "?" +
+      Object.keys(authParams)
+        .map((key) => key + "=" + authParams[key])
+        .join("&")
+    );
   }
 }
 

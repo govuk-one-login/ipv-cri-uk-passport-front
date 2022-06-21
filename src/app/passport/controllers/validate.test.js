@@ -17,8 +17,7 @@ describe("validate controller", () => {
     res = setup.res;
     next = setup.next;
 
-    req.session.JWTData = {authParams: {}}
-
+    req.session.JWTData = { authParams: {} };
   });
   afterEach(() => sandbox.restore());
 
@@ -36,12 +35,12 @@ describe("validate controller", () => {
 
     const data = {
       code: {
-        value: "test-auth-code-12345"
-      }
+        value: "test-auth-code-12345",
+      },
     };
 
-    const resolvedPromise = new Promise((resolve) => resolve({ data }))
-    sandbox.stub(axios, 'post').returns(resolvedPromise)
+    const resolvedPromise = new Promise((resolve) => resolve({ data }));
+    sandbox.stub(axios, "post").returns(resolvedPromise);
 
     await validate.saveValues(req, res, next);
 
@@ -58,17 +57,19 @@ describe("validate controller", () => {
 
     const data = {
       invalidData: {
-        value: "test invalid data"
-      }
+        value: "test invalid data",
+      },
     };
-    const resolvedPromise = new Promise((resolve) => resolve({ data }))
-    sandbox.stub(axios, 'post').returns(resolvedPromise)
+    const resolvedPromise = new Promise((resolve) => resolve({ data }));
+    sandbox.stub(axios, "post").returns(resolvedPromise);
 
     await validate.saveValues(req, res, next);
 
     const sessionError = req.sessionModel.get("error");
     expect(sessionError.error).to.eq("server_error");
-    expect(sessionError.error_description).to.eq("Failed to retrieve authorization code");
+    expect(sessionError.error_description).to.eq(
+      "Failed to retrieve authorization code"
+    );
   });
 
   it("should save error in session when error caught from cri-back", async () => {
@@ -84,17 +85,19 @@ describe("validate controller", () => {
       response: {
         data: {
           code: "access_denied",
-          error_description: "Permission denied to token endpoint"
-        }
-      }
+          error_description: "Permission denied to token endpoint",
+        },
+      },
     };
-    const resolvedPromise = new Promise((resolve, error) => error(testError))
-    sandbox.stub(axios, 'post').returns(resolvedPromise)
+    const resolvedPromise = new Promise((resolve, error) => error(testError));
+    sandbox.stub(axios, "post").returns(resolvedPromise);
 
     await validate.saveValues(req, res, next);
 
     const sessionError = req.sessionModel.get("error");
     expect(sessionError.code).to.eq(testError.response.data.code);
-    expect(sessionError.error_description).to.eq(testError.response.data.error_description);
+    expect(sessionError.error_description).to.eq(
+      testError.response.data.error_description
+    );
   });
 });

@@ -12,21 +12,19 @@ govuk:
   footerNavItems:
     meta:
       items:
-        - href: 'https://signin.account.gov.uk/accessibility-statement'
-          text: 'Accessibility statement'
-        - href: 'https://www.gov.uk/help/cookies'
-          text: 'Cookies'
-        - href: 'https://signin.account.gov.uk/terms-and-conditions'
-          text: 'Terms and conditions'
-        - href: 'https://signin.account.gov.uk/privacy-notice'
-          text: 'Privacy notice'
-        - href: 'https://signin.account.gov.uk/contact-us'
-          text: 'Support'
+        - href: "https://signin.account.gov.uk/accessibility-statement"
+          text: "Accessibility statement"
+        - href: "https://www.gov.uk/help/cookies"
+          text: "Cookies"
+        - href: "https://signin.account.gov.uk/terms-and-conditions"
+          text: "Terms and conditions"
+        - href: "https://signin.account.gov.uk/privacy-notice"
+          text: "Privacy notice"
+        - href: "https://signin.account.gov.uk/contact-us"
+          text: "Support"
 passport:
   title: Enter your details exactly as they appear on your UK passport
   serviceNameRequired: true
   passportInformationContext: Your passport includes a lot of information that we can check to make sure that you are who you say you are.
   checkDetailsContext: We'll check your details with the HM Passport Office to make sure your passport has not been cancelled or reported as lost  or stolen.
   passportGivenNames: Given names
-
-
