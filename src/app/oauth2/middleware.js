@@ -50,6 +50,9 @@ module.exports = {
       const errorDescription = error?.error_description ?? error?.message;
       redirectUrl.searchParams.append("error", errorCode);
       redirectUrl.searchParams.append("error_description", errorDescription);
+      if (authParams.state) {
+        redirectUrl.searchParams.append("state", authParams.state)
+      }
       res.redirect(redirectUrl.href);
     }
   },
