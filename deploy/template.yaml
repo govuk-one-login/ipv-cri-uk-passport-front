@@ -39,15 +39,15 @@ Parameters:
 
 Conditions:
   IsNotDevelopment: !Or
-    - !Equals [ !Ref Environment, build ]
-    - !Equals [ !Ref Environment, staging ]
-    - !Equals [ !Ref Environment, integration ]
-    - !Equals [ !Ref Environment, production ]
+    - !Equals [!Ref Environment, build]
+    - !Equals [!Ref Environment, staging]
+    - !Equals [!Ref Environment, integration]
+    - !Equals [!Ref Environment, production]
 
 Resources:
   # Security Groups for the ECS service and load balancer
   LoadBalancerSG:
-    Type: 'AWS::EC2::SecurityGroup'
+    Type: "AWS::EC2::SecurityGroup"
     Properties:
       GroupDescription: >-
         Passport Front LoadBalancer Security Group
@@ -60,7 +60,7 @@ Resources:
       VpcId: !Ref VpcId
 
   LoadBalancerSGEgressToECSSecurityGroup:
-    Type: 'AWS::EC2::SecurityGroupEgress'
+    Type: "AWS::EC2::SecurityGroupEgress"
     Properties:
       GroupId: !GetAtt LoadBalancerSG.GroupId
       IpProtocol: tcp
@@ -72,7 +72,7 @@ Resources:
       ToPort: 8080
 
   ECSSecurityGroup:
-    Type: 'AWS::EC2::SecurityGroup'
+    Type: "AWS::EC2::SecurityGroup"
     Properties:
       GroupDescription: >-
         Passport Front ECS Security Group permitting outbound
@@ -80,11 +80,11 @@ Resources:
       SecurityGroupEgress:
         - CidrIp: 0.0.0.0/0
           Description: Allow all outbound traffic by default
-          IpProtocol: '-1'
+          IpProtocol: "-1"
       VpcId: !Ref VpcId
 
   ECSSecurityGroupIngressFromLoadBalancer:
-    Type: 'AWS::EC2::SecurityGroupIngress'
+    Type: "AWS::EC2::SecurityGroupIngress"
     Properties:
       IpProtocol: tcp
       Description: >-
@@ -96,8 +96,9 @@ Resources:
       SourceSecurityGroupId: !GetAtt LoadBalancerSG.GroupId
 
   AccessLogsBucket:
-    Type: AWS::S3::Bucket
-     #checkov:skip=CKV_AWS_18: This is the bucket where our access logs go and AWS advise not sending a bucket's access logs to itself.
+    Type:
+      AWS::S3::Bucket
+      #checkov:skip=CKV_AWS_18: This is the bucket where our access logs go and AWS advise not sending a bucket's access logs to itself.
     Properties:
       BucketName: !Sub ipv-passport-${Environment}-access-logs
       AccessControl: LogDeliveryWrite
@@ -135,11 +136,11 @@ Resources:
             Resource: !Sub "arn:aws:s3:::${AccessLogsBucket}/*"
             Condition:
               StringEquals:
-                'aws:SourceAccount': !Sub "${AWS::AccountId}"
+                "aws:SourceAccount": !Sub "${AWS::AccountId}"
 
   # Private Application Load Balancer
   LoadBalancer:
-    Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
+    Type: "AWS::ElasticLoadBalancingV2::LoadBalancer"
     #checkov:skip=CKV_AWS_91:ALB access logging is disabled in developer environments to make them easier to manage.
     Properties:
       Scheme: internal
@@ -169,7 +170,7 @@ Resources:
       - PassportFrontAccessLogsBucketPolicy
 
   LoadBalancerListenerTargetGroupECS:
-    Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
+    Type: "AWS::ElasticLoadBalancingV2::TargetGroup"
     Properties:
       HealthCheckEnabled: TRUE
       HealthCheckProtocol: HTTP
@@ -184,7 +185,7 @@ Resources:
           Value: 60
 
   LoadBalancerListener:
-    Type: 'AWS::ElasticLoadBalancingV2::Listener'
+    Type: "AWS::ElasticLoadBalancingV2::Listener"
     # checkov:skip=CKV_AWS_2:Certificate generation must be resolved before the listener can use HTTPS.
     # checkov:skip=CKV_AWS_103:The load balancer cannot use TLS v1.2 until HTTPS is enabled
     Properties:
@@ -197,14 +198,14 @@ Resources:
 
   # ECS cluster, service and task definition
   PassportFrontEcsCluster:
-    Type: 'AWS::ECS::Cluster'
+    Type: "AWS::ECS::Cluster"
     Properties:
       ClusterSettings:
         - Name: containerInsights
           Value: enabled
 
   PassportFrontEcsService:
-    Type: 'AWS::ECS::Service'
+    Type: "AWS::ECS::Service"
     Properties:
       Cluster: !Ref PassportFrontEcsCluster
       DeploymentConfiguration:
@@ -249,19 +250,23 @@ Resources:
       LogGroupName: !Ref ECSAccessLogsGroup
 
   ECSServiceTaskDefinition:
-    Type: 'AWS::ECS::TaskDefinition'
+    Type: "AWS::ECS::TaskDefinition"
     Properties:
       ContainerDefinitions:
         - Essential: true
-          Image: !If [IsNotDevelopment, !Sub "057202043894.dkr.ecr.${AWS::Region}.amazonaws.com/passport-front-build:${ImageTag}", !Sub "${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/passport-front-development:${ImageTag}"]
+          Image:
+            !If [
+              IsNotDevelopment,
+              !Sub "057202043894.dkr.ecr.${AWS::Region}.amazonaws.com/passport-front-build:${ImageTag}",
+              !Sub "${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/passport-front-development:${ImageTag}",
+            ]
           Name: app
           Environment:
             - Name: API_BASE_URL
               Value: !Sub
-                  - "https://${APIGatewayId}.execute-api.eu-west-2.amazonaws.com/${Environment}"
-                  - APIGatewayId:
-                      Fn::ImportValue:
-                        !Sub IPVCriUkPassportPrivateAPIGatewayID-${Environment}
+                - "https://${APIGatewayId}.execute-api.eu-west-2.amazonaws.com/${Environment}"
+                - APIGatewayId:
+                    Fn::ImportValue: !Sub IPVCriUkPassportPrivateAPIGatewayID-${Environment}
             - Name: EXTERNAL_WEBSITE_HOST
               Value: !GetAtt ApiGwHttpEndpoint.ApiEndpoint
           PortMappings:
@@ -270,23 +275,23 @@ Resources:
           LogConfiguration:
             LogDriver: awslogs
             Options:
-              awslogs-group : !Ref ECSAccessLogsGroup
-              awslogs-region : !Sub ${AWS::Region}
-              awslogs-stream-prefix : !Sub passport-front-${Environment}
-      Cpu: '512'
+              awslogs-group: !Ref ECSAccessLogsGroup
+              awslogs-region: !Sub ${AWS::Region}
+              awslogs-stream-prefix: !Sub passport-front-${Environment}
+      Cpu: "512"
       ExecutionRoleArn: !GetAtt ECSTaskExecutionRole.Arn
-      Memory: '1024'
+      Memory: "1024"
       NetworkMode: awsvpc
       RequiresCompatibilities:
         - FARGATE
       TaskRoleArn: !GetAtt ECSTaskRole.Arn
 
   ECSTaskExecutionRole:
-    Type: 'AWS::IAM::Role'
+    Type: "AWS::IAM::Role"
     Properties:
       AssumeRolePolicyDocument:
         Statement:
-          - Action: 'sts:AssumeRole'
+          - Action: "sts:AssumeRole"
             Effect: Allow
             Principal:
               Service: ecs-tasks.amazonaws.com
@@ -302,7 +307,7 @@ Resources:
                   - "ecr:GetDownloadUrlForLayer"
                   - "ecr:GetAuthorizationToken"
                 Resource:
-                  - '*'
+                  - "*"
               - Effect: Allow
                 Action:
                   - "logs:CreateLogStream"
@@ -311,11 +316,11 @@ Resources:
                   - !GetAtt "ECSAccessLogsGroup.Arn"
                   - !Sub "${ECSAccessLogsGroup.Arn}:*"
   ECSTaskRole:
-    Type: 'AWS::IAM::Role'
+    Type: "AWS::IAM::Role"
     Properties:
       AssumeRolePolicyDocument:
         Statement:
-          - Action: 'sts:AssumeRole'
+          - Action: "sts:AssumeRole"
             Effect: Allow
             Principal:
               Service: ecs-tasks.amazonaws.com
@@ -325,41 +330,41 @@ Resources:
   # private Load Balancer in front of Passport Front ECS
   # Service.
   VpcLink:
-      Type: 'AWS::ApiGatewayV2::VpcLink'
-      Properties:
-          Name: ApiGwVpcLinkToLoadBalancer
-          SubnetIds: !Ref SubnetIds
-          SecurityGroupIds: []
+    Type: "AWS::ApiGatewayV2::VpcLink"
+    Properties:
+      Name: ApiGwVpcLinkToLoadBalancer
+      SubnetIds: !Ref SubnetIds
+      SecurityGroupIds: []
 
   ApiGwHttpEndpoint:
-      Type: 'AWS::ApiGatewayV2::Api'
-      Properties:
-          Name: !Sub ipv-passport-front-${Environment}
-          ProtocolType: HTTP
+    Type: "AWS::ApiGatewayV2::Api"
+    Properties:
+      Name: !Sub ipv-passport-front-${Environment}
+      ProtocolType: HTTP
 
   ApiGwHttpEndpointIntegration:
-      Type: 'AWS::ApiGatewayV2::Integration'
-      Properties:
-        ApiId: !Ref ApiGwHttpEndpoint
-        IntegrationType: HTTP_PROXY
-        ConnectionId: !Ref VpcLink
-        ConnectionType: VPC_LINK
-        IntegrationMethod: ANY
-        IntegrationUri: !Ref LoadBalancerListener
-        PayloadFormatVersion: '1.0'
-
-  APIGWRoute:
-    Type: 'AWS::ApiGatewayV2::Route'
+    Type: "AWS::ApiGatewayV2::Integration"
     Properties:
       ApiId: !Ref ApiGwHttpEndpoint
-      RouteKey: 'ANY /{proxy+}'
+      IntegrationType: HTTP_PROXY
+      ConnectionId: !Ref VpcLink
+      ConnectionType: VPC_LINK
+      IntegrationMethod: ANY
+      IntegrationUri: !Ref LoadBalancerListener
+      PayloadFormatVersion: "1.0"
+
+  APIGWRoute:
+    Type: "AWS::ApiGatewayV2::Route"
+    Properties:
+      ApiId: !Ref ApiGwHttpEndpoint
+      RouteKey: "ANY /{proxy+}"
       Target: !Join
         - /
         - - integrations
           - !Ref ApiGwHttpEndpointIntegration
 
   APIStageDefault:
-    Type: 'AWS::ApiGatewayV2::Stage'
+    Type: "AWS::ApiGatewayV2::Stage"
     Properties:
       ApiId: !Ref ApiGwHttpEndpoint
       StageName: $default
@@ -421,12 +426,11 @@ Resources:
               ArnLike:
                 "kms:EncryptionContext:aws:logs:arn": !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:*"
 
-
 Outputs:
   PassportFrontUrl:
     Description: >-
       The API Gateway URL which Passport Front can be invoked on.
-    Value: !GetAtt  ApiGwHttpEndpoint.ApiEndpoint
+    Value: !GetAtt ApiGwHttpEndpoint.ApiEndpoint
   PassportFrontGatewayID:
     Description: Passport Front API Gateway ID
     Export:

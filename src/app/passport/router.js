@@ -1,5 +1,5 @@
 const express = require("express");
-const wizard = require('hmpo-form-wizard');
+const wizard = require("hmpo-form-wizard");
 
 const steps = require("./steps");
 const fields = require("./fields");
@@ -12,6 +12,6 @@ const wizardOptions = {
   templatePath: "passport",
 };
 
-router.use(wizard(steps, fields, wizardOptions))
+router.use(wizard(steps, fields, wizardOptions));
 
 module.exports = router;

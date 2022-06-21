@@ -29,8 +29,8 @@ describe("oauth middleware", () => {
       response_type: "code",
       client_id: "s6BhdRkqt3",
       state: "xyz",
-      redirect_uri: "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb"
-    }
+      redirect_uri: "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb",
+    };
 
     beforeEach(() => {
       req = {
@@ -41,7 +41,9 @@ describe("oauth middleware", () => {
         session: {},
       };
 
-      const resolvedPromise = new Promise((resolve) => resolve({ data : {authParams} }));
+      const resolvedPromise = new Promise((resolve) =>
+        resolve({ data: { authParams } })
+      );
       sandbox.stub(axios, "post").returns(resolvedPromise);
     });
 
@@ -80,7 +82,9 @@ describe("oauth middleware", () => {
           set: sinon.fake(),
         },
       };
-      const resolvedPromise = new Promise((resolve) => resolve({ data : {shared_claims: sharedClaims} }));
+      const resolvedPromise = new Promise((resolve) =>
+        resolve({ data: { shared_claims: sharedClaims } })
+      );
       sandbox.stub(axios, "post").returns(resolvedPromise);
     });
 
@@ -126,7 +130,7 @@ describe("oauth middleware", () => {
     beforeEach(() => {
       req = {
         query: {
-          request: ''
+          request: "",
         },
       };
     });
@@ -138,7 +142,7 @@ describe("oauth middleware", () => {
       expect(next).to.have.been.calledWith(
         sinon.match
           .instanceOf(Error)
-          .and(sinon.match.has("message", 'JWT Missing'))
+          .and(sinon.match.has("message", "JWT Missing"))
       );
     });
   });
@@ -152,11 +156,14 @@ describe("oauth middleware", () => {
             "eyJuYW1lcyI6W3siZ2l2ZW5OYW1lcyI6WyJEYW4iXSwiZmFtaWx5TmFtZSI6IldhdHNvbiJ9LHsiZ2l2ZW5OYW1lcyI6WyJEYW5pZWwiXSwiZmFtaWx5TmFtZSI6IldhdHNvbiJ9LHsiZ2l2ZW5OYW1lcyI6WyJEYW5ueSwgRGFuIl0sImZhbWlseU5hbWUiOiJXYXRzb24ifV0sImRhdGVPZkJpcnRocyI6WyIyMDIxLTAzLTAxIiwiMTk5MS0wMy0wMSJdfQ==",
         },
       };
-
     });
 
     it("should redirect using redirect_uri", async function () {
-      sandbox.stub(axios, "post").throws({response: {data: {redirect_uri: 'https://xxxx/xxx.com'}}});
+      sandbox
+        .stub(axios, "post")
+        .throws({
+          response: { data: { redirect_uri: "https://xxxx/xxx.com" } },
+        });
       await middleware.decryptJWTAuthorizeRequest(req, res, next);
       expect(res.redirect).to.have.been.calledWith(`https://xxxx/xxx.com`);
     });
@@ -165,31 +172,35 @@ describe("oauth middleware", () => {
       sandbox.stub(axios, "post").throws({
         response: {
           data: {
-            redirect_uri: 'https://xxxx/xxx.com',
+            redirect_uri: "https://xxxx/xxx.com",
             oauth_error: {
-              'error': 'err'
-            }
-          }
-        }
+              error: "err",
+            },
+          },
+        },
       });
       await middleware.decryptJWTAuthorizeRequest(req, res, next);
-      expect(res.redirect).to.have.been.calledWith(`https://xxxx/xxx.com?error=err`);
+      expect(res.redirect).to.have.been.calledWith(
+        `https://xxxx/xxx.com?error=err`
+      );
     });
 
     it("should redirect using redirect_uri with error code and error description", async function () {
       sandbox.stub(axios, "post").throws({
         response: {
           data: {
-            redirect_uri: 'https://xxxx/xxx.com',
+            redirect_uri: "https://xxxx/xxx.com",
             oauth_error: {
-              error: 'err',
-              error_description: 'description'
-            }
-          }
-        }
+              error: "err",
+              error_description: "description",
+            },
+          },
+        },
       });
       await middleware.decryptJWTAuthorizeRequest(req, res, next);
-      expect(res.redirect).to.have.been.calledWith(`https://xxxx/xxx.com?error=err&error_description=description`);
+      expect(res.redirect).to.have.been.calledWith(
+        `https://xxxx/xxx.com?error=err&error_description=description`
+      );
     });
   });
 
@@ -209,7 +220,7 @@ describe("oauth middleware", () => {
             authParams: {
               redirect_uri:
                 "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb?id=PassportIssuer",
-            }
+            },
           },
         },
       };
@@ -231,7 +242,7 @@ describe("oauth middleware", () => {
       req.session["hmpo-wizard-cri-passport-front"] = {
         authorization_code: "1234",
       };
-      req.session.JWTData.authParams.state = 'state-to-return'
+      req.session.JWTData.authParams.state = "state-to-return";
 
       await middleware.redirectToCallback(req, res);
 

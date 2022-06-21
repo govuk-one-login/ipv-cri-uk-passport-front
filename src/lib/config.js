@@ -5,7 +5,9 @@ const appEnv = cfenv.getAppEnv();
 const serviceConfig = {};
 
 if (!appEnv.isLocal) {
-  serviceConfig.criPassportBackAPIUrl = appEnv.getServiceURL("cri-passport-back-api");
+  serviceConfig.criPassportBackAPIUrl = appEnv.getServiceURL(
+    "cri-passport-back-api"
+  );
 }
 
 module.exports = {
