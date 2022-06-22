@@ -159,11 +159,9 @@ describe("oauth middleware", () => {
     });
 
     it("should redirect using redirect_uri", async function () {
-      sandbox
-        .stub(axios, "post")
-        .throws({
-          response: { data: { redirect_uri: "https://xxxx/xxx.com" } },
-        });
+      sandbox.stub(axios, "post").throws({
+        response: { data: { redirect_uri: "https://xxxx/xxx.com" } },
+      });
       await middleware.decryptJWTAuthorizeRequest(req, res, next);
       expect(res.redirect).to.have.been.calledWith(`https://xxxx/xxx.com`);
     });
