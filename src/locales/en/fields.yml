@@ -20,6 +20,7 @@ firstName:
     default: "Enter your first name as it appears on your passport"
     maxlength: "Enter your first name as it appears on your passport"
     regexpassport: "Enter your first name as it appears on your passport"
+    firstNameMiddleNameLength: "Enter your first and middle names as they appear on your passport"
 
 middleNames:
   label: Middle names
@@ -27,6 +28,7 @@ middleNames:
   validation:
     maxlength: "Enter your middle names as they appear on your passport"
     regexpassport: "Enter your middle names as they appear on your passport"
+    firstNameMiddleNameLength: ""
 
 dateOfBirth:
   legend: Date of birth
