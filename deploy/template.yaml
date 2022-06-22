@@ -34,8 +34,9 @@ Parameters:
     Type: String
   DesiredTaskCount:
     Description: >-
-      The number of passport front ecs tasks to run.
+      This is being replaced by the desiredTaskCount within the mapping section.
     Type: Number
+    Default: 1
 
 Conditions:
   IsNotDevelopment: !Or
@@ -43,6 +44,19 @@ Conditions:
     - !Equals [!Ref Environment, staging]
     - !Equals [!Ref Environment, integration]
     - !Equals [!Ref Environment, production]
+
+Mappings:
+  EcsConfiguration:
+    "322814139578": # development
+      desiredTaskCount: 1
+    "057202043894": # build
+      desiredTaskCount: 1
+    "620946502648": # staging
+      desiredTaskCount: 1
+    "599918951127": # integration
+      desiredTaskCount: 1
+    "255119994012": # production
+      desiredTaskCount: 2
 
 Resources:
   # Security Groups for the ECS service and load balancer
@@ -216,7 +230,10 @@ Resources:
           Rollback: true
       DeploymentController:
         Type: ECS
-      DesiredCount: !Ref DesiredTaskCount
+      DesiredCount: !FindInMap
+        - EcsConfiguration
+        - !Ref AWS::AccountId
+        - desiredTaskCount
       EnableECSManagedTags: false
       HealthCheckGracePeriodSeconds: 60
       LaunchType: FARGATE
