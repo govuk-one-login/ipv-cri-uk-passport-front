@@ -200,6 +200,25 @@ describe("oauth middleware", () => {
         `https://xxxx/xxx.com?error=err&error_description=description`
       );
     });
+
+    it("should redirect using redirect_uri with error code, error description and state if present", async function () {
+      sandbox.stub(axios, "post").throws({
+        response: {
+          data: {
+            redirect_uri: "https://xxxx/xxx.com",
+            state: "xyz",
+            oauth_error: {
+              error: "err",
+              error_description: "description",
+            },
+          },
+        },
+      });
+      await middleware.decryptJWTAuthorizeRequest(req, res, next);
+      expect(res.redirect).to.have.been.calledWith(
+        `https://xxxx/xxx.com?error=err&error_description=description&state=xyz`
+      );
+    });
   });
 
   describe("redirectToPassportDetailsPage", () => {
@@ -276,6 +295,22 @@ describe("oauth middleware", () => {
 
       expect(res.redirect).to.have.been.calledWith(
         `https://client.example.com/cb?id=PassportIssuer&error=server_error&error_description=User+is+not+allowed`
+      );
+    });
+
+    it("should successfully redirect when error is provided, including setting state if it is present", async function () {
+      req.session.JWTData.authParams.state = "xyz";
+      req.session["hmpo-wizard-cri-passport-front"] = {
+        error: {
+          error: "server_error",
+          error_description: "User is not allowed",
+        },
+      };
+
+      await middleware.redirectToCallback(req, res);
+
+      expect(res.redirect).to.have.been.calledWith(
+        `https://client.example.com/cb?id=PassportIssuer&error=server_error&error_description=User+is+not+allowed&state=xyz`
       );
     });
   });
