@@ -51,7 +51,7 @@ Mappings:
     "599918951127": # integration
       desiredTaskCount: 1
     "255119994012": # production
-      desiredTaskCount: 2
+      desiredTaskCount: 1
 
 Resources:
   # Security Groups for the ECS service and load balancer
