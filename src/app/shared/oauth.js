@@ -12,7 +12,7 @@ module.exports = {
           oauthError.error_description
         );
       if (errorData?.state)
-        redirectUrl.searchParams.append('state', errorData.state)
+        redirectUrl.searchParams.append("state", errorData.state);
 
       return res.redirect(redirectUrl.href);
     }

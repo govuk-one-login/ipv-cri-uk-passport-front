@@ -205,17 +205,19 @@ describe("oauth middleware", () => {
       sandbox.stub(axios, "post").throws({
         response: {
           data: {
-            redirect_uri: 'https://xxxx/xxx.com',
-            state: 'xyz',
+            redirect_uri: "https://xxxx/xxx.com",
+            state: "xyz",
             oauth_error: {
-              error: 'err',
-              error_description: 'description',
-            }
-          }
-        }
+              error: "err",
+              error_description: "description",
+            },
+          },
+        },
       });
       await middleware.decryptJWTAuthorizeRequest(req, res, next);
-      expect(res.redirect).to.have.been.calledWith(`https://xxxx/xxx.com?error=err&error_description=description&state=xyz`);
+      expect(res.redirect).to.have.been.calledWith(
+        `https://xxxx/xxx.com?error=err&error_description=description&state=xyz`
+      );
     });
   });
 
@@ -297,7 +299,7 @@ describe("oauth middleware", () => {
     });
 
     it("should successfully redirect when error is provided, including setting state if it is present", async function () {
-      req.session.JWTData.authParams.state = 'xyz'
+      req.session.JWTData.authParams.state = "xyz";
       req.session["hmpo-wizard-cri-passport-front"] = {
         error: {
           error: "server_error",
