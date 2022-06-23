@@ -206,10 +206,10 @@ describe("oauth middleware", () => {
         response: {
           data: {
             redirect_uri: 'https://xxxx/xxx.com',
+            state: 'xyz',
             oauth_error: {
               error: 'err',
               error_description: 'description',
-              state: 'xyz'
             }
           }
         }

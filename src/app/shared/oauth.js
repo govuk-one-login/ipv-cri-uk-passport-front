@@ -11,8 +11,8 @@ module.exports = {
           "error_description",
           oauthError.error_description
         );
-      if (oauthError?.state)
-        redirectUrl.searchParams.append('state', oauthError.state)
+      if (errorData?.state)
+        redirectUrl.searchParams.append('state', errorData.state)
 
       return res.redirect(redirectUrl.href);
     }
