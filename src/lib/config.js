@@ -16,4 +16,5 @@ module.exports = {
   API_JWT_AUTHORIZE_REQ_PATH: "/jwt-authorization-request",
   PORT: process.env.PORT || 3000,
   SESSION_SECRET: process.env.SESSION_SECRET,
+  SESSION_TABLE_NAME: process.env.SESSION_TABLE_NAME,
 };
