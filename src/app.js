@@ -1,9 +1,22 @@
 require("dotenv").config();
 require("express");
 require("express-async-errors");
+const session = require("express-session");
+const AWS = require("aws-sdk");
+const DynamoDBStore = require("connect-dynamodb")(session);
 const { setup } = require("hmpo-app");
 
-const { PORT, SESSION_SECRET } = require("./lib/config");
+const { PORT, SESSION_SECRET, SESSION_TABLE_NAME } = require("./lib/config");
+
+AWS.config.update({
+  region: "eu-west-2",
+});
+const dynamodb = new AWS.DynamoDB();
+
+const dynamoDBSessionStore = new DynamoDBStore({
+  client: dynamodb,
+  table: SESSION_TABLE_NAME,
+});
 
 const loggerConfig = {
   console: true,
@@ -14,6 +27,7 @@ const loggerConfig = {
 const sessionConfig = {
   cookieName: "cri_passport_service_session",
   secret: SESSION_SECRET,
+  sessionStore: dynamoDBSessionStore,
 };
 
 const { router } = setup({
@@ -21,6 +35,7 @@ const { router } = setup({
   port: PORT,
   logs: loggerConfig,
   session: sessionConfig,
+  redis: false,
   urls: {
     public: "/public",
   },
