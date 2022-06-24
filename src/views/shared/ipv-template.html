@@ -38,6 +38,10 @@
 <!-- End Google Tag Manager -->
 {% endblock %}
 
+<!-- temporarily remove the cookie banner -->
+{% block cookieBanner %}
+{% endblock %}
+
 {% block bodyStart %}
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TK92W68"
@@ -49,7 +53,7 @@
 {% block govukHeader %}
 {# to remediate accessibility issues the header no longer includes the service name code #}
 {# this overrides the behaviour in hmpo-template.njk and calls the 'minimal' GOV.UK header #}
-{{ govukHeader({}) }}
+{{ govukHeader({ homepageUrl: "https://www.gov.uk/" }) }}
 {% endblock %}
 
 
