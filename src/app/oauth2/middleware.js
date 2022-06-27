@@ -8,7 +8,10 @@ const { redirectOnError } = require("../shared/oauth");
 module.exports = {
   decryptJWTAuthorizeRequest: async (req, res, next) => {
     const requestJWT = req.query?.request;
-    const headers = { client_id: req.query?.client_id };
+    const headers = {
+      client_id: req.query?.client_id,
+      passport_session_id: req.session.id,
+    };
 
     if (!requestJWT) {
       return next(new Error("JWT Missing"));

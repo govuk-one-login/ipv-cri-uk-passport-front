@@ -17,7 +17,8 @@ describe("validate controller", () => {
     res = setup.res;
     next = setup.next;
 
-    req.session.JWTData = { authParams: {} };
+    req.session.JWTData = { authParams: {}, user_id: "a-users-id" };
+    req.session.id = "some-session-id";
   });
   afterEach(() => sandbox.restore());
 
@@ -44,6 +45,23 @@ describe("validate controller", () => {
 
     await validate.saveValues(req, res, next);
 
+    sandbox.assert.calledWith(
+      axios.post,
+      "undefined/authorization?scope=openid",
+      {
+        passportNumber: "123456789",
+        surname: "Jones Smith",
+        forenames: ["Dan", "Joe"],
+        dateOfBirth: "10/02/1975",
+        expiryDate: "15/01/2035",
+      },
+      {
+        headers: {
+          user_id: "a-users-id",
+          passport_session_id: "some-session-id",
+        },
+      }
+    );
     expect(req.session.test.authorization_code).to.eq(data.code.value);
   });
 
