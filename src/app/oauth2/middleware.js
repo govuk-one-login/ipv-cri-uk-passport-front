@@ -31,7 +31,7 @@ module.exports = {
     }
   },
 
-  redirectToPassportDetailsPage: async (req, res) => {
+  redirectToPassportDetailsPage: async (_req, res) => {
     res.redirect("/passport");
   },
 

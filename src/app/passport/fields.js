@@ -1,7 +1,7 @@
 const { validators } = require("hmpo-form-wizard/lib/validation");
 
 function firstNameMiddleNameLengthValidator(
-  value,
+  _value,
   length,
   firstNameField,
   middleNameField
