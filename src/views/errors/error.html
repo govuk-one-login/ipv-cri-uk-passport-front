@@ -1,5 +1,5 @@
 {% extends "shared/ipv-template.html" %}
-{% set hmpoPageKey = "errors.error" %}
+{% set hmpoPageKey = "pages.errors.error" %}
 
 {% block mainContent %}
 <h1 id="header" data-page="{{hmpoPageKey}}">
@@ -8,5 +8,4 @@
 
 {% from "hmpo-html/macro.njk" import hmpoHtml %}
     {{ hmpoHtml(translate(hmpoPageKey + ".content", { default: [] })) }}
-
 {% endblock %}
