@@ -5,12 +5,13 @@ include:
 exclude:
   - "**/*.test.js"
   - "**/*router.js"
-  - "src/app/passport/*.js"
-  - "src/lib/config.js"
+  - "src/assets/javascripts/*.js"
+  - "src/assets/javascript/*.js"
+  - "src/lib/*.js"
 report-dir: coverage
 statements: 70
 branches: 80
-functions: 80
+functions: 70
 lines: 70
 watermarks:
   statements:

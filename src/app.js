@@ -7,7 +7,7 @@ const DynamoDBStore = require("connect-dynamodb")(session);
 const { setup } = require("hmpo-app");
 
 const { PORT, SESSION_SECRET, SESSION_TABLE_NAME } = require("./lib/config");
-const {getGTM} = require("./lib/locals");
+const { getGTM } = require("./lib/locals");
 
 AWS.config.update({
   region: "eu-west-2",
