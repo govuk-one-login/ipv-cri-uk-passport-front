@@ -7,6 +7,7 @@ exclude:
   - "**/*router.js"
   - "src/app/passport/*.js"
   - "src/lib/config.js"
+  - "src/app.js"
 report-dir: coverage
 statements: 70
 branches: 80
