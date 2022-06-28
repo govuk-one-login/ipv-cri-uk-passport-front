@@ -49,5 +49,5 @@
 {% block bodyEnd %}
 {% block scripts %}{% endblock %}
 <script type="text/javascript"  src="/public/javascripts/application.js"></script>
-<script type="text/javascript" nonce='{{ scriptNonce }}'>window.GOVSignIn.appInit("{{ gtmId }}", "{{ analyticsCookieDomain }}", "{{ hmpoPageKey }}")</script>
+<script type="text/javascript" nonce='{{ cspNonce }}'>window.GOVSignIn.appInit("{{ gtmId }}", "{{ analyticsCookieDomain }}", "{{ hmpoPageKey }}")</script>
 {% endblock %}
