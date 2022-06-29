@@ -22,7 +22,6 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 RUN ["apk", "--no-cache", "upgrade"]
 RUN ["apk", "add", "--no-cache", "tini"]
 RUN ["yarn", "set", "version", "1.22.17" ]
-
 USER appuser
 
 WORKDIR /app
