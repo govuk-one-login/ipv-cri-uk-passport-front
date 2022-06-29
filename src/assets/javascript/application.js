@@ -75,12 +75,15 @@ var cookies = function(trackingId, analyticsCookieDomain, journeyState) {
         'ProgrammeName': 'DI - PYI'
       }
       ];
-    var sessionJourney = getJourneyMapping(journeyState);
+    //var sessionJourney = getJourneyMapping(journeyState);
     function gtag(obj) {
       dataLayer.push(obj);
     }
-    if (sessionJourney) {
-      gtag(sessionJourney);
+    if (journeyState) {
+      dataLayer.push({
+        event: "journeyEvent",
+        JourneyStatus: journeyState
+      })
     }
     gtag({
       "gtm.start": new Date().getTime(),
