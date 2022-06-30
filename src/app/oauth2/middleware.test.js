@@ -38,7 +38,9 @@ describe("oauth middleware", () => {
           request: "someToken",
           client_id: "s6BhdRkqt3",
         },
-        session: {},
+        session: {
+          id: "asdfghjkl",
+        },
       };
 
       const resolvedPromise = new Promise((resolve) =>
@@ -51,6 +53,18 @@ describe("oauth middleware", () => {
 
     it("should save authParams to session", async function () {
       await middleware.decryptJWTAuthorizeRequest(req, res, next);
+
+      sandbox.assert.calledWith(
+        axios.post,
+        "https://example.org/subpath/jwt-authorization-request",
+        "someToken",
+        {
+          headers: {
+            client_id: "s6BhdRkqt3",
+            passport_session_id: "asdfghjkl",
+          },
+        }
+      );
       expect(req.session.JWTData.authParams).to.deep.equal(authParams);
     });
 
@@ -132,10 +146,13 @@ describe("oauth middleware", () => {
         query: {
           request: "",
         },
+        session: {
+          id: "asdfghjkl",
+        },
       };
     });
 
-    it("should next to be called with error message", async function () {
+    it("next should be called with error message", async function () {
       await middleware.decryptJWTAuthorizeRequest(req, res, next);
       expect(next).calledOnce;
 
@@ -154,6 +171,9 @@ describe("oauth middleware", () => {
         query: {
           request:
             "eyJuYW1lcyI6W3siZ2l2ZW5OYW1lcyI6WyJEYW4iXSwiZmFtaWx5TmFtZSI6IldhdHNvbiJ9LHsiZ2l2ZW5OYW1lcyI6WyJEYW5pZWwiXSwiZmFtaWx5TmFtZSI6IldhdHNvbiJ9LHsiZ2l2ZW5OYW1lcyI6WyJEYW5ueSwgRGFuIl0sImZhbWlseU5hbWUiOiJXYXRzb24ifV0sImRhdGVPZkJpcnRocyI6WyIyMDIxLTAzLTAxIiwiMTk5MS0wMy0wMSJdfQ==",
+        },
+        session: {
+          id: "asdfghjkl",
         },
       };
     });

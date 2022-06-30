@@ -81,6 +81,6 @@ describe("root controller", () => {
 
     await root.saveValues(req, res, next);
 
-    expect(req.journeyModel.set.called, false);
+    expect(req.journeyModel.set.called).to.be.false;
   });
 });
