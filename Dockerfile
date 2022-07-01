@@ -1,6 +1,4 @@
 FROM node:16.13.1-alpine3.15@sha256:a2c7f8ebdec79619fba306cec38150db44a45b48380d09603d3602139c5a5f92 AS builder
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-USER appuser
 
 WORKDIR /app
 RUN [ "yarn", "set", "version", "1.22.17" ]
@@ -22,15 +20,15 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 RUN ["apk", "--no-cache", "upgrade"]
 RUN ["apk", "add", "--no-cache", "tini"]
 RUN ["yarn", "set", "version", "1.22.17" ]
-USER appuser
+USER appuser:appgroup
 
 WORKDIR /app
 # Copy in compile assets and deps from build container
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/src ./src
-COPY --from=builder /app/package.json ./
-COPY --from=builder /app/yarn.lock ./
+COPY --chown=appuser:appgroup  --from=builder /app/node_modules ./node_modules
+COPY --chown=appuser:appgroup  --from=builder /app/dist ./dist
+COPY --chown=appuser:appgroup  --from=builder /app/src ./src
+COPY --chown=appuser:appgroup  --from=builder /app/package.json ./
+COPY --chown=appuser:appgroup  --from=builder /app/yarn.lock ./
 
 ENV PORT 8080
 EXPOSE 8080
