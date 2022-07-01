@@ -4,6 +4,7 @@ const {
   API_JWT_AUTHORIZE_REQ_PATH,
 } = require("../../lib/config");
 const { redirectOnError } = require("../shared/oauth");
+const logger = require("hmpo-logger").get();
 
 module.exports = {
   decryptJWTAuthorizeRequest: async (req, res, next) => {
@@ -23,15 +24,18 @@ module.exports = {
         requestJWT,
         { headers: headers }
       );
+      logger.info("response received from JWT authorize lambda", { req, res });
 
       req.session.JWTData = apiResponse?.data;
       return next();
     } catch (error) {
+      logger.error("error calling JWT authorize lambda", { req, res });
       return redirectOnError(error, res, next);
     }
   },
 
-  redirectToPassportDetailsPage: async (_req, res) => {
+  redirectToPassportDetailsPage: async (req, res) => {
+    logger.info("redirecting to passport details page", { req, res });
     res.redirect("/passport");
   },
 
@@ -48,6 +52,7 @@ module.exports = {
 
       res.redirect(redirectUrl.href);
     } else {
+      logger.error("auth code not received in callback", { req, res });
       const error = req.session["hmpo-wizard-cri-passport-front"].error;
       const errorCode = error?.error ?? "unknown";
       const errorDescription = error?.error_description ?? error?.message;

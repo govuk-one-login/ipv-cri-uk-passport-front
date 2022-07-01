@@ -23,6 +23,12 @@ const loggerConfig = {
   console: true,
   consoleJSON: true,
   app: false,
+  requestMeta: {
+    passportSessionId: "session.id",
+  },
+  meta: {
+    passportSessionId: "session.id",
+  },
 };
 
 const sessionConfig = {
