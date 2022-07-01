@@ -2,6 +2,7 @@ const axios = require("axios");
 const BaseController = require("hmpo-form-wizard").Controller;
 
 const { API_BASE_URL, API_AUTHORIZE_PATH } = require("../../../lib/config");
+const logger = require("hmpo-logger").get();
 
 class ValidateController extends BaseController {
   async saveValues(req, res, next) {
@@ -32,6 +33,7 @@ class ValidateController extends BaseController {
         passport_session_id: req.session.id,
       };
 
+      logger.info("calling authorize lambda", { req, res });
       const apiResponse = await axios.post(
         `${API_BASE_URL}${API_AUTHORIZE_PATH}${queryParams}`,
         attributes,
@@ -54,6 +56,7 @@ class ValidateController extends BaseController {
         }
       });
     } catch (error) {
+      logger.error("error thrown in validate controller", { req, res, error });
       super.saveValues(req, res, () => {
         req.sessionModel.set("error", error.response.data);
         next();
