@@ -37,12 +37,15 @@ const sessionConfig = {
   sessionStore: dynamoDBSessionStore,
 };
 
+const helmetConfig = require("./lib/helmet");
+
 const { router } = setup({
   config: { APP_ROOT: __dirname },
   port: PORT,
   logs: loggerConfig,
   session: sessionConfig,
   redis: false,
+  helmet: helmetConfig,
   urls: {
     public: "/public",
   },
