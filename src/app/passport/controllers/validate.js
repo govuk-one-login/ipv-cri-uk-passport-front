@@ -55,6 +55,9 @@ class ValidateController extends BaseController {
           req.sessionModel.set("authorization_code", code);
 
           callback();
+        } else {
+          req.session.isValidPassport = true;
+          req.sessionModel.set("authorization_code", code);
         }
 
         const error = {
