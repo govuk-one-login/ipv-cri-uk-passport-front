@@ -58,7 +58,7 @@ describe("oauth middleware", () => {
 
       sandbox.assert.calledWith(
         axios.post,
-        "https://example.org/subpath/jwt-authorization-request",
+        "https://example.org/subpath/initialise-session",
         "someToken",
         {
           headers: {

@@ -13,7 +13,7 @@ if (!appEnv.isLocal) {
 module.exports = {
   API_BASE_URL: serviceConfig.criPassportBackAPIUrl || process.env.API_BASE_URL,
   API_AUTHORIZE_PATH: "/authorization",
-  API_JWT_AUTHORIZE_REQ_PATH: "/jwt-authorization-request",
+  API_INITIALISE_SESSION_REQ_PATH: "/initialise-session",
   PORT: process.env.PORT || 3000,
   SESSION_SECRET: process.env.SESSION_SECRET,
   SESSION_TABLE_NAME: process.env.SESSION_TABLE_NAME,

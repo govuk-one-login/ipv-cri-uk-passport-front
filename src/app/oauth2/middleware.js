@@ -1,7 +1,7 @@
 const axios = require("axios");
 const {
   API_BASE_URL,
-  API_JWT_AUTHORIZE_REQ_PATH,
+  API_INITIALISE_SESSION_REQ_PATH,
 } = require("../../lib/config");
 const { redirectOnError } = require("../shared/oauth");
 const logger = require("hmpo-logger").get();
@@ -20,7 +20,7 @@ module.exports = {
 
     try {
       const apiResponse = await axios.post(
-        `${API_BASE_URL}${API_JWT_AUTHORIZE_REQ_PATH}`,
+        `${API_BASE_URL}${API_INITIALISE_SESSION_REQ_PATH}`,
         requestJWT,
         { headers: headers }
       );
