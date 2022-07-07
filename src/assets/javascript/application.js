@@ -210,4 +210,14 @@ window.GOVSignIn.Cookies = cookies;
     cookies.cookieBannerInit();
   }
   w.GOVSignIn.appInit = appInit;
+
+  let disableSubmit = false;
+  window.disableFormSubmit = function disableFormSubmit() {
+    if(!disableSubmit) {
+      disableSubmit = true;
+      document.getElementById('submitButton').disabled = true;
+      return true
+    }
+    return false;
+  }
 })(window);

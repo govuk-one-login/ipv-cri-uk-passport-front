@@ -14,7 +14,7 @@
     <p> {{ translate("passport.passportInformationContext") }} </p>
     <p> {{ translate("passport.checkDetailsContext") }}  </p>
 
-    {% call hmpoForm(ctx) %}
+    {% call hmpoForm(ctx, {attributes: {onsubmit: 'window.disableFormSubmit()'} }) %}
 
     {{ hmpoText(ctx, {
         id: "passportNumber",
@@ -81,7 +81,7 @@
         }
     }) }}
 
-    {{ hmpoSubmit(ctx) }}
+    {{ hmpoSubmit(ctx, {id: 'submitButton'}) }}
 
     {% endcall %}
 
