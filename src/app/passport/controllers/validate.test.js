@@ -27,7 +27,10 @@ describe("validate controller", () => {
   });
 
   it("should retrieve auth code from cri-passport-back and store in session", async () => {
+    const passportSessionId = "passport123";
+
     req.sessionModel.set("passportNumber", "123456789");
+    req.session.passportSessionId = passportSessionId;
     req.sessionModel.set("surname", "Jones Smith");
     req.sessionModel.set("firstName", "Dan");
     req.sessionModel.set("middleNames", "Joe");
@@ -58,7 +61,7 @@ describe("validate controller", () => {
       {
         headers: {
           user_id: "a-users-id",
-          passport_session_id: "some-session-id",
+          passport_session_id: passportSessionId,
         },
       }
     );

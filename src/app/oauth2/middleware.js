@@ -26,7 +26,11 @@ module.exports = {
       );
       logger.info("response received from JWT authorize lambda", { req, res });
 
-      req.session.JWTData = apiResponse?.data;
+      let { passportSessionId, ...JWTData } = apiResponse.data;
+
+      req.session.JWTData = JWTData;
+      req.session.passportSessionId = passportSessionId;
+
       return next();
     } catch (error) {
       logger.error("error calling JWT authorize lambda", { req, res });

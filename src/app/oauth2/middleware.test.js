@@ -32,6 +32,8 @@ describe("oauth middleware", () => {
       redirect_uri: "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb",
     };
 
+    const passportSessionId = "passport123;";
+
     beforeEach(() => {
       req = {
         query: {
@@ -44,7 +46,7 @@ describe("oauth middleware", () => {
       };
 
       const resolvedPromise = new Promise((resolve) =>
-        resolve({ data: { authParams } })
+        resolve({ data: { authParams, passportSessionId } })
       );
       sandbox.stub(axios, "post").returns(resolvedPromise);
     });
@@ -71,6 +73,11 @@ describe("oauth middleware", () => {
     it("should call next", async function () {
       await middleware.decryptJWTAuthorizeRequest(req, res, next);
       expect(next).to.have.been.called;
+    });
+
+    it("should save passportSessionId to session", async function () {
+      await middleware.decryptJWTAuthorizeRequest(req, res, next);
+      expect(req.session.passportSessionId).to.be.equal(passportSessionId);
     });
   });
 
