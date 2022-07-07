@@ -2,7 +2,7 @@ const { Controller: BaseController } = require("hmpo-form-wizard");
 
 class RootController extends BaseController {
   async saveValues(req, res, next) {
-    const sharedClaims = req.session.JWTData.shared_claims;
+    const sharedClaims = req.session?.JWTData?.shared_claims;
 
     if (sharedClaims) {
       if (sharedClaims?.names?.length > 0) {

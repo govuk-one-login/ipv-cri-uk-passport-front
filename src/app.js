@@ -9,15 +9,19 @@ const { setup } = require("hmpo-app");
 const { PORT, SESSION_SECRET, SESSION_TABLE_NAME } = require("./lib/config");
 const { getGTM } = require("./lib/locals");
 
-AWS.config.update({
-  region: "eu-west-2",
-});
-const dynamodb = new AWS.DynamoDB();
+let sessionStore;
 
-const dynamoDBSessionStore = new DynamoDBStore({
-  client: dynamodb,
-  table: SESSION_TABLE_NAME,
-});
+if (process.env.NODE_ENV !== "local") {
+  AWS.config.update({
+    region: "eu-west-2",
+  });
+  const dynamodb = new AWS.DynamoDB();
+
+  sessionStore = new DynamoDBStore({
+    client: dynamodb,
+    table: SESSION_TABLE_NAME,
+  });
+}
 
 const loggerConfig = {
   console: true,
@@ -34,7 +38,7 @@ const loggerConfig = {
 const sessionConfig = {
   cookieName: "cri_passport_service_session",
   secret: SESSION_SECRET,
-  sessionStore: dynamoDBSessionStore,
+  sessionStore: sessionStore,
 };
 
 const { router } = setup({
@@ -42,7 +46,7 @@ const { router } = setup({
   port: PORT,
   logs: loggerConfig,
   session: sessionConfig,
-  redis: false,
+  redis: !sessionStore,
   urls: {
     public: "/public",
   },
