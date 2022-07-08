@@ -2,6 +2,9 @@ const { Controller: BaseController } = require("hmpo-form-wizard");
 
 class RootController extends BaseController {
   async saveValues(req, res, next) {
+    req.journeyModel.set("retry", true);
+    req.journeyModel.set("hello", "world");
+    console.log(req.sessionModel)
     const sharedClaims = req.session?.JWTData?.shared_claims;
 
     if (sharedClaims) {

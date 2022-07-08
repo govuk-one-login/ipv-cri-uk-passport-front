@@ -8,6 +8,22 @@
 
 
 {% block mainContent %}
+
+    <p>{{ ctx("errors") | length  }}</p>
+        <p>{{ values.retry }}</p>
+    <p>{{ ctx("retry") }}</p>
+
+    <p>{{ ctx("req") }}</p>
+    <p>hello</p>
+
+    {% if ctx("retry") %}
+        {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+        {{ govukErrorSummary({
+            titleText: "Please have another go"
+        }) }}
+    {% endif %}
+
     <h1 class="govuk-heading-l">
         {{ translate("passport.title") }}
     </h1>

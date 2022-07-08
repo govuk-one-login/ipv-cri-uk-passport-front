@@ -1,7 +1,7 @@
 const axios = require("axios");
 const BaseController = require("hmpo-form-wizard").Controller;
 
-const { API_BASE_URL, API_AUTHORIZE_PATH } = require("../../../lib/config");
+const { API_BASE_URL, API_CHECK_PASSPORT_PATH, API_BUILD_CLIENT_OAUTH_RESPONSE_PATH } = require("../../../lib/config");
 const logger = require("hmpo-logger").get();
 
 class ValidateController extends BaseController {
@@ -33,11 +33,21 @@ class ValidateController extends BaseController {
         passport_session_id: req.session.passportSessionId,
       };
 
-      logger.info("calling authorize lambda", { req, res });
-      const apiResponse = await axios.post(
-        `${API_BASE_URL}${API_AUTHORIZE_PATH}${queryParams}`,
+      logger.info("calling check-passport lambda", { req, res });
+      const checkPassportResponse = await axios.post(
+        `${API_BASE_URL}${API_CHECK_PASSPORT_PATH}${queryParams}`,
         attributes,
         { headers: headers }
+      );
+      // if (checkPassportResponse.data?.result === "retry" || !checkPassportResponse?.data?.code?.value) {
+      //   req.sessionModel.retry = true;
+      // }
+
+      logger.info("calling build-client-oauth-response lambda", { req, res });
+      const apiResponse = await axios.post(
+        `${API_BASE_URL}${API_BUILD_CLIENT_OAUTH_RESPONSE_PATH}`,
+        undefined,
+        { headers: { passport_session_id: req.session.passportSessionId } }
       );
 
       const code = apiResponse?.data?.code?.value;
