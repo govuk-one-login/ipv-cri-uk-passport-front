@@ -30,7 +30,7 @@ class ValidateController extends BaseController {
 
       const headers = {
         user_id: req.session.JWTData?.user_id,
-        passport_session_id: req.session.id,
+        passport_session_id: req.session.passportSessionId,
       };
 
       logger.info("calling authorize lambda", { req, res });

@@ -32,19 +32,19 @@ describe("oauth middleware", () => {
       redirect_uri: "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb",
     };
 
+    const passportSessionId = "passport123;";
+
     beforeEach(() => {
       req = {
         query: {
           request: "someToken",
           client_id: "s6BhdRkqt3",
         },
-        session: {
-          id: "asdfghjkl",
-        },
+        session: {},
       };
 
       const resolvedPromise = new Promise((resolve) =>
-        resolve({ data: { authParams } })
+        resolve({ data: { authParams, passportSessionId } })
       );
       sandbox.stub(axios, "post").returns(resolvedPromise);
     });
@@ -56,12 +56,11 @@ describe("oauth middleware", () => {
 
       sandbox.assert.calledWith(
         axios.post,
-        "https://example.org/subpath/jwt-authorization-request",
+        "https://example.org/subpath/initialise-session",
         "someToken",
         {
           headers: {
             client_id: "s6BhdRkqt3",
-            passport_session_id: "asdfghjkl",
           },
         }
       );
@@ -71,6 +70,11 @@ describe("oauth middleware", () => {
     it("should call next", async function () {
       await middleware.decryptJWTAuthorizeRequest(req, res, next);
       expect(next).to.have.been.called;
+    });
+
+    it("should save passportSessionId to session", async function () {
+      await middleware.decryptJWTAuthorizeRequest(req, res, next);
+      expect(req.session.passportSessionId).to.be.equal(passportSessionId);
     });
   });
 
