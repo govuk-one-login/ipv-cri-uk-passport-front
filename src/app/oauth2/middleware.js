@@ -11,7 +11,6 @@ module.exports = {
     const requestJWT = req.query?.request;
     const headers = {
       client_id: req.query?.client_id,
-      passport_session_id: req.session.id,
     };
 
     if (!requestJWT) {

@@ -40,9 +40,7 @@ describe("oauth middleware", () => {
           request: "someToken",
           client_id: "s6BhdRkqt3",
         },
-        session: {
-          id: "asdfghjkl",
-        },
+        session: {},
       };
 
       const resolvedPromise = new Promise((resolve) =>
@@ -63,7 +61,6 @@ describe("oauth middleware", () => {
         {
           headers: {
             client_id: "s6BhdRkqt3",
-            passport_session_id: "asdfghjkl",
           },
         }
       );
