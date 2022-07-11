@@ -121,4 +121,25 @@ describe("validate controller", () => {
       testError.response.data.error_description
     );
   });
+
+  it("should set showRetryMessage to true to show retry message", async () => {
+    req.sessionModel.set("passportNumber", "123456789");
+    req.sessionModel.set("surname", "Jones Smith");
+    req.sessionModel.set("firstName", "Dan");
+    req.sessionModel.set("middleNames", "Joe");
+    req.sessionModel.set("dateOfBirth", "10/02/1975");
+    req.sessionModel.set("expiryDate", "15/01/2035");
+
+    const data = {
+      result: "retry",
+    };
+
+    const resolvedPromise = new Promise((resolve) => resolve({ data }));
+    sandbox.stub(axios, "post").returns(resolvedPromise);
+
+    await validate.saveValues(req, res, next);
+
+    const showRetryMessage = req.sessionModel.get("showRetryMessage");
+    expect(showRetryMessage).to.equal(true);
+  });
 });

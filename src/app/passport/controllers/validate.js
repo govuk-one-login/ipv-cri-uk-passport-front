@@ -27,7 +27,7 @@ class ValidateController extends BaseController {
 
     try {
       const oauthParams = {
-        ...req.session.JWTData.authParams,
+        ...req.session.JWTData?.authParams,
         scope: "openid",
       };
 
@@ -44,10 +44,12 @@ class ValidateController extends BaseController {
         attributes,
         { headers: headers }
       );
+
       req.sessionModel.passportResponseStatus =
         checkPassportResponse.data?.result;
+
       if (checkPassportResponse.data?.result === "retry") {
-        req.session.passportResponseStatus = "retry";
+        req.sessionModel.set("showRetryMessage", true);
         return callback();
       }
 
@@ -92,11 +94,8 @@ class ValidateController extends BaseController {
   }
 
   next(req) {
-    const passportResponseStatus = req.session.passportResponseStatus;
-
-    if (passportResponseStatus === "retry") {
+    if (req.sessionModel.get("showRetryMessage")) {
       logger.info("Next is retry");
-      req.sessionModel.set("showRetryMessage", true);
       return "details";
     } else {
       logger.info("Next is callback");
