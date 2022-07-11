@@ -3,6 +3,13 @@ $govuk-assets-path: "/public/";
 @import "../../../node_modules/govuk-frontend/govuk/all";
 @import "../../../node_modules/hmpo-components/all";
 
+// add a custom error colour to the notification banner component (PYIC-1564/1565)
+
+.govuk-notification-banner.passport-message {
+  border: $govuk-border-width solid $govuk-error-colour;
+  background-color: $govuk-error-colour;
+}
+
 //// Task list pattern
 //
 //.app-task-list {

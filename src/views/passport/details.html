@@ -1,16 +1,52 @@
 {% extends "shared/ipv-template.html" %}
 {# the content for this page is controlled by locales/en/default.yml #}
 {% set hmpoPageKey = "passport" %}
+
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+
 {% from "hmpo-text/macro.njk" import hmpoText %}
 {% from "hmpo-form/macro.njk" import hmpoForm %}
 {% from "hmpo-date/macro.njk" import hmpoDate %}
 
+{% set retry = "true" %}
+
 
 {% block mainContent %}
+{% if retry == "true" %}
+    <h1 class="govuk-heading-l">
+        {{ translate("passport.retryTitle") }}
+    </h1>
+
+{% set html %}
+    <h2>We could not find your details</h2>
+    <p>
+        There was a problem when we checked your details with HM Passport Office.
+    </p>
+    <p>
+        Check your details again. Remember to make sure:
+    </p>
+    <ul class="govuk-list govuk-list--bullet">
+        <li>your passport is a UK passport</li>
+        <li>you’ve entered your first and middle names (‘given names’) in the right sections</li>
+        <li>you’ve left the middle names section blank if you do not have any middle names</li>
+        <li>days and months are in the right order in your date of birth and passport expiry date</li>
+    </ul>
+{% endset %}
+
+{{ govukNotificationBanner({
+    html: html,
+    titleText:'Error',
+    role: 'alert',
+    classes:'passport-message'
+}) }}
+
+{% else %}
     <h1 class="govuk-heading-l">
         {{ translate("passport.title") }}
     </h1>
+{% endif %}
     <p> {{ translate("passport.passportInformationContext") }} </p>
     <p> {{ translate("passport.checkDetailsContext") }}  </p>
 
@@ -81,11 +117,23 @@
         }
     }) }}
 
+            {% if retry == "true" %}
+
+            {{ govukWarningText({
+            text: "You will not be able to change your details again if you make a mistake this time.",
+            iconFallbackText: "Warning"
+            }) }}
+
+
+
+            {% endif %}
+
     {{ hmpoSubmit(ctx, {id: 'submitButton'}) }}
 
     {% endcall %}
 
 {% endblock %}
+
 
 {# generate the specific footer items required for the PYI flows #}
 {% set footerNavItems = translate("govuk.footerNavItems") %}
