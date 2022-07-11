@@ -8,15 +8,7 @@
 
 
 {% block mainContent %}
-
-    <p>{{ ctx("errors") | length  }}</p>
-        <p>{{ values.retry }}</p>
-    <p>{{ ctx("retry") }}</p>
-
-    <p>{{ ctx("req") }}</p>
-    <p>hello</p>
-
-    {% if ctx("retry") %}
+    {% if values.showRetryMessage and not (ctx("errors") | length) %}
         {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
         {{ govukErrorSummary({

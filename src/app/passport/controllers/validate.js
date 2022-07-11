@@ -1,11 +1,16 @@
 const axios = require("axios");
 const BaseController = require("hmpo-form-wizard").Controller;
 
-const { API_BASE_URL, API_CHECK_PASSPORT_PATH, API_BUILD_CLIENT_OAUTH_RESPONSE_PATH } = require("../../../lib/config");
+const {
+  API_BASE_URL,
+  API_CHECK_PASSPORT_PATH,
+  API_BUILD_CLIENT_OAUTH_RESPONSE_PATH,
+} = require("../../../lib/config");
 const logger = require("hmpo-logger").get();
 
 class ValidateController extends BaseController {
-  async saveValues(req, res, next) {
+  async saveValues(req, res, callback) {
+    req.sessionModel.set("showRetryMessage", false);
     const firstName = req.sessionModel.get("firstName");
     const middleNames = req.sessionModel.get("middleNames");
     const forenames =
@@ -39,9 +44,12 @@ class ValidateController extends BaseController {
         attributes,
         { headers: headers }
       );
-      // if (checkPassportResponse.data?.result === "retry" || !checkPassportResponse?.data?.code?.value) {
-      //   req.sessionModel.retry = true;
-      // }
+      req.sessionModel.passportResponseStatus =
+        checkPassportResponse.data?.result;
+      if (checkPassportResponse.data?.result === "retry") {
+        req.session.passportResponseStatus = "retry";
+        return callback();
+      }
 
       logger.info("calling build-client-oauth-response lambda", { req, res });
       const apiResponse = await axios.post(
@@ -59,17 +67,17 @@ class ValidateController extends BaseController {
             error_description: "Failed to retrieve authorization code",
           };
           req.sessionModel.set("error", error);
-          next();
+          callback();
         } else {
           req.sessionModel.set("authorization_code", code);
-          next();
+          callback();
         }
       });
     } catch (error) {
       logger.error("error thrown in validate controller", { req, res, error });
       super.saveValues(req, res, () => {
         req.sessionModel.set("error", error.response.data);
-        next();
+        callback();
       });
     }
   }
@@ -81,6 +89,19 @@ class ValidateController extends BaseController {
         .map((key) => key + "=" + authParams[key])
         .join("&")
     );
+  }
+
+  next(req) {
+    const passportResponseStatus = req.session.passportResponseStatus;
+
+    if (passportResponseStatus === "retry") {
+      logger.info("Next is retry");
+      req.sessionModel.set("showRetryMessage", true);
+      return "details";
+    } else {
+      logger.info("Next is callback");
+      return "/oauth2/callback";
+    }
   }
 }
 

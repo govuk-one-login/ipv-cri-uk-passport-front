@@ -50,7 +50,7 @@ describe("validate controller", () => {
 
     sandbox.assert.calledWith(
       axios.post,
-      "undefined/authorization?scope=openid",
+      "/check-passport?scope=openid",
       {
         passportNumber: "123456789",
         surname: "Jones Smith",
