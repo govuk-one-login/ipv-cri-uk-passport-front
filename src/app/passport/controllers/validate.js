@@ -27,7 +27,7 @@ class ValidateController extends BaseController {
 
     try {
       const oauthParams = {
-        ...req.session.JWTData?.authParams,
+        ...req.session.JWTData.authParams,
         scope: "openid",
       };
 
@@ -44,9 +44,6 @@ class ValidateController extends BaseController {
         attributes,
         { headers: headers }
       );
-
-      req.sessionModel.passportResponseStatus =
-        checkPassportResponse.data?.result;
 
       if (checkPassportResponse.data?.result === "retry") {
         req.sessionModel.set("showRetryMessage", true);
