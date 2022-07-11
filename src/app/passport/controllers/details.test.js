@@ -23,11 +23,11 @@ describe("details controller", () => {
   });
 
   it("should clear showRetryMessage in session", async () => {
-    req.sessionModel.set("showRetryMessage", true)
+    req.sessionModel.set("showRetryMessage", true);
     req.form = {
       options: {
-        dateFields: []
-      }
+        dateFields: [],
+      },
     };
 
     await details.saveValues(req, res, next);
