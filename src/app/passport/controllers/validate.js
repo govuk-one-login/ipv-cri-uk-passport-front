@@ -10,7 +10,6 @@ const logger = require("hmpo-logger").get();
 
 class ValidateController extends BaseController {
   async saveValues(req, res, callback) {
-    req.sessionModel.set("showRetryMessage", false);
     const firstName = req.sessionModel.get("firstName");
     const middleNames = req.sessionModel.get("middleNames");
     const forenames =
@@ -57,18 +56,20 @@ class ValidateController extends BaseController {
         { headers: { passport_session_id: req.session.passportSessionId } }
       );
 
-      const code = apiResponse?.data?.code?.value;
+      const redirect_url = apiResponse?.data?.client?.redirectUrl;
+      const code = checkPassportResponse?.data?.code?.value;
 
       super.saveValues(req, res, () => {
-        if (!code) {
+        if (!redirect_url) {
           const error = {
             error: "server_error",
-            error_description: "Failed to retrieve authorization code",
+            error_description: "Failed to retrieve authorization redirect url",
           };
           req.sessionModel.set("error", error);
           callback();
         } else {
           req.sessionModel.set("authorization_code", code);
+          req.sessionModel.set("redirect_url", redirect_url);
           callback();
         }
       });
@@ -92,10 +93,8 @@ class ValidateController extends BaseController {
 
   next(req) {
     if (req.sessionModel.get("showRetryMessage")) {
-      logger.info("Next is retry");
       return "details";
     } else {
-      logger.info("Next is callback");
       return "/oauth2/callback";
     }
   }

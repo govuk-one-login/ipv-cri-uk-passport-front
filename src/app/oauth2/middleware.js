@@ -43,28 +43,8 @@ module.exports = {
   },
 
   redirectToCallback: async (req, res) => {
-    const authCode =
-      req.session["hmpo-wizard-cri-passport-front"].authorization_code;
-    const { authParams } = req.session.JWTData;
-    const redirectUrl = new URL(decodeURIComponent(authParams.redirect_uri));
-    if (authCode) {
-      redirectUrl.searchParams.append("code", authCode);
-      if (authParams.state) {
-        redirectUrl.searchParams.append("state", authParams.state);
-      }
-
-      res.redirect(redirectUrl.href);
-    } else {
-      logger.error("auth code not received in callback", { req, res });
-      const error = req.session["hmpo-wizard-cri-passport-front"].error;
-      const errorCode = error?.error ?? "unknown";
-      const errorDescription = error?.error_description ?? error?.message;
-      redirectUrl.searchParams.append("error", errorCode);
-      redirectUrl.searchParams.append("error_description", errorDescription);
-      if (authParams.state) {
-        redirectUrl.searchParams.append("state", authParams.state);
-      }
-      res.redirect(redirectUrl.href);
-    }
+    const redirectUrl =
+      req.session["hmpo-wizard-cri-passport-front"].redirect_url;
+    res.redirect(redirectUrl);
   },
 };

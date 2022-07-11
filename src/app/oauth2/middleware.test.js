@@ -267,74 +267,16 @@ describe("oauth middleware", () => {
       };
     });
 
-    it("should successfully redirect when code is valid", async function () {
+    it("should successfully redirect with redirect_url stored in session", async function () {
       req.session["hmpo-wizard-cri-passport-front"] = {
-        authorization_code: "1234",
+        redirect_url:
+          "https://client.example.com/cb?id=PassportIssuer&code=1234",
       };
 
       await middleware.redirectToCallback(req, res);
 
       expect(res.redirect).to.have.been.calledWith(
         `https://client.example.com/cb?id=PassportIssuer&code=1234`
-      );
-    });
-
-    it("should include state in redirect param if in session", async function () {
-      req.session["hmpo-wizard-cri-passport-front"] = {
-        authorization_code: "1234",
-      };
-      req.session.JWTData.authParams.state = "state-to-return";
-
-      await middleware.redirectToCallback(req, res);
-
-      expect(res.redirect).to.have.been.calledWith(
-        `https://client.example.com/cb?id=PassportIssuer&code=1234&state=state-to-return`
-      );
-    });
-
-    it("should successfully redirect when error is provided with error field", async function () {
-      req.session["hmpo-wizard-cri-passport-front"] = {
-        error: {
-          error: "server_error",
-          error_description: "User is not allowed",
-        },
-      };
-
-      await middleware.redirectToCallback(req, res);
-
-      expect(res.redirect).to.have.been.calledWith(
-        `https://client.example.com/cb?id=PassportIssuer&error=server_error&error_description=User+is+not+allowed`
-      );
-    });
-
-    it("should successfully redirect when error is provided with error_description field", async function () {
-      req.session["hmpo-wizard-cri-passport-front"] = {
-        error: {
-          error: "server_error",
-          error_description: "User is not allowed",
-        },
-      };
-
-      await middleware.redirectToCallback(req, res);
-
-      expect(res.redirect).to.have.been.calledWith(
-        `https://client.example.com/cb?id=PassportIssuer&error=server_error&error_description=User+is+not+allowed`
-      );
-    });
-
-    it("should successfully redirect when error is provided, including setting state if it is present", async function () {
-      req.session.JWTData.authParams.state = "xyz";
-      req.session["hmpo-wizard-cri-passport-front"] = {
-        error: {
-          error: "server_error",
-          error_description: "User is not allowed",
-        },
-      };
-
-      await middleware.redirectToCallback(req, res);
-
-      expect(res.redirect).to.have.been.calledWith(
-        `https://client.example.com/cb?id=PassportIssuer&error=server_error&error_description=User+is+not+allowed&state=xyz`
       );
     });
   });
