@@ -45,6 +45,7 @@ class ValidateController extends BaseController {
       );
 
       if (checkPassportResponse.data?.result === "retry") {
+        logger.info("passport retry", { req, res });
         req.sessionModel.set("showRetryMessage", true);
         return callback();
       }
