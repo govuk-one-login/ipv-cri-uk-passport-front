@@ -25,13 +25,14 @@ govuk:
         paragraph2: " at any time."
       buttonAcceptText: Accept analytics cookies
       buttonRejectText: Reject analytics cookies
+      linkViewCookies: View cookies
       cookieBannerHideLink: Hide this message
   footerNavItems:
     meta:
       items:
         - href: "https://signin.account.gov.uk/accessibility-statement"
           text: "Accessibility statement"
-        - href: "https://www.gov.uk/help/cookies"
+        - href: "https://signin.account.gov.uk/cookies"
           text: "Cookies"
         - href: "https://signin.account.gov.uk/terms-and-conditions"
           text: "Terms and conditions"
@@ -43,5 +44,15 @@ passport:
   title: Enter your details exactly as they appear on your UK passport
   serviceNameRequired: true
   passportInformationContext: Your passport includes a lot of information that we can check to make sure that you are who you say you are.
-  checkDetailsContext: We'll check your details with the HM Passport Office to make sure your passport has not been cancelled or reported as lost  or stolen.
+  checkDetailsContext: We’ll check your details with the HM Passport Office to make sure your passport has not been cancelled or reported as lost  or stolen.
   passportGivenNames: Given names
+  retryTitle: Check your details match what’s on your UK passport
+  retryWarningLabel: Warning
+  retryWarningText: You will not be able to change your details again if you make a mistake this time
+  retryMessageHeading: We could not find your details
+  retryMessageParagraph1: There was a problem when we checked your details with HM Passport Office.
+  retryMessageParagraph2: "Check your details again. Remember to make sure:"
+  retryMessageList1: your passport is a UK passport
+  retryMessageList2: you’ve entered your first and middle names (‘given names’) in the right sections
+  retryMessageList3: you’ve left the middle names section blank if you do not have any middle names
+  retryMessageList4: days and months are in the right order in your date of birth and passport expiry date
