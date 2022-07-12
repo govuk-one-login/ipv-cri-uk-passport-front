@@ -38,7 +38,6 @@ describe("validate controller", () => {
     req.sessionModel.set("expiryDate", "15/01/2035");
 
     const data = {
-      result: "finish",
       client: {
         redirectUrl:
           "https://client.example.com/cb?id=PassportIssuer&code=1234",
@@ -52,7 +51,7 @@ describe("validate controller", () => {
 
     sandbox.assert.calledWith(
       axios.post,
-      "undefined/check-passport?scope=openid",
+      sinon.match("/check-passport?scope=openid"),
       {
         passportNumber: "123456789",
         surname: "Jones Smith",
@@ -63,6 +62,16 @@ describe("validate controller", () => {
       {
         headers: {
           user_id: "a-users-id",
+          passport_session_id: passportSessionId,
+        },
+      }
+    );
+    sandbox.assert.calledWith(
+      axios.post,
+      sinon.match("/build-client-oauth-response"),
+      undefined,
+      {
+        headers: {
           passport_session_id: passportSessionId,
         },
       }
