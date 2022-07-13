@@ -26,7 +26,7 @@ describe("validate controller", () => {
     expect(validate).to.be.an.instanceof(BaseController);
   });
 
-  it("should retrieve auth code from cri-passport-back and store in session", async () => {
+  it("should retrieve redirect url from cri-passport-back and store in session", async () => {
     const passportSessionId = "passport123";
 
     req.sessionModel.set("passportNumber", "123456789");
@@ -38,8 +38,9 @@ describe("validate controller", () => {
     req.sessionModel.set("expiryDate", "15/01/2035");
 
     const data = {
-      code: {
-        value: "test-auth-code-12345",
+      client: {
+        redirectUrl:
+          "https://client.example.com/cb?id=PassportIssuer&code=1234",
       },
     };
 
@@ -50,7 +51,7 @@ describe("validate controller", () => {
 
     sandbox.assert.calledWith(
       axios.post,
-      "undefined/authorization?scope=openid",
+      sinon.match("/check-passport?scope=openid"),
       {
         passportNumber: "123456789",
         surname: "Jones Smith",
@@ -65,10 +66,22 @@ describe("validate controller", () => {
         },
       }
     );
-    expect(req.session.test.authorization_code).to.eq(data.code.value);
+    sandbox.assert.calledWith(
+      axios.post,
+      sinon.match("/build-client-oauth-response"),
+      undefined,
+      {
+        headers: {
+          passport_session_id: passportSessionId,
+        },
+      }
+    );
+    expect(req.session.test.redirect_url).to.eq(
+      "https://client.example.com/cb?id=PassportIssuer&code=1234"
+    );
   });
 
-  it("should set an error object in the session if auth code is missing", async () => {
+  it("should set an error object in the session if redirect url is missing", async () => {
     req.sessionModel.set("passportNumber", "123456789");
     req.sessionModel.set("surname", "Jones Smith");
     req.sessionModel.set("firstName", "Dan");
@@ -89,7 +102,7 @@ describe("validate controller", () => {
     const sessionError = req.sessionModel.get("error");
     expect(sessionError.error).to.eq("server_error");
     expect(sessionError.error_description).to.eq(
-      "Failed to retrieve authorization code"
+      "Failed to retrieve authorization redirect url"
     );
   });
 
@@ -120,5 +133,26 @@ describe("validate controller", () => {
     expect(sessionError.error_description).to.eq(
       testError.response.data.error_description
     );
+  });
+
+  it("should set showRetryMessage to true to show retry message", async () => {
+    req.sessionModel.set("passportNumber", "123456789");
+    req.sessionModel.set("surname", "Jones Smith");
+    req.sessionModel.set("firstName", "Dan");
+    req.sessionModel.set("middleNames", "Joe");
+    req.sessionModel.set("dateOfBirth", "10/02/1975");
+    req.sessionModel.set("expiryDate", "15/01/2035");
+
+    const data = {
+      result: "retry",
+    };
+
+    const resolvedPromise = new Promise((resolve) => resolve({ data }));
+    sandbox.stub(axios, "post").returns(resolvedPromise);
+
+    await validate.saveValues(req, res, next);
+
+    const showRetryMessage = req.sessionModel.get("showRetryMessage");
+    expect(showRetryMessage).to.equal(true);
   });
 });

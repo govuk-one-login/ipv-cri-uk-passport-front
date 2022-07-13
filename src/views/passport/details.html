@@ -1,18 +1,60 @@
 {% extends "shared/ipv-template.html" %}
 {# the content for this page is controlled by locales/en/default.yml #}
 {% set hmpoPageKey = "passport" %}
+
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+
 {% from "hmpo-text/macro.njk" import hmpoText %}
 {% from "hmpo-form/macro.njk" import hmpoForm %}
 {% from "hmpo-date/macro.njk" import hmpoDate %}
 
 
 {% block mainContent %}
+    {% if values.showRetryMessage and not (ctx("errors") | length) %}
+    {# user is retrying #}
+    <h1 class="govuk-heading-l">
+        {{ translate("passport.retryTitle") }}
+    </h1>
+    {% else %}
+    {# user's first attempt #}
     <h1 class="govuk-heading-l">
         {{ translate("passport.title") }}
     </h1>
+ {% endif %}
+
+{% if values.showRetryMessage and not (ctx("errors") | length) %}
+{# user is retrying, show more information about how to complete the form #}
+{% set retryHtml %}
+<h2>{{ translate("passport.retryMessageHeading") }}</h2>
+<p>
+    {{ translate("passport.retryMessageParagraph1") }}
+</p>
+<p>
+    {{ translate("passport.retryMessageParagraph2") }}
+</p>
+<ul class="govuk-list govuk-list--bullet">
+    <li>{{ translate("passport.retryMessageList1") }}</li>
+    <li>{{ translate("passport.retryMessageList2") }}</li>
+    <li>{{ translate("passport.retryMessageList3") }}</li>
+    <li>{{ translate("passport.retryMessageList4") }}</li>
+</ul>
+{% endset %}
+
+{{ govukNotificationBanner({
+html: retryHtml,
+titleText:'Error',
+role: 'alert',
+classes:'passport-message'
+}) }}
+
+{% else %}
+{# user's first attempt #}
     <p> {{ translate("passport.passportInformationContext") }} </p>
     <p> {{ translate("passport.checkDetailsContext") }}  </p>
+{% endif %}
+
 
     {% call hmpoForm(ctx, {attributes: {onsubmit: 'window.disableFormSubmit()'} }) %}
 
@@ -80,6 +122,14 @@
             classes: "govuk-label"
         }
     }) }}
+
+    {% if values.showRetryMessage and not (ctx("errors") | length) %}
+        {# user is retrying, show warning message they have run out of attempts #}
+                {{ govukWarningText({
+                text: translate("passport.retryWarningText"),
+                iconFallbackText: translate("passport.retryWarningTitle")
+                }) }}
+    {% endif %}
 
     {{ hmpoSubmit(ctx, {id: 'submitButton'}) }}
 
