@@ -51,7 +51,7 @@ describe("validate controller", () => {
 
     sandbox.assert.calledWith(
       axios.post,
-      sinon.match("/check-passport?scope=openid"),
+      sinon.match("/check-passport"),
       {
         passportNumber: "123456789",
         surname: "Jones Smith",
@@ -61,7 +61,6 @@ describe("validate controller", () => {
       },
       {
         headers: {
-          user_id: "a-users-id",
           passport_session_id: passportSessionId,
         },
       }

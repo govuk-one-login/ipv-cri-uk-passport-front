@@ -25,21 +25,13 @@ class ValidateController extends BaseController {
     };
 
     try {
-      const oauthParams = {
-        ...req.session.JWTData.authParams,
-        scope: "openid",
-      };
-
-      const queryParams = this.getQueryStringParams(oauthParams);
-
       const headers = {
-        user_id: req.session.JWTData?.user_id,
         passport_session_id: req.session.passportSessionId,
       };
 
       logger.info("calling check-passport lambda", { req, res });
       const checkPassportResponse = await axios.post(
-        `${API_BASE_URL}${API_CHECK_PASSPORT_PATH}${queryParams}`,
+        `${API_BASE_URL}${API_CHECK_PASSPORT_PATH}`,
         attributes,
         { headers: headers }
       );
@@ -54,11 +46,10 @@ class ValidateController extends BaseController {
       const apiResponse = await axios.post(
         `${API_BASE_URL}${API_BUILD_CLIENT_OAUTH_RESPONSE_PATH}`,
         undefined,
-        { headers: { passport_session_id: req.session.passportSessionId } }
+        { headers: headers }
       );
 
       const redirect_url = apiResponse?.data?.client?.redirectUrl;
-      const code = checkPassportResponse?.data?.code?.value;
 
       super.saveValues(req, res, () => {
         if (!redirect_url) {
@@ -69,7 +60,6 @@ class ValidateController extends BaseController {
           req.sessionModel.set("error", error);
           callback();
         } else {
-          req.sessionModel.set("authorization_code", code);
           req.sessionModel.set("redirect_url", redirect_url);
           callback();
         }
@@ -81,15 +71,6 @@ class ValidateController extends BaseController {
         callback();
       });
     }
-  }
-
-  getQueryStringParams(authParams) {
-    return (
-      "?" +
-      Object.keys(authParams)
-        .map((key) => key + "=" + authParams[key])
-        .join("&")
-    );
   }
 
   next(req) {
