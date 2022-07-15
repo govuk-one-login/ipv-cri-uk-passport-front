@@ -24,15 +24,13 @@ describe("root controller", () => {
         client_id: "s6BhdRkqt3",
       },
       session: {
-        JWTData: {
-          shared_claims: {
-            names: [
-              { givenNames: ["Dan John"], familyName: "Watson" },
-              { givenNames: ["Daniel"], familyName: "Watson" },
-              { givenNames: ["Danny, Dan"], familyName: "Watson" },
-            ],
-            dateOfBirths: ["2021-03-01", "1991-03-01"],
-          },
+        shared_claims: {
+          names: [
+            { givenNames: ["Dan John"], familyName: "Watson" },
+            { givenNames: ["Daniel"], familyName: "Watson" },
+            { givenNames: ["Danny, Dan"], familyName: "Watson" },
+          ],
+          dateOfBirths: ["2021-03-01", "1991-03-01"],
         },
       },
       sessionModel: {
@@ -59,22 +57,22 @@ describe("root controller", () => {
 
     expect(req.journeyModel.set.getCall(0).args[0]).to.eq("surname");
     expect(req.journeyModel.set.getCall(0).args[1]).to.eq(
-      req.session.JWTData.shared_claims.names[0].familyName
+      req.session.shared_claims.names[0].familyName
     );
 
     expect(req.journeyModel.set.getCall(1).args[0]).to.eq("givenNames");
     expect(req.journeyModel.set.getCall(1).args[1]).to.eq(
-      req.session.JWTData.shared_claims.names[0].givenNames
+      req.session.shared_claims.names[0].givenNames
     );
 
     expect(req.journeyModel.set.getCall(2).args[0]).to.eq("dateOfBirth");
     expect(req.journeyModel.set.getCall(2).args[1]).to.eq(
-      req.session.JWTData.shared_claims.dateOfBirths[0]
+      req.session.shared_claims.dateOfBirths[0]
     );
   });
 
   it("should not update journeyModel if no shared attributes present", async () => {
-    req.session.JWTData.shared_claims = {
+    req.session.shared_claims = {
       names: [],
       dateOfBirths: [],
     };

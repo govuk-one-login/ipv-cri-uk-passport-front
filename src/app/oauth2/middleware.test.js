@@ -51,22 +51,6 @@ describe("oauth middleware", () => {
 
     afterEach(() => sandbox.restore());
 
-    it("should save authParams to session", async function () {
-      await middleware.decryptJWTAuthorizeRequest(req, res, next);
-
-      sandbox.assert.calledWith(
-        axios.post,
-        "https://example.org/subpath/initialise-session",
-        "someToken",
-        {
-          headers: {
-            client_id: "s6BhdRkqt3",
-          },
-        }
-      );
-      expect(req.session.JWTData.authParams).to.deep.equal(authParams);
-    });
-
     it("should call next", async function () {
       await middleware.decryptJWTAuthorizeRequest(req, res, next);
       expect(next).to.have.been.called;
@@ -111,7 +95,7 @@ describe("oauth middleware", () => {
     it("should save sharedClaims to session", async function () {
       await middleware.decryptJWTAuthorizeRequest(req, res, next);
 
-      expect(req.session.JWTData.shared_claims).to.deep.equal(sharedClaims);
+      expect(req.session.shared_claims).to.deep.equal(sharedClaims);
     });
 
     it("should call next", async function () {
