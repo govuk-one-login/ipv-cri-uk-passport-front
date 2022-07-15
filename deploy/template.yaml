@@ -41,15 +41,6 @@ Conditions:
     - !Equals [!Ref Environment, production]
   IsProduction: !Equals [ !Ref Environment, production ]
 
-  #Temporary to fix stack drift.
-  IsNotStagingOrDevelopment: !Not
-    - !Or 
-      - !Equals [ !Ref Environment, "development-a"]
-      - !Equals [ !Ref Environment, "development-b"]
-      - !Equals [ !Ref Environment, "development-c"]
-      - !Equals [ !Ref Environment, "staging"]
-
-
 Mappings:
   EcsConfiguration:
     "322814139578": # development
@@ -284,9 +275,7 @@ Resources:
 
   ECSAccessLogsGroupSubscriptionFilter:
     Type: AWS::Logs::SubscriptionFilter
-    # Temporary to resolve stack drift
-    #Condition: IsNotDevelopment
-    Condition: IsNotStagingOrDevelopment
+    Condition: IsNotDevelopment
     Properties:
       DestinationArn: "arn:aws:logs:eu-west-2:885513274347:destination:csls_cw_logs_destination_prod"
       FilterPattern: ""
@@ -464,9 +453,7 @@ Resources:
 
   APIGWAccessLogsGroupSubscriptionFilter:
     Type: AWS::Logs::SubscriptionFilter
-    # Temporary to resolve stack drift
-    #Condition: IsNotDevelopment
-    Condition: IsNotStagingOrDevelopment
+    Condition: IsNotDevelopment
     Properties:
       DestinationArn: "arn:aws:logs:eu-west-2:885513274347:destination:csls_cw_logs_destination_prod"
       FilterPattern: ""
