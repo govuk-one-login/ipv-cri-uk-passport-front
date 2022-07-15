@@ -1,8 +1,15 @@
 #!/bin/bash
 
+# Use the first argument to specify the env to deploy to - a, b or c.
 # This script must be run in a shell with sufficient AWS access.
-# This can be achieved by using aws-vault and an amin role for example
-# aws-vault exec passport-dev -- ./deploy_to_dev_env.sh
+# This can be achieved by using aws-vault and a role for example:
+# aws-vault exec passport-dev -- ./deploy_to_dev_env.sh a
+
+if [ $# -ne 1 ]
+  then
+    echo "Exactly one argument must be supplied: the env you wish to deploy to - a, b or c"
+    exit 1
+fi
 
 if ! which jq >/dev/null; then
   echo "Please install jq to use this script"
@@ -13,7 +20,7 @@ if ! docker info > /dev/null 2>&1 ; then
   exit 1
 fi
 
-STACK_NAME="passport-front-development"
+STACK_NAME="passport-front-development-$1"
 DEV_IMAGE_TAG="$(date +%s)"
 
 if ! aws cloudformation describe-stacks \
