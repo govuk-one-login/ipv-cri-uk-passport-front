@@ -85,6 +85,9 @@ var cookies = function(trackingId, analyticsCookieDomain, journeyState) {
         JourneyStatus: journeyState
       })
     }
+    gtag('config', 'GA_MEASUREMENT_ID', {
+      send_page_view: false
+    });
     gtag({
       "gtm.start": new Date().getTime(),
       event: "gtm.js"

@@ -24,7 +24,7 @@ firstName:
 
 middleNames:
   label: Middle names
-  hint: "You do not have to fill this in if you do not have any middle names"
+  hint: "Leave this blank if you do not have any middle names"
   validation:
     maxlength: "Enter your middle names as they appear on your passport"
     regexpassport: "Enter your middle names as they appear on your passport"
