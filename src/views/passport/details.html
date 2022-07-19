@@ -5,6 +5,7 @@
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 
 {% from "hmpo-text/macro.njk" import hmpoText %}
 {% from "hmpo-form/macro.njk" import hmpoForm %}
@@ -54,6 +55,12 @@ classes:'passport-message'
     <p> {{ translate("passport.passportInformationContext") }} </p>
     <p> {{ translate("passport.checkDetailsContext") }}  </p>
 {% endif %}
+
+{{ govukInsetText({
+html: translate("passport.passportTryAnotherWay")
+}) }}
+
+
 
 
     {% call hmpoForm(ctx, {attributes: {onsubmit: 'window.disableFormSubmit()'} }) %}
