@@ -28,10 +28,10 @@ const loggerConfig = {
   consoleJSON: true,
   app: false,
   requestMeta: {
-    passportSessionId: "session.id",
+    passportSessionId: "session.passportSessionId",
   },
   meta: {
-    passportSessionId: "session.id",
+    passportSessionId: "session.passportSessionId",
   },
 };
 
