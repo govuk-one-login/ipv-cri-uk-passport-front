@@ -1,5 +1,7 @@
 const BaseController = require("hmpo-form-wizard").Controller;
 const axios = require("axios");
+const logger = require("hmpo-logger").get();
+
 const {
   API_BUILD_CLIENT_OAUTH_RESPONSE_PATH,
   API_BASE_URL,
@@ -8,6 +10,7 @@ const {
 class ProveAnotherWayController extends BaseController {
   async saveValues(req, res, next) {
     try {
+      logger.info("user submitting prove another way", { req, res });
       const action = req.form.values.proveAnotherWayRadio;
 
       const headers = {
@@ -16,6 +19,10 @@ class ProveAnotherWayController extends BaseController {
 
       switch (action) {
         case "proveAnotherWay": {
+          logger.info(
+            "user selected prove another way : calling build-client-oauth-response lambda",
+            { req, res }
+          );
           const apiResponse = await axios.post(
             `${API_BASE_URL}${API_BUILD_CLIENT_OAUTH_RESPONSE_PATH}`,
             undefined,
@@ -28,6 +35,10 @@ class ProveAnotherWayController extends BaseController {
           return "/oauth2/callback";
         }
         case "retry": {
+          logger.info("user selected retry : redirecting to passport details", {
+            req,
+            res,
+          });
           return next();
         }
       }
