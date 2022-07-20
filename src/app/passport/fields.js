@@ -98,4 +98,9 @@ module.exports = {
       },
     ],
   },
+  proveAnotherWayRadio: {
+    type: "radios",
+    items: ["proveAnotherWay", "retry"],
+    validate: ["required"],
+  },
 };
