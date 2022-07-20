@@ -27,6 +27,9 @@ class ProveAnotherWayController extends BaseController {
           super.saveValues(req, res);
           return "/oauth2/callback";
         }
+        case "retry": {
+          return next();
+        }
       }
     } catch (err) {
       if (err) {
