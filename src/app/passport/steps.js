@@ -27,7 +27,7 @@ module.exports = {
     prereqs: ["/passport/"],
     controller: proveAnotherWay,
     fields: ["proveAnotherWayRadio"],
-    next: "details",
+    next: proveAnotherWay.prototype.next,
   },
   "/validate": {
     controller: validate,

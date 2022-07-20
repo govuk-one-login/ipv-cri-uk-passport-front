@@ -20,7 +20,7 @@ class ProveAnotherWayController extends BaseController {
       switch (action) {
         case "proveAnotherWay": {
           logger.info(
-            "user selected prove another way : calling build-client-oauth-response lambda",
+            "prove-another-way: user selected proveAnotherWay - calling build-client-oauth-response lambda",
             { req, res }
           );
           const apiResponse = await axios.post(
@@ -28,24 +28,42 @@ class ProveAnotherWayController extends BaseController {
             undefined,
             { headers: headers }
           );
-
+          logger.info(
+            "prove another way: redirecting user to callBack " +
+              apiResponse?.data?.client?.redirectUrl,
+            {
+              req,
+              res,
+            }
+          );
           const redirect_url = apiResponse?.data?.client?.redirectUrl;
           req.sessionModel.set("redirect_url", redirect_url);
-          super.saveValues(req, res);
-          return "/oauth2/callback";
+          return next();
         }
         case "retry": {
-          logger.info("user selected retry : redirecting to passport details", {
-            req,
-            res,
-          });
+          logger.info(
+            "prove-another-way: user selected retry : redirecting to passport details",
+            {
+              req,
+              res,
+            }
+          );
           return next();
         }
       }
+      return next(new Error("prove-another-way: Invalid action " + action));
     } catch (err) {
       if (err) {
         return next(err);
       }
+    }
+  }
+
+  next(req) {
+    if (req.sessionModel.get("redirect_url")) {
+      return "/oauth2/callback";
+    } else {
+      return "/passport/details";
     }
   }
 }
