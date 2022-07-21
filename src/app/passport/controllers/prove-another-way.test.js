@@ -63,6 +63,8 @@ describe("prove another way controller", () => {
 
   it("should not store redirect_url in session when users selects retry", async () => {
     req.session.passportSessionId = "passport123";
+    req.sessionModel.set("redirect_url", "url");
+
     req.form = {
       values: {
         proveAnotherWayRadio: "retry",

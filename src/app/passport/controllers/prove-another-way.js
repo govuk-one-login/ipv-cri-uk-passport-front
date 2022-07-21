@@ -11,6 +11,8 @@ class ProveAnotherWayController extends BaseController {
   async saveValues(req, res, next) {
     try {
       logger.info("user submitting prove another way", { req, res });
+      req.sessionModel.set("redirect_url", undefined);
+
       const action = req.form.values.proveAnotherWayRadio;
 
       const headers = {
