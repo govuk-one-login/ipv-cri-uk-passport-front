@@ -57,3 +57,6 @@ passport:
   retryMessageList2: you’ve entered your first and middle names (‘given names’) in the right sections
   retryMessageList3: you’ve left the middle names section blank if you do not have any middle names
   retryMessageList4: days and months are in the right order in your date of birth and passport expiry date
+
+prove-another-way:
+  title: Prove your identity another way
