@@ -74,7 +74,7 @@ var cookies = function(trackingId, analyticsCookieDomain, journeyState) {
         'event': "progEvent",
         'ProgrammeName': 'DI - PYI'
       }
-      ];
+    ];
     //var sessionJourney = getJourneyMapping(journeyState);
     function gtag(obj) {
       dataLayer.push(obj);

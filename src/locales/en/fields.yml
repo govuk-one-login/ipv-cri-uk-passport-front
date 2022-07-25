@@ -24,7 +24,7 @@ firstName:
 
 middleNames:
   label: Middle names
-  hint: "You do not have to fill this in if you do not have any middle names"
+  hint: "Leave this blank if you do not have any middle names"
   validation:
     maxlength: "Enter your middle names as they appear on your passport"
     regexpassport: "Enter your middle names as they appear on your passport"
@@ -52,3 +52,15 @@ expiryDate:
 
 "date-year":
   label: Year
+
+proveAnotherWayRadio:
+  label: What would you like to do?
+  validation:
+    required: You must choose an option to continue
+  items:
+    proveAnotherWay:
+      label: Prove your identity another way
+      value: continue
+    retry:
+      label: Try to enter your passport details and prove your identity with a GOV.UK account
+      value: retry

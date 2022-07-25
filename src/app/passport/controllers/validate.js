@@ -29,7 +29,7 @@ class ValidateController extends BaseController {
         passport_session_id: req.session.passportSessionId,
       };
 
-      logger.info("calling check-passport lambda", { req, res });
+      logger.info("validate: calling check-passport lambda", { req, res });
       const checkPassportResponse = await axios.post(
         `${API_BASE_URL}${API_CHECK_PASSPORT_PATH}`,
         attributes,
@@ -37,12 +37,15 @@ class ValidateController extends BaseController {
       );
 
       if (checkPassportResponse.data?.result === "retry") {
-        logger.info("passport retry", { req, res });
+        logger.info("validate: passport retry", { req, res });
         req.sessionModel.set("showRetryMessage", true);
         return callback();
       }
 
-      logger.info("calling build-client-oauth-response lambda", { req, res });
+      logger.info("validate: calling build-client-oauth-response lambda", {
+        req,
+        res,
+      });
       const apiResponse = await axios.post(
         `${API_BASE_URL}${API_BUILD_CLIENT_OAUTH_RESPONSE_PATH}`,
         undefined,
@@ -50,6 +53,10 @@ class ValidateController extends BaseController {
       );
 
       const redirect_url = apiResponse?.data?.client?.redirectUrl;
+      logger.info("Validate: redirecting user to callBack with url ", {
+        req,
+        res,
+      });
 
       super.saveValues(req, res, () => {
         if (!redirect_url) {

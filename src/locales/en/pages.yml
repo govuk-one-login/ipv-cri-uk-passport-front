@@ -1,0 +1,6 @@
+# title is managed in default.yml
+prove-another-way:
+  title: Prove your identity another way
+  content:
+    - You must have a UK passport to prove your identity with a GOV.UK account. If you do not have one or you cannot remember your details, you can prove your identity another way.
+    - This might take you longer than 10 minutes.
