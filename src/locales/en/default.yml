@@ -45,7 +45,7 @@ passport:
   serviceNameRequired: true
   passportInformationContext: Your passport includes a lot of information that we can check to make sure that you are who you say you are.
   checkDetailsContext: We’ll check your details with the HM Passport Office to make sure your passport has not been cancelled or reported as lost or stolen.
-  passportTryAnotherWay: If you do not have a UK passport or you cannot remember your details, you can <a href="prove-another-way">prove your identity another way</a> instead.
+  passportTryAnotherWay: If you do not have a UK passport or you cannot remember your details, you can <a href="prove-another-way" class="govuk-link">prove your identity another way</a> instead.
   passportGivenNames: Given names
   retryTitle: Check your details match what’s on your UK passport
   retryWarningLabel: Warning
