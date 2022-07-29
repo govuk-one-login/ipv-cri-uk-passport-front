@@ -15,12 +15,12 @@
 {% block mainContent %}
     {% if values.showRetryMessage and not (ctx("errors") | length) %}
     {# user is retrying #}
-    <h1 class="govuk-heading-l">
+    <h1 id="header" data-page="{{hmpoPageKey}}" class="govuk-heading-l">
         {{ translate("passport.retryTitle") }}
     </h1>
     {% else %}
     {# user's first attempt #}
-    <h1 class="govuk-heading-l">
+    <h1 id="header" data-page="{{hmpoPageKey}}" class="govuk-heading-l">
         {{ translate("passport.title") }}
     </h1>
  {% endif %}
