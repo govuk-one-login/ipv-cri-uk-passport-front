@@ -33,7 +33,7 @@
     "chai": "4.3.6",
     "chai-as-promised": "7.1.1",
     "copyfiles": "2.4.1",
-    "eslint": "8.20.0",
+    "eslint": "8.21.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
     "husky": "8.0.1",
@@ -48,7 +48,7 @@
     "uglify-js": "latest"
   },
   "dependencies": {
-    "aws-sdk": "^2.1182.0",
+    "aws-sdk": "^2.1187.0",
     "axios": "0.27.2",
     "cfenv": "1.2.4",
     "connect-dynamodb": "^2.0.4",
