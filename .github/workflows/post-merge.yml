@@ -1,4 +1,4 @@
-name: Docker build, ECR push, template copy to S3 
+name: Docker build, ECR push, template copy to S3
 on:
   push:
     branches:
@@ -57,7 +57,7 @@ jobs:
       - name: Create template.yaml and sha zip file and upload to artifacts S3
         env:
           IMAGE_TAG: ${{ steps.create-tag.outputs.image_tag }}
-          ARTIFACT_BUCKET: ${{ secrets.ARTIFACT_SOURCE_BUCKET_NAME }}
+          ARTIFACT_BUCKET: ${{ secrets.CONCOURSE_ARTIFACT_BUCKET_NAME }}
         run: |
           cd ${GITHUB_WORKSPACE}/deploy || exit 1
           echo "${IMAGE_TAG}" > image_tag.txt
