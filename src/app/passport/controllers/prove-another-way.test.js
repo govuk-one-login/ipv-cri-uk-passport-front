@@ -61,6 +61,26 @@ describe("prove another way controller", () => {
     );
   });
 
+  it("should throw an error if action is invalid", async () => {
+    const passportSessionId = "passport123";
+    req.session.passportSessionId = passportSessionId;
+    req.form = {
+      values: {
+        proveAnotherWayRadio: "fake action",
+      },
+    };
+
+    await proveAnotherWayController.saveValues(req, res, next);
+
+    expect(next).to.have.been.calledWith(
+      sinon.match.has(
+        "message",
+        "prove-another-way: Invalid action " +
+          req.form.values.proveAnotherWayRadio
+      )
+    );
+  });
+
   it("should not store redirect_url in session when users selects retry", async () => {
     req.session.passportSessionId = "passport123";
     req.sessionModel.set("redirect_url", "url");

@@ -153,5 +153,46 @@ describe("validate controller", () => {
 
     const showRetryMessage = req.sessionModel.get("showRetryMessage");
     expect(showRetryMessage).to.equal(true);
+    expect(next).to.have.been.calledOnce;
+  });
+
+  it("should go to details on retry", async () => {
+    req.sessionModel.set("passportNumber", "123456789");
+    req.sessionModel.set("surname", "Jones Smith");
+    req.sessionModel.set("firstName", "Dan");
+    req.sessionModel.set("middleNames", "Joe");
+    req.sessionModel.set("dateOfBirth", "10/02/1975");
+    req.sessionModel.set("expiryDate", "15/01/2035");
+
+    const data = {
+      result: "retry",
+    };
+
+    const resolvedPromise = new Promise((resolve) => resolve({ data }));
+    sandbox.stub(axios, "post").returns(resolvedPromise);
+    await validate.saveValues(req, res, next);
+
+    const result = validate.next(req);
+    expect(result).to.eq("details");
+  });
+
+  it("should call callback if retry not set", async () => {
+    req.sessionModel.set("passportNumber", "123456789");
+    req.sessionModel.set("surname", "Jones Smith");
+    req.sessionModel.set("firstName", "Dan");
+    req.sessionModel.set("middleNames", "Joe");
+    req.sessionModel.set("dateOfBirth", "10/02/1975");
+    req.sessionModel.set("expiryDate", "15/01/2035");
+
+    const data = {
+      result: "",
+    };
+
+    const resolvedPromise = new Promise((resolve) => resolve({ data }));
+    sandbox.stub(axios, "post").returns(resolvedPromise);
+    await validate.saveValues(req, res, next);
+
+    const result = validate.next(req);
+    expect(result).to.eq("/oauth2/callback");
   });
 });
