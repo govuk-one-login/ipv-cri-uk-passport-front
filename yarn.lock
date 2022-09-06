@@ -1975,10 +1975,10 @@ hmpo-app@2.4.0:
     underscore "^1.13.4"
     uuid "^8.3.2"
 
-hmpo-components@5.4.0:
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/hmpo-components/-/hmpo-components-5.4.0.tgz#9741a4d75a3720b4a9228ea737bece1b292077e8"
-  integrity sha512-r90KLgJipUYdDTmRU1vRGoXJg8ldgFQP88lxjDAzpdE3e8zd+KI8jpFpMLZafI9VTwKOQdcMfPiA1bOmG6ptFA==
+hmpo-components@5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/hmpo-components/-/hmpo-components-5.5.0.tgz#5cd4c7c3f7367efdce592f61bf6106dcd26d4123"
+  integrity sha512-MVJkI5pcoz1KOe6n+SUuwFgw1BGh8qfsYhh4oey/auK7QB9VVH1Sk+CVsgjnFohisA5OZwTTf2BcTeXKL/clBQ==
   dependencies:
     deep-clone-merge "^1.5.4"
     moment "^2.29.3"
@@ -3980,9 +3980,9 @@ typedarray-to-buffer@^3.1.5:
     is-typedarray "^1.0.0"
 
 uglify-js@latest:
-  version "3.16.3"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.16.3.tgz#94c7a63337ee31227a18d03b8a3041c210fd1f1d"
-  integrity sha512-uVbFqx9vvLhQg0iBaau9Z75AxWJ8tqM9AV890dIZCLApF4rTcyHwmAvLeEdYRs+BzYWu8Iw81F79ah0EfTXbaw==
+  version "3.17.0"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.17.0.tgz#55bd6e9d19ce5eef0d5ad17cd1f587d85b180a85"
+  integrity sha512-aTeNPVmgIMPpm1cxXr2Q/nEbvkmV8yq66F3om7X3P/cvOXQ0TMQ64Wk63iyT1gPlmdmGzjGpyLh1f3y8MZWXGg==
 
 uid-safe@2.1.5, uid-safe@~2.1.5:
   version "2.1.5"
