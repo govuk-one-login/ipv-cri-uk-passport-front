@@ -65,16 +65,6 @@ describe("validate controller", () => {
         },
       }
     );
-    sandbox.assert.calledWith(
-      axios.post,
-      sinon.match("/build-client-oauth-response"),
-      undefined,
-      {
-        headers: {
-          passport_session_id: passportSessionId,
-        },
-      }
-    );
     expect(req.session.test.redirect_url).to.eq(
       "https://client.example.com/cb?id=PassportIssuer&code=1234"
     );

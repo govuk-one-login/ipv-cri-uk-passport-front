@@ -4,7 +4,6 @@ const BaseController = require("hmpo-form-wizard").Controller;
 const {
   API_BASE_URL,
   API_CHECK_PASSPORT_PATH,
-  API_BUILD_CLIENT_OAUTH_RESPONSE_PATH,
 } = require("../../../lib/config");
 const logger = require("hmpo-logger").get();
 
@@ -42,17 +41,7 @@ class ValidateController extends BaseController {
         return callback();
       }
 
-      logger.info("validate: calling build-client-oauth-response lambda", {
-        req,
-        res,
-      });
-      const apiResponse = await axios.post(
-        `${API_BASE_URL}${API_BUILD_CLIENT_OAUTH_RESPONSE_PATH}`,
-        undefined,
-        { headers: headers }
-      );
-
-      const redirect_url = apiResponse?.data?.client?.redirectUrl;
+      const redirect_url = checkPassportResponse?.data?.client?.redirectUrl;
       logger.info("Validate: redirecting user to callBack with url ", {
         req,
         res,
