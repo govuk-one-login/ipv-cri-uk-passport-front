@@ -1,4 +1,4 @@
-const fields = require("./fields");
+const fields = require("./fieldsHelper");
 
 describe("custom validation fields test", () => {
   it("should be false when first and middle name combined greater than 30 characters", () => {

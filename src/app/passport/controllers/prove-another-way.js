@@ -55,9 +55,7 @@ class ProveAnotherWayController extends BaseController {
       }
       return next(new Error("prove-another-way: Invalid action " + action));
     } catch (err) {
-      if (err) {
-        return next(err);
-      }
+      return next(err);
     }
   }
 
