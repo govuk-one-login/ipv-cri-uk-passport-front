@@ -1,4 +1,4 @@
-const { firstNameMiddleNameLengthValidator } = require("/feildsHelper");
+const { firstNameMiddleNameLengthValidator } = require("./fieldsHelper");
 
 const firstNameMiddleNameLengthValidatorObj = {
   fn: firstNameMiddleNameLengthValidator,
