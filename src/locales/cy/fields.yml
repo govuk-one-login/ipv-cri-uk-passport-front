@@ -1,23 +1,23 @@
 passportNumber:
   label: "Rhif pasbort"
-  hint: "Dyma'r rhif 9 digid yng nghornel dde uchaf y dudalen llun yn eich pasbort"
+  hint: "Dyma’r rhif 9 digid yng nghornel dde uchaf y dudalen llun yn eich pasbort"
   validation:
-    default: "Rhowch y rhif fel y mae'n ymddangos ar eich pasbort"
+    default: "Rhowch y rhif fel mae’n ymddangos ar eich pasbort"
     exactlength: "Dylai rhif eich pasbort fod yn 9 digid o hyd"
     numeric: "Ni ddylai rhif eich pasbort gynnwys llythrennau na symbolau"
-    limit: "Nid yw rhifau pasbort yn dechrau gyda 9 - rhowch y rhif fel mae'n ymddangos ar eich pasbort"
+    limit: "Nid yw rhifau pasbort yn dechrau gyda 9 - rhowch y rhif fel mae’n ymddangos ar eich pasbort"
 surname:
   label: "Cyfenw"
   validation:
-    default: "Rhowch eich cyfenw fel mae'n ymddangos ar eich pasbort"
-    maxlength: "Rhowch eich cyfenw fel mae'n ymddangos ar eich pasbort"
-    regexpassport: "Rhowch eich cyfenw fel mae'n ymddangos ar eich pasbort"
+    default: "Rhowch eich cyfenw fel mae’n ymddangos ar eich pasbort"
+    maxlength: "Rhowch eich cyfenw fel mae’n ymddangos ar eich pasbort"
+    regexpassport: "Rhowch eich cyfenw fel mae’n ymddangos ar eich pasbort"
 firstName:
   label: "Enw cyntaf"
   validation:
-    default: "Rhowch eich enw cyntaf fel mae'n ymddangos ar eich pasbort"
-    maxlength: "Rhowch eich enw cyntaf fel mae'n ymddangos ar eich pasbort"
-    regexpassport: "Rhowch eich enw cyntaf fel mae'n ymddangos ar eich pasbort"
+    default: "Rhowch eich enw cyntaf fel mae’n ymddangos ar eich pasbort"
+    maxlength: "Rhowch eich enw cyntaf fel mae’n ymddangos ar eich pasbort"
+    regexpassport: "Rhowch eich enw cyntaf fel mae’n ymddangos ar eich pasbort"
     firstNameMiddleNameLength: "Rhowch eich enw cyntaf a chanol fel maent yn ymddangos ar eich pasbort"
 middleNames:
   label: "Enwau canol"
@@ -30,14 +30,14 @@ dateOfBirth:
   legend: "Dyddiad geni"
   hint: "Er enghraifft, 5 9 1973"
   validation:
-    default: "Rhowch eich dyddiad geni fel mae'n ymddangos ar eich pasbort"
-    before: "Rhaid i'ch dyddiad geni fod yn y gorffennol"
+    default: "Rhowch eich dyddiad geni fel mae’n ymddangos ar eich pasbort"
+    before: "Rhaid i’ch dyddiad geni fod yn y gorffennol"
 expiryDate:
   legend: "Dyddiad dod i ben"
   hint: "Er enghraifft, 27 5 2029"
   validation:
-    default: "Rhowch y dyddiad dod i ben fel mae'n ymddangos ar eich pasbort"
-    after: "Mae'n rhaid i'ch pasbort fod heb wedi dod i ben dros 18 mis yn ôl"
+    default: "Rhowch y dyddiad dod i ben fel mae’n ymddangos ar eich pasbort"
+    after: "Mae’n rhaid i’ch pasbort fod heb wedi dod i ben dros 18 mis yn ôl"
 date-day:
   label: "Diwrnod"
 date-month:
@@ -47,7 +47,7 @@ date-year:
 proveAnotherWayRadio:
   label: "Beth hoffech chi ei wneud?"
   validation:
-    required: "Mae'n rhaid i chi ddewis opsiwn i barhau"
+    required: "Mae’n rhaid i chi ddewis opsiwn i barhau"
   items:
     proveAnotherWay:
       label: "Profi pwy ydych chi mewn ffordd arall"

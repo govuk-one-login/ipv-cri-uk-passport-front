@@ -8,17 +8,17 @@ govuk:
   errorSummaryTitle: "Mae problem"
   error: "Gwall"
   warning: "Rhybudd"
-  skipLink: "Neidio i'r prif gynnwys"
+  skipLink: "Neidio i’r prif gynnwys"
   betaBannerRequired: true
   betaBannerContent:
     betaBannerContentLabel: "beta"
-    betaBannerContentHTML: 'Mae hwn yn wasanaeth newydd – bydd eich <a class="govuk-link" rel="noopener" target="_blank" href="https://signin.account.gov.uk/contact-us">adborth (agor mewn tab newydd)</a>  yn ein helpu i''w wella.'
+    betaBannerContentHTML: 'Mae hwn yn wasanaeth newydd – bydd eich <a class="govuk-link" rel="noopener" target="_blank" href="https://signin.account.gov.uk/contact-us">adborth (agor mewn tab newydd)</a>  yn ein helpu i’w wella.'
   cookie:
     cookieBanner:
       title: "Cwcis ar gyfrif GOV.UK"
       heading: "Cwcis ar gyfrif GOV.UK"
-      paragraph1: "Rydym yn defnyddio rhai cwcis hanfodol i wneud i'r gwasanaeth hwn weithio."
-      paragraph2: "Hoffem osod cwcis ychwanegol er mwyn i ni allu cofio eich gosodiadau, deall sut rydych yn defnyddio'r gwasanaeth a gwneud gwelliannau."
+      paragraph1: "Rydym yn defnyddio rhai cwcis hanfodol i wneud i’r gwasanaeth hwn weithio."
+      paragraph2: "Hoffem osod cwcis ychwanegol er mwyn i ni allu cofio eich gosodiadau, deall sut rydych yn defnyddio’r gwasanaeth a gwneud gwelliannau."
       changeCookiePreferencesLink: "newid eich gosodiadau cwcis"
       cookieBannerAccept:
         paragraph1: "Rydych wedi derbyn cwcis ychwanegol. Gallwch "
@@ -29,7 +29,7 @@ govuk:
       buttonAcceptText: "Derbyn cwcis dadansoddi"
       buttonRejectText: "Gwrthod cwcis dadansoddi"
       linkViewCookies: "Gweld cwcis"
-      cookieBannerHideLink: "Cuddio'r neges yma"
+      cookieBannerHideLink: "Cuddio’r neges yma"
   footerNavItems:
     meta:
       items:
@@ -47,18 +47,18 @@ passport:
   title: "Rhowch eich manylion yn union fel maent yn ymddangos ar eich pasbort y DU"
   serviceNameRequired: true
   passportInformationContext: "Mae eich pasbort yn cynnwys llawer o wybodaeth y gallwn ei wirio i sicrhau mai chi yw pwy rydych yn ei ddweud ydych chi."
-  checkDetailsContext: "Byddwn yn gwirio'ch manylion gyda Swyddfa Basbort EM i wneud yn siwr nad yw eich pasbort wedi'i ganslo na'i hysbysu fel wedi'i golli neu ei ddwyn."
-  passportTryAnotherWay: 'Os nad oes gennych basbort y DU neu os na allwch gofio''ch manylion, gallwch <a href="prove-another-way" class="govuk-link">brofi pwy ydych chi mewn ffordd arall</a> yn lle hynny.'
+  checkDetailsContext: "Byddwn yn gwirio’ch manylion gyda Swyddfa Basbort EM i wneud yn siwr nad yw eich pasbort wedi’i ganslo na’i hysbysu fel wedi’i golli neu ei ddwyn."
+  passportTryAnotherWay: 'Os nad oes gennych basbort y DU neu os na allwch gofio’ch manylion, gallwch <a href="prove-another-way" class="govuk-link">brofi pwy ydych chi mewn ffordd arall</a> yn lle hynny.'
   passportGivenNames: "Enwau a roddwyd"
-  retryTitle: "Gwiriwch bod eich manylion yn cyfateb i'r hyn sydd ar eich pasbort y DU"
+  retryTitle: "Gwiriwch bod eich manylion yn cyfateb i’r hyn sydd ar eich pasbort y DU"
   retryWarningLabel: "Rhybudd"
   retryWarningText: "Ni fyddwch yn gallu newid eich manylion eto os gwnewch gamgymeriad y tro hwn"
-  retryMessageHeading: "Nid oeddem yn gallu ddod o hyd i'ch manylion"
-  retryMessageParagraph1: "Roedd problem pan wnaethom wirio'ch manylion gyda Swyddfa Pasbort EM."
+  retryMessageHeading: "Nid oeddem yn gallu ddod o hyd i’ch manylion"
+  retryMessageParagraph1: "Roedd problem pan wnaethom wirio’ch manylion gyda Swyddfa Pasbort EM."
   retryMessageParagraph2: "Edrychwch dros eich manylion eto. Cofiwch wneud yn siwr:"
   retryMessageList1: "bod eich pasbort yn basbort y DU"
-  retryMessageList2: "rydych wedi rhoi eich enwau cyntaf a chanol ('enwau a roddwydl') yn yr adrannau cywir"
+  retryMessageList2: "rydych wedi rhoi eich enwau cyntaf a chanol (‘enwau a roddwydl’) yn yr adrannau cywir"
   retryMessageList3: "rydych wedi gadael yr adran enwau canol yn wag os nad oes gennych unrhyw enwau canol"
-  retryMessageList4: "mae'r dyddiau a misoedd yn y drefn gywir yn eich dyddiad geni a phasbort yn dod i ben"
+  retryMessageList4: "mae’r dyddiau a misoedd yn y drefn gywir yn eich dyddiad geni a phasbort yn dod i ben"
 prove-another-way:
   title: "Profi pwy ydych chi mewn ffordd arall"
