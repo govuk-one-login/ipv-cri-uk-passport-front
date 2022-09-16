@@ -63,7 +63,7 @@ Mappings:
   IPVCriUkPassportPrivateAPIGatewayID:
     Environment:
       build: "9b1h2962v5"
-      staging: "z374sfs5qj"
+      staging: "o95m3ve02i"
       integration: "ixqeba4ihd"
       production: "qfq20153ag"
 
