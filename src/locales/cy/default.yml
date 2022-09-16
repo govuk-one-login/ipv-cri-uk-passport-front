@@ -12,7 +12,7 @@ govuk:
   betaBannerRequired: true
   betaBannerContent:
     betaBannerContentLabel: "beta"
-    betaBannerContentHTML: 'Mae hwn yn wasanaeth newydd – bydd eich <a class="govuk-link" rel="noopener" target="_blank" href="https://signin.account.gov.uk/contact-us">adborth (agor mewn tab newydd)</a>  yn ein helpu i’w wella.'
+    betaBannerContentHTML: 'Mae hwn yn wasanaeth newydd – bydd eich <a class="govuk-link" rel="noopener" target="_blank" href="https://signin.account.gov.uk/contact-us">adborth (agor mewn tab newydd)</a> yn ein helpu i’w wella.'
   cookie:
     cookieBanner:
       title: "Cwcis ar gyfrif GOV.UK"
@@ -43,6 +43,11 @@ govuk:
           text: "Hysbysiad preifatrwydd"
         - href: "https://signin.account.gov.uk/contact-us"
           text: "Cymorth"
+    contentLicence:
+      text: "Mae’r holl gynnwys ar gael o dan Trwydded Llywodraeth Agored v3.0, oni nodir yn wahanol"
+    copyright:
+      text: "© Hawlfraint y goron"
+
 passport:
   title: "Rhowch eich manylion yn union fel maent yn ymddangos ar eich pasbort y DU"
   serviceNameRequired: true
