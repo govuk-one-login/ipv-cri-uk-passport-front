@@ -62,9 +62,9 @@ Mappings:
       s3: "pl-7ca54015"
   IPVCriUkPassportPrivateAPIGatewayID:
     Environment:
-      build: "9b1h2962v5"
+      build: "ctddhpklrg"
       staging: "cv2x6jkq8j"
-      integration: "ixqeba4ihd"
+      integration: "z0bs9the7l"
       production: "qfq20153ag"
 
 Resources:
