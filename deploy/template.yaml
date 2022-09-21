@@ -20,18 +20,16 @@ Parameters:
   ImageTag:
     Description: The tag of passport-front image to deploy in the task definition.
     Type: String
-  SubnetIds:
-    Description: >-
-      A comma separated list of subnet ids to create the ECS service and Load Balancer
-      within. Each subnet must have a route to a public NAT gateway since
-      the ECS Service are provisioned without a public IP address.
-      Example "sg-123, sg-567, sg-8910"
-    Type: List<String>
-  VpcId:
-    Description: >-
-      The VPC id in which to create the components.
-      Example "vpc-123"
+    Default: "none"
+  VpcStackName:
+    Description: >
+      The name of the stack that defines the VPC in which this container will
+      run.
     Type: String
+  PermissionsBoundary:
+    Description: "The ARN of the permissions boundary to apply when creating IAM roles"
+    Type: String
+    Default: "none"
 
 Conditions:
   IsNotDevelopment: !Or
@@ -40,6 +38,11 @@ Conditions:
     - !Equals [!Ref Environment, integration]
     - !Equals [!Ref Environment, production]
   IsProduction: !Equals [ !Ref Environment, production ]
+  UsePermissionsBoundary:
+    Fn::Not:
+      - Fn::Equals:
+          - !Ref PermissionsBoundary
+          - "none"
 
 Mappings:
   EcsConfiguration:
@@ -57,6 +60,12 @@ Mappings:
     PrefixListIds:
       dynamodb: "pl-b3a742da"
       s3: "pl-7ca54015"
+  IPVCriUkPassportPrivateAPIGatewayID:
+    Environment:
+      build: "ctddhpklrg"
+      staging: "cv2x6jkq8j"
+      integration: "z0bs9the7l"
+      production: "qfq20153ag"
 
 Resources:
   # Security Groups for the ECS service and load balancer
@@ -72,7 +81,8 @@ Resources:
           FromPort: 80
           IpProtocol: tcp
           ToPort: 80
-      VpcId: !Ref VpcId
+      VpcId:
+        Fn::ImportValue: !Sub ${VpcStackName}-VpcId
 
   LoadBalancerSGEgressToECSSecurityGroup:
     Type: "AWS::EC2::SecurityGroupEgress"
@@ -107,7 +117,8 @@ Resources:
           IpProtocol: tcp
           FromPort: 443
           ToPort: 443
-      VpcId: !Ref VpcId
+      VpcId:
+        Fn::ImportValue: !Sub ${VpcStackName}-VpcId
 
   ECSSecurityGroupIngressFromLoadBalancer:
     Type: "AWS::EC2::SecurityGroupIngress"
@@ -184,7 +195,10 @@ Resources:
       Scheme: internal
       SecurityGroups:
         - !GetAtt LoadBalancerSG.GroupId
-      Subnets: !Ref SubnetIds
+      Subnets:
+        - Fn::ImportValue: !Sub ${VpcStackName}-PrivateSubnetIdA
+        - Fn::ImportValue: !Sub ${VpcStackName}-PrivateSubnetIdB
+        - Fn::ImportValue: !Sub ${VpcStackName}-PrivateSubnetIdC
       Type: application
       LoadBalancerAttributes:
         - Key: routing.http.drop_invalid_header_fields.enabled
@@ -223,7 +237,8 @@ Resources:
       Port: 80
       Protocol: HTTP
       TargetType: ip
-      VpcId: !Ref VpcId
+      VpcId:
+        Fn::ImportValue: !Sub ${VpcStackName}-VpcId
       TargetGroupAttributes:
         - Key: deregistration_delay.timeout_seconds
           Value: 60
@@ -276,7 +291,10 @@ Resources:
           AssignPublicIp: DISABLED
           SecurityGroups:
             - !GetAtt ECSSecurityGroup.GroupId
-          Subnets: !Ref SubnetIds
+          Subnets:
+            - Fn::ImportValue: !Sub ${VpcStackName}-PrivateSubnetIdA
+            - Fn::ImportValue: !Sub ${VpcStackName}-PrivateSubnetIdB
+            - Fn::ImportValue: !Sub ${VpcStackName}-PrivateSubnetIdC
       TaskDefinition: !Ref ECSServiceTaskDefinition
     DependsOn:
       - LoadBalancerListener
@@ -304,7 +322,7 @@ Resources:
           Image:
             !If [
               IsNotDevelopment,
-              !Sub "057202043894.dkr.ecr.${AWS::Region}.amazonaws.com/passport-front-build:${ImageTag}",
+              CONTAINER-IMAGE-PLACEHOLDER,
               !Sub "${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/passport-front-development:${ImageTag}",
             ]
           Name: app
@@ -312,8 +330,7 @@ Resources:
             - Name: API_BASE_URL
               Value: !Sub
                 - "https://${APIGatewayId}.execute-api.eu-west-2.amazonaws.com/${Environment}"
-                - APIGatewayId:
-                    Fn::ImportValue: !Sub IPVCriUkPassportPrivateAPIGatewayID-${Environment}
+                - APIGatewayId: !FindInMap [IPVCriUkPassportPrivateAPIGatewayID, Environment, !Ref Environment]
             - Name: SESSION_TABLE_NAME
               Value: !Sub
                 - "cri-passport-front-sessions-${Environment}"
@@ -370,6 +387,10 @@ Resources:
                 Resource:
                   - !GetAtt "ECSAccessLogsGroup.Arn"
                   - !Sub "${ECSAccessLogsGroup.Arn}:*"
+      PermissionsBoundary: !If
+        - UsePermissionsBoundary
+        - !Ref PermissionsBoundary
+        - !Ref AWS::NoValue
 
   ECSTaskRole:
     Type: "AWS::IAM::Role"
@@ -399,6 +420,10 @@ Resources:
                   - "dynamodb:PutItem"
                 Resource:
                   - !GetAtt PassportFrontSessionsTable.Arn
+      PermissionsBoundary: !If
+        - UsePermissionsBoundary
+        - !Ref PermissionsBoundary
+        - !Ref AWS::NoValue
 
   # Create the VPC Link to join the API Gateway to the
   # private Load Balancer in front of Passport Front ECS
@@ -407,7 +432,10 @@ Resources:
     Type: "AWS::ApiGatewayV2::VpcLink"
     Properties:
       Name: ApiGwVpcLinkToLoadBalancer
-      SubnetIds: !Ref SubnetIds
+      SubnetIds:
+        - Fn::ImportValue: !Sub ${VpcStackName}-PrivateSubnetIdA
+        - Fn::ImportValue: !Sub ${VpcStackName}-PrivateSubnetIdB
+        - Fn::ImportValue: !Sub ${VpcStackName}-PrivateSubnetIdC
       SecurityGroupIds: []
 
   ApiGwHttpEndpoint:
