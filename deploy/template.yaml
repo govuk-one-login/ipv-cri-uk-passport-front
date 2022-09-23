@@ -293,6 +293,38 @@ Resources:
     DependsOn:
       - LoadBalancerListener
 
+  PassportFrontAutoScalingTarget:
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+    Properties:
+      MaxCapacity: 5
+      MinCapacity: 1
+      ResourceId: !Join
+        - '/'
+        - - "service"
+          - !Ref PassportFrontEcsCluster
+          - !GetAtt PassportFrontEcsService.Name
+      RoleARN: !Sub "arn:aws:iam::${AWS::AccountId}:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
+      ScalableDimension: ecs:service:DesiredCount
+      ServiceNamespace: ecs
+
+  PassportFrontAutoScalingPolicy:
+    DependsOn: PassportFrontAutoScalingTarget
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    Properties:
+      PolicyName: PassportFrontAutoScalingPolicy
+      PolicyType: TargetTrackingScaling
+      ResourceId: !Join
+        - '/'
+        - - "service"
+          - !Ref PassportFrontEcsCluster
+          - !GetAtt PassportFrontEcsService.Name
+      ScalableDimension: ecs:service:DesiredCount
+      ServiceNamespace: ecs
+      TargetTrackingScalingPolicyConfiguration:
+        PredefinedMetricSpecification:
+          PredefinedMetricType: ECSServiceAverageCPUUtilization
+        TargetValue: 0.7
+
   ECSAccessLogsGroup:
     Type: AWS::Logs::LogGroup
     Properties:
