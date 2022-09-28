@@ -357,7 +357,7 @@ Resources:
               Value: !Sub
                 - "https://${APIGatewayId}.execute-api.eu-west-2.amazonaws.com/${Environment}"
                 - APIGatewayId:
-                  Fn::ImportValue: !Sub IPVCriUkPassportPrivateAPIGatewayID-${Environment}
+                    Fn::ImportValue: !Sub IPVCriUkPassportPrivateAPIGatewayID-${Environment}
             - Name: SESSION_TABLE_NAME
               Value: !Sub
                 - "cri-passport-front-sessions-${Environment}"
