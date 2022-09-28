@@ -60,12 +60,6 @@ Mappings:
     PrefixListIds:
       dynamodb: "pl-b3a742da"
       s3: "pl-7ca54015"
-  IPVCriUkPassportPrivateAPIGatewayID:
-    Environment:
-      build: "ctddhpklrg"
-      staging: "cv2x6jkq8j"
-      integration: "z0bs9the7l"
-      production: "k334qwfoil"
 
 Resources:
   # Security Groups for the ECS service and load balancer
@@ -362,7 +356,8 @@ Resources:
             - Name: API_BASE_URL
               Value: !Sub
                 - "https://${APIGatewayId}.execute-api.eu-west-2.amazonaws.com/${Environment}"
-                - APIGatewayId: !FindInMap [IPVCriUkPassportPrivateAPIGatewayID, Environment, !Ref Environment]
+                - APIGatewayId:
+                  Fn::ImportValue: !Sub IPVCriUkPassportPrivateAPIGatewayID-${Environment}
             - Name: SESSION_TABLE_NAME
               Value: !Sub
                 - "cri-passport-front-sessions-${Environment}"
