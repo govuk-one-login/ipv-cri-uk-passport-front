@@ -658,6 +658,7 @@ Resources:
 
   AlarmTopicPassport:
     Type: AWS::SNS::Topic
+    # checkov:skip=CKV_AWS_26: We will update this once basic alerting is available
     Metadata:
       SamResourceId: AlarmTopicPassport
   AlarmTopicSubscriptionPagerDutyPassport:
