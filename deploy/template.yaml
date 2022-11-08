@@ -49,7 +49,7 @@ Mappings:
     "322814139578": # development
       desiredTaskCount: 1
     "057202043894": # build
-      desiredTaskCount: 1
+      desiredTaskCount: 2
     "620946502648": # staging
       desiredTaskCount: 2
     "599918951127": # integration
@@ -589,7 +589,8 @@ Resources:
       ActionsEnabled: true
       AlarmActions:
         - !Ref AlarmTopicPassport
-      OKActions: []
+      OkActions:
+        - !Ref AlarmTopicPassport
       InsufficientDataActions: []
       MetricName: TaskCount
       Namespace: ECS/ContainerInsights
@@ -611,7 +612,8 @@ Resources:
       ActionsEnabled: true
       AlarmActions:
         - !Ref AlarmTopicPassport
-      OKActions: []
+      OkActions:
+        - !Ref AlarmTopicPassport
       InsufficientDataActions: []
       MetricName: TaskCount
       Namespace: ECS/ContainerInsights
@@ -633,7 +635,8 @@ Resources:
       ActionsEnabled: true
       AlarmActions:
         - !Ref AlarmTopicPassport
-      OKActions: []
+      OkActions:
+        - !Ref AlarmTopicPassport
       InsufficientDataActions: []
       MetricName: HTTPCode_Target_5XX_Count
       Namespace: AWS/ApplicationELB
