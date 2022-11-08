@@ -49,7 +49,7 @@ Mappings:
     "322814139578": # development
       desiredTaskCount: 1
     "057202043894": # build
-      desiredTaskCount: 1
+      desiredTaskCount: 2
     "620946502648": # staging
       desiredTaskCount: 2
     "599918951127": # integration
@@ -575,6 +575,125 @@ Resources:
         # checkov:skip=CKV_AWS_119: Implement Customer Managed Keys in PYIC-1391
         SSEEnabled: true
         SSEType: KMS
+
+####################################################################
+#                                                                  #
+# Alerts                                                           #
+#                                                                  #
+####################################################################
+
+  PassportNoTaskCountAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: !Sub Passport ${Environment} frontend no ECS service tasks
+      ActionsEnabled: true
+      AlarmActions:
+        - !Ref AlarmTopicPassport
+      OkActions:
+        - !Ref AlarmTopicPassport
+      InsufficientDataActions: []
+      MetricName: TaskCount
+      Namespace: ECS/ContainerInsights
+      Statistic: Average
+      Dimensions:
+        - Name: ClusterName
+          Value: !Ref PassportFrontEcsCluster
+      Period: 60
+      EvaluationPeriods: 2
+      DatapointsToAlarm: 2
+      Threshold: 1
+      ComparisonOperator: LessThanThreshold
+      TreatMissingData: breaching
+
+  PassportOnlyOneTaskCountAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: !Sub Passport ${Environment} frontend below desired ECS service tasks
+      ActionsEnabled: true
+      AlarmActions:
+        - !Ref AlarmTopicPassport
+      OkActions:
+        - !Ref AlarmTopicPassport
+      InsufficientDataActions: []
+      MetricName: TaskCount
+      Namespace: ECS/ContainerInsights
+      Statistic: Average
+      Dimensions:
+        - Name: ClusterName
+          Value: !Ref PassportFrontEcsCluster
+      Period: 300
+      EvaluationPeriods: 3
+      DatapointsToAlarm: 3
+      Threshold: 2
+      ComparisonOperator: LessThanThreshold
+      TreatMissingData: breaching
+
+  Passport5XXOnELB:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: !Sub Passport ${Environment} frontend 5XX count
+      ActionsEnabled: true
+      AlarmActions:
+        - !Ref AlarmTopicPassport
+      OkActions:
+        - !Ref AlarmTopicPassport
+      InsufficientDataActions: []
+      MetricName: HTTPCode_Target_5XX_Count
+      Namespace: AWS/ApplicationELB
+      Statistic: Sum
+      Dimensions:
+        - Name: TargetGroup
+          Value: !Ref LoadBalancerListenerTargetGroupECS
+        - Name: LoadBalancer
+          Value: !Ref LoadBalancer
+      Period: 60
+      EvaluationPeriods: 5
+      DatapointsToAlarm: 5
+      Threshold: 1
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: notBreaching
+
+  ####################################################################
+  #                                                                  #
+  # Alarm setup                                                      #
+  #                                                                  #
+  ####################################################################
+
+  AlarmTopicPassport:
+    Type: AWS::SNS::Topic
+    # checkov:skip=CKV_AWS_26: We will update this once basic alerting is available
+    Metadata:
+      SamResourceId: AlarmTopicPassport
+  AlarmTopicSubscriptionPagerDutyPassport:
+    Type: AWS::SNS::Subscription
+    Properties:
+      TopicArn:
+        Ref: AlarmTopicPassport
+      Endpoint:
+        Fn::Sub: '{{resolve:ssm:/alerting/pagerduty-passport/url}}'
+      Protocol: https
+    Metadata:
+      SamResourceId: AlarmTopicSubscriptionPagerDutyPassport
+  AlarmPublishToTopicPolicyPassport:
+    Type: AWS::SNS::TopicPolicy
+    Properties:
+      Topics:
+        - Ref: AlarmTopicPassport
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: sns:Publish
+            Resource:
+              Ref: AlarmTopicPassport
+            Principal:
+              Service: cloudwatch.amazonaws.com
+            Condition:
+              ArnLike:
+                AWS:SourceArn:
+                  Fn::Sub: arn:aws:cloudwatch:${AWS::Region}:${AWS::AccountId}:alarm:*
+    Metadata:
+      SamResourceId: AlarmPublishToTopicPolicyPassport
 
 Outputs:
   PassportFrontUrl:
