@@ -589,7 +589,7 @@ Resources:
       ActionsEnabled: true
       AlarmActions:
         - !Ref AlarmTopicPassport
-      OkActions:
+      OKActions:
         - !Ref AlarmTopicPassport
       InsufficientDataActions: []
       MetricName: TaskCount
@@ -612,7 +612,7 @@ Resources:
       ActionsEnabled: true
       AlarmActions:
         - !Ref AlarmTopicPassport
-      OkActions:
+      OKActions:
         - !Ref AlarmTopicPassport
       InsufficientDataActions: []
       MetricName: TaskCount
@@ -635,7 +635,7 @@ Resources:
       ActionsEnabled: true
       AlarmActions:
         - !Ref AlarmTopicPassport
-      OkActions:
+      OKActions:
         - !Ref AlarmTopicPassport
       InsufficientDataActions: []
       MetricName: HTTPCode_Target_5XX_Count
