@@ -324,8 +324,6 @@ Resources:
         PredefinedMetricSpecification:
           PredefinedMetricType: ECSServiceAverageCPUUtilization
         TargetValue: 70
-        ScaleInCooldown: 300
-        ScaleOutCooldown: 60
 
   ECSAccessLogsGroup:
     Type: AWS::Logs::LogGroup
