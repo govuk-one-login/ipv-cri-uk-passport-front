@@ -1,5 +1,5 @@
 error:
-  title: Sorry, there is a problem
+  title: Sorry, there is a problem with the service
   serviceNameRequired: false
   content:
     - We cannot prove your identity right now.

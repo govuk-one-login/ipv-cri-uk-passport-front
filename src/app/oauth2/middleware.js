@@ -45,6 +45,6 @@ module.exports = {
   redirectToCallback: async (req, res) => {
     const redirectUrl =
       req.session["hmpo-wizard-cri-passport-front"].redirect_url;
-    res.redirect(redirectUrl);
+    res.redirect(redirectUrl.toString());
   },
 };
