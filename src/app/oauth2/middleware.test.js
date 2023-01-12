@@ -252,10 +252,8 @@ describe("oauth middleware", () => {
     });
 
     it("should successfully redirect with redirect_url stored in session", async function () {
-      req.session["hmpo-wizard-cri-passport-front"] = {
-        redirect_url:
-          "https://client.example.com/cb?id=PassportIssuer&code=1234",
-      };
+      req.session.redirect_url =
+        "https://client.example.com/cb?id=PassportIssuer&code=1234";
 
       await middleware.redirectToCallback(req, res);
 

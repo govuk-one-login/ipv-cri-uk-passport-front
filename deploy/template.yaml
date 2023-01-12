@@ -384,6 +384,15 @@ Resources:
       RequiresCompatibilities:
         - FARGATE
       TaskRoleArn: !GetAtt ECSTaskRole.Arn
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-TaskDefinition"
+        - Key: Product
+          Value: "GOV.UK sign in"
+        - Key: Environment
+          Value: !Sub "${Environment}"
+        - Key: Updated
+          Value: 2023-02-07
 
   ECSTaskExecutionRole:
     Type: "AWS::IAM::Role"
