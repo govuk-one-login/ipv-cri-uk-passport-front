@@ -2,10 +2,12 @@ const axios = require("axios");
 const BaseController = require("hmpo-form-wizard").Controller;
 
 const {
-  API_BASE_URL,
-  API_CHECK_PASSPORT_PATH,
-  API_BUILD_CLIENT_OAUTH_RESPONSE_PATH,
+  API: {
+    BASE_URL,
+    PATHS: { CHECK },
+  },
 } = require("../../../lib/config");
+
 const logger = require("hmpo-logger").get();
 
 class ValidateController extends BaseController {
@@ -26,12 +28,12 @@ class ValidateController extends BaseController {
 
     try {
       const headers = {
-        passport_session_id: req.session.passportSessionId,
+        session_id: req.session.tokenId,
       };
 
       logger.info("validate: calling check-passport lambda", { req, res });
       const checkPassportResponse = await axios.post(
-        `${API_BASE_URL}${API_CHECK_PASSPORT_PATH}`,
+        `${BASE_URL}${CHECK}`,
         attributes,
         { headers: headers }
       );
@@ -39,52 +41,38 @@ class ValidateController extends BaseController {
       if (checkPassportResponse.data?.result === "retry") {
         logger.info("validate: passport retry", { req, res });
         req.sessionModel.set("showRetryMessage", true);
-        return callback();
+      } else {
+        req.session.authParams.redirect_uri =
+          checkPassportResponse.data.redirect_uri;
+        req.session.authParams.state = checkPassportResponse.data.state;
+
+        logger.info("Validate: redirecting user to callBack with url ", {
+          req,
+          res,
+        });
       }
 
-      logger.info("validate: calling build-client-oauth-response lambda", {
-        req,
-        res,
-      });
-      const apiResponse = await axios.post(
-        `${API_BASE_URL}${API_BUILD_CLIENT_OAUTH_RESPONSE_PATH}`,
-        undefined,
-        { headers: headers }
-      );
+      callback();
+    } catch (err) {
+      let message = "error thrown in validate controller";
 
-      const redirect_url = apiResponse?.data?.client?.redirectUrl;
-      logger.info("Validate: redirecting user to callBack with url ", {
-        req,
-        res,
-      });
+      if (
+        !req.session.authParams?.state ||
+        !req.session.authParams?.redirect_uri
+      ) {
+        message = "Failed to retrieve authorization redirect_uri or state";
+      }
 
       super.saveValues(req, res, () => {
-        if (!redirect_url) {
-          const error = {
-            error: "server_error",
-            error_description: "Failed to retrieve authorization redirect url",
-          };
-          req.sessionModel.set("error", error);
-          callback();
-        } else {
-          req.sessionModel.set("redirect_url", redirect_url);
-          callback();
-        }
-      });
-    } catch (error) {
-      logger.error("error thrown in validate controller", { req, res, error });
-      super.saveValues(req, res, () => {
-        req.sessionModel.set("error", error.response.data);
-        callback();
-      });
-    }
-  }
+        logger.error(message, { req, res, err });
 
-  next(req) {
-    if (req.sessionModel.get("showRetryMessage")) {
-      return "details";
-    } else {
-      return "/oauth2/callback";
+        const error = {
+          error: "server_error",
+          error_description: message,
+        };
+        req.sessionModel.set("error", error);
+        callback(err);
+      });
     }
   }
 }

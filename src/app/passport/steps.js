@@ -1,7 +1,6 @@
 const details = require("./controllers/details");
 const root = require("./controllers/root");
 const validate = require("./controllers/validate");
-const proveAnotherWay = require("./controllers/prove-another-way");
 
 module.exports = {
   "/": {
@@ -24,14 +23,28 @@ module.exports = {
     next: "validate",
   },
   "/prove-another-way": {
-    prereqs: ["/passport/"],
-    controller: proveAnotherWay,
+    prereqs: ["/"],
     fields: ["proveAnotherWayRadio"],
-    next: proveAnotherWay.prototype.next,
+    next: [
+      {
+        field: "proveAnotherWayRadio",
+        value: "retry",
+        next: "/details",
+      },
+      "/oauth2/callback",
+    ],
   },
   "/validate": {
     controller: validate,
     skip: true,
-    next: validate.prototype.next,
+    next: [
+      {
+        field: "showRetryMessage",
+        op: "===",
+        value: true,
+        next: "/details",
+      },
+      "/oauth2/callback",
+    ],
   },
 };

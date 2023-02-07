@@ -27,21 +27,23 @@ describe("validate controller", () => {
   });
 
   it("should retrieve redirect url from cri-passport-back and store in session", async () => {
-    const passportSessionId = "passport123";
+    const sessionId = "passport123";
 
     req.sessionModel.set("passportNumber", "123456789");
-    req.session.passportSessionId = passportSessionId;
+    req.session.tokenId = sessionId;
     req.sessionModel.set("surname", "Jones Smith");
     req.sessionModel.set("firstName", "Dan");
     req.sessionModel.set("middleNames", "Joe");
     req.sessionModel.set("dateOfBirth", "10/02/1975");
     req.sessionModel.set("expiryDate", "15/01/2035");
+    req.session.authParams = {
+      redirect_uri: "A VALUE",
+      state: "A VALUE",
+    };
 
     const data = {
-      client: {
-        redirectUrl:
-          "https://client.example.com/cb?id=PassportIssuer&code=1234",
-      },
+      redirect_uri: "https://client.example.com",
+      state: "TEST",
     };
 
     const resolvedPromise = new Promise((resolve) => resolve({ data }));
@@ -61,26 +63,17 @@ describe("validate controller", () => {
       },
       {
         headers: {
-          passport_session_id: passportSessionId,
+          session_id: sessionId,
         },
       }
     );
-    sandbox.assert.calledWith(
-      axios.post,
-      sinon.match("/build-client-oauth-response"),
-      undefined,
-      {
-        headers: {
-          passport_session_id: passportSessionId,
-        },
-      }
-    );
-    expect(req.session.test.redirect_url).to.eq(
-      "https://client.example.com/cb?id=PassportIssuer&code=1234"
+
+    expect(req.session.authParams.redirect_uri).to.eq(
+      "https://client.example.com"
     );
   });
 
-  it("should set an error object in the session if redirect url is missing", async () => {
+  it("should set an error object in the session if redirect uri is missing", async () => {
     req.sessionModel.set("passportNumber", "123456789");
     req.sessionModel.set("surname", "Jones Smith");
     req.sessionModel.set("firstName", "Dan");
@@ -89,9 +82,8 @@ describe("validate controller", () => {
     req.sessionModel.set("expiryDate", "15/01/2035");
 
     const data = {
-      invalidData: {
-        value: "test invalid data",
-      },
+      redirect_uri: undefined,
+      state: "TEST",
     };
     const resolvedPromise = new Promise((resolve) => resolve({ data }));
     sandbox.stub(axios, "post").returns(resolvedPromise);
@@ -101,11 +93,11 @@ describe("validate controller", () => {
     const sessionError = req.sessionModel.get("error");
     expect(sessionError.error).to.eq("server_error");
     expect(sessionError.error_description).to.eq(
-      "Failed to retrieve authorization redirect url"
+      "Failed to retrieve authorization redirect_uri or state"
     );
   });
 
-  it("should save error in session when error caught from cri-back", async () => {
+  it("should set an error object in the session if state is missing", async () => {
     req.sessionModel.set("passportNumber", "123456789");
     req.sessionModel.set("surname", "Jones Smith");
     req.sessionModel.set("firstName", "Dan");
@@ -113,24 +105,19 @@ describe("validate controller", () => {
     req.sessionModel.set("dateOfBirth", "10/02/1975");
     req.sessionModel.set("expiryDate", "15/01/2035");
 
-    const testError = {
-      name: "Test error name",
-      response: {
-        data: {
-          code: "access_denied",
-          error_description: "Permission denied to token endpoint",
-        },
-      },
+    const data = {
+      redirect_uri: "http://example.com",
+      state: undefined,
     };
-    const resolvedPromise = new Promise((resolve, error) => error(testError));
+    const resolvedPromise = new Promise((resolve) => resolve({ data }));
     sandbox.stub(axios, "post").returns(resolvedPromise);
 
     await validate.saveValues(req, res, next);
 
     const sessionError = req.sessionModel.get("error");
-    expect(sessionError.code).to.eq(testError.response.data.code);
+    expect(sessionError.error).to.eq("server_error");
     expect(sessionError.error_description).to.eq(
-      testError.response.data.error_description
+      "Failed to retrieve authorization redirect_uri or state"
     );
   });
 
@@ -172,8 +159,7 @@ describe("validate controller", () => {
     sandbox.stub(axios, "post").returns(resolvedPromise);
     await validate.saveValues(req, res, next);
 
-    const result = validate.next(req);
-    expect(result).to.eq("details");
+    expect(next).to.have.been.calledOnce;
   });
 
   it("should call callback if retry not set", async () => {
@@ -185,14 +171,16 @@ describe("validate controller", () => {
     req.sessionModel.set("expiryDate", "15/01/2035");
 
     const data = {
-      result: "",
+      redirect_uri: "http://example.com",
+      state: "test-state",
     };
 
     const resolvedPromise = new Promise((resolve) => resolve({ data }));
     sandbox.stub(axios, "post").returns(resolvedPromise);
     await validate.saveValues(req, res, next);
 
-    const result = validate.next(req);
-    expect(result).to.eq("/oauth2/callback");
+    const showRetryMessage = req.sessionModel.get("showRetryMessage");
+    expect(showRetryMessage).to.equal(undefined);
+    expect(next).to.have.been.calledOnce;
   });
 });
