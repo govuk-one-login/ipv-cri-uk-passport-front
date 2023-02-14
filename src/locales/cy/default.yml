@@ -9,10 +9,9 @@ govuk:
   error: "Gwall"
   warning: "Rhybudd"
   skipLink: "Neidio i’r prif gynnwys"
-  betaBannerRequired: true
-  betaBannerContent:
-    betaBannerContentLabel: "beta"
-    betaBannerContentHTML: 'Mae hwn yn wasanaeth newydd – bydd eich <a class="govuk-link" rel="noopener" target="_blank" href="https://signin.account.gov.uk/contact-us">adborth (agor mewn tab newydd)</a> yn ein helpu i’w wella.'
+  phaseBanner:
+    tag: beta
+    content: 'Mae hwn yn wasanaeth newydd – bydd eich <a class="govuk-link" rel="noopener" target="_blank" href="https://signin.account.gov.uk/contact-us">adborth (agor mewn tab newydd)</a> yn ein helpu i’w wella.'
   cookie:
     cookieBanner:
       title: "Cwcis ar gyfrif GOV.UK"
@@ -28,7 +27,7 @@ govuk:
         paragraph2: " unrhyw bryd."
       buttonAcceptText: "Derbyn cwcis dadansoddi"
       buttonRejectText: "Gwrthod cwcis dadansoddi"
-      linkViewCookies: "Gweld cwcis"
+      linkViewCookiesText: "Gweld cwcis"
       cookieBannerHideLink: "Cuddio’r neges yma"
   footerNavItems:
     meta:
@@ -65,5 +64,6 @@ passport:
   retryMessageList2: "rydych wedi rhoi eich enwau cyntaf a chanol (‘enwau a roddwydl’) yn yr adrannau cywir"
   retryMessageList3: "rydych wedi gadael yr adran enwau canol yn wag os nad oes gennych unrhyw enwau canol"
   retryMessageList4: "mae’r dyddiau a misoedd yn y drefn gywir yn eich dyddiad geni a phasbort yn dod i ben"
+
 prove-another-way:
   title: "Profi pwy ydych chi mewn ffordd arall"
