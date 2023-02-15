@@ -25,11 +25,10 @@ module.exports = {
       );
       logger.info("response received from JWT authorize lambda", { req, res });
 
-      let { passportSessionId, shared_claims, redirect_uri } = apiResponse.data;
+      let { passportSessionId, shared_claims } = apiResponse.data;
 
       req.session.shared_claims = shared_claims;
       req.session.passportSessionId = passportSessionId;
-      req.session.redirect_url = redirect_uri;
 
       return next();
     } catch (error) {
@@ -44,6 +43,8 @@ module.exports = {
   },
 
   redirectToCallback: async (req, res) => {
-    res.redirect(req.session.redirect_url);
+    const redirectUrl =
+      req.session["hmpo-wizard-cri-passport-front"].redirect_url;
+    res.redirect(redirectUrl);
   },
 };
