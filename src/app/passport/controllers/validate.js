@@ -1,5 +1,6 @@
 const axios = require("axios");
 const BaseController = require("hmpo-form-wizard").Controller;
+const { redirectOnError } = require("../../shared/oauth");
 
 const {
   API_BASE_URL,
@@ -75,7 +76,7 @@ class ValidateController extends BaseController {
       logger.error("error thrown in validate controller", { req, res, error });
       super.saveValues(req, res, () => {
         req.sessionModel.set("error", error.response.data);
-        callback();
+        redirectOnError(error, res, callback);
       });
     }
   }
