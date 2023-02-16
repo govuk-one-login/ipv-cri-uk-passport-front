@@ -58,6 +58,27 @@ var cookies = function(trackingId, analyticsCookieDomain, journeyState) {
     initGtm();
     initLinkerHandlers();
   }
+
+  function pushLanguageToDataLayer() {
+
+    var languageNames = {
+      'en':'english',
+      'cy':'welsh'
+    }
+
+    var languageCode = document.querySelector('html') &&
+      document.querySelector('html').getAttribute('lang');
+
+    if (languageCode) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "langEvent",
+        language: languageNames[languageCode],
+        languagecode: languageCode
+      });
+    }
+  }
+
   function loadGtmScript() {
     var gtmScriptTag = document.createElement("script");
     gtmScriptTag.type = "text/javascript";
@@ -85,6 +106,7 @@ var cookies = function(trackingId, analyticsCookieDomain, journeyState) {
         JourneyStatus: journeyState
       })
     }
+    pushLanguageToDataLayer();
     gtag({
       "gtm.start": new Date().getTime(),
       event: "gtm.js"
