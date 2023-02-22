@@ -46,15 +46,15 @@ Conditions:
 
 Mappings:
   EcsConfiguration:
-    "322814139578": # development
+    dev:
       desiredTaskCount: 1
-    "057202043894": # build
+    build:
       desiredTaskCount: 2
-    "620946502648": # staging
+    staging:
       desiredTaskCount: 2
-    "599918951127": # integration
+    integration:
       desiredTaskCount: 2
-    "255119994012": # production
+    production:
       desiredTaskCount: 2
   SecurityGroups:
     PrefixListIds:
@@ -271,7 +271,7 @@ Resources:
         Type: ECS
       DesiredCount: !FindInMap
         - EcsConfiguration
-        - !Ref AWS::AccountId
+        - !Ref Environment
         - desiredTaskCount
       EnableECSManagedTags: false
       HealthCheckGracePeriodSeconds: 60
