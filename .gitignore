@@ -118,6 +118,8 @@ dist
 
 # AWS sam
 .aws-sam
+cf-template*
+template.zip
 
 .DS_Store
 .vscode/
