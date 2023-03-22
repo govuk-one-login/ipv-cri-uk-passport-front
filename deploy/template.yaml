@@ -718,5 +718,5 @@ Outputs:
   PassportFrontGatewayID:
     Description: Passport Front API Gateway ID
     Export:
-      Name: !Sub "PassportFrontApiGatewayID-${Environment}"
+      Name: !Sub "${AWS::StackName}-PassportFrontGatewayID"
     Value: !Ref ApiGwHttpEndpoint
