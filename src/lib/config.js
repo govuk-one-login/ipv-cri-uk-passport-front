@@ -4,9 +4,9 @@ module.exports = {
   API: {
     BASE_URL: process.env.API_BASE_URL || "http://localhost:5007/",
     PATHS: {
-      SESSION: "initialise-session",
+      SESSION: "session",
       CHECK: "check-passport",
-      AUTHORIZATION: "build-client-oauth-response",
+      AUTHORIZATION: "authorization",
     },
   },
   APP: {

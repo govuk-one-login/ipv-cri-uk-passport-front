@@ -17,7 +17,8 @@
     "test": "mocha",
     "test:coverage": "nyc --reporter=lcov --reporter=text-summary yarn test",
     "test:watch": "mocha --watch",
-    "lint": "prettier --check src test && eslint ."
+    "lint": "prettier --check src test && eslint .",
+    "lint-apply": "prettier --write src test && eslint ."
   },
   "repository": {
     "type": "git",

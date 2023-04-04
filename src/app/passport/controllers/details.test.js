@@ -32,7 +32,6 @@ describe("details controller", () => {
 
     await details.saveValues(req, res, next);
 
-    const showRetryMessage = req.sessionModel.get("showRetryMessage");
-    expect(showRetryMessage).to.equal(false);
+    expect(req.sessionModel.get("showRetryMessage")).to.equal(false);
   });
 });
