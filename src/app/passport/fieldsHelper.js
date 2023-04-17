@@ -15,6 +15,10 @@ module.exports = {
       : 0;
     const firstNameLength = validators.string(firstName) ? firstName.length : 0;
 
-    return middleNameLength + firstNameLength <= length;
+    const firstNameMin = firstNameLength > 0;
+    const middleNameMin = middleNameLength > 0;
+    const nameMin = firstNameMin || middleNameMin;
+
+    return nameMin && middleNameLength + firstNameLength <= length;
   },
 };
