@@ -4,9 +4,7 @@ include:
   - "src/**/*.js"
 exclude:
   - "**/*.test.js"
-  - "**/*router.js"
   - "src/assets/*"
-  - "src/app/passport/router.js"
   - "src/app/passport/steps.js"
   - "src/app/passport/fields.js"
   - "src/lib/*"

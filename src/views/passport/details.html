@@ -11,7 +11,6 @@
 {% from "hmpo-form/macro.njk" import hmpoForm %}
 {% from "hmpo-date/macro.njk" import hmpoDate %}
 
-
 {% block mainContent %}
     {% if values.showRetryMessage and not (ctx("errors") | length) %}
     {# user is retrying #}

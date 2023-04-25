@@ -16,7 +16,7 @@
 <!-- List any related ADRs or RFCs -->
 <!-- Delete/copy as appropriate -->
 
-- [PYIC-XXXX](https://govukverify.atlassian.net/browse/PYIC-XXX)
+- [LIME-XXXX](https://govukverify.atlassian.net/browse/LIME-XXX)
 
 ## Checklists
 
