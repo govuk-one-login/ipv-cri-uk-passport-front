@@ -3,7 +3,7 @@ buttons:
   next: Continue
   cancel: Cancel
 govuk:
-  serviceName: " "
+  serviceName: Prove your identity
   backLink: Back
   errorSummaryTitle: There’s a problem
   error: Error
@@ -19,10 +19,10 @@ govuk:
       paragraph1: We use some essential cookies to make this service work.
       paragraph2: We’d like to set additional cookies so we can remember your settings, understand how people use the service and make improvements.
       changeCookiePreferencesLink: change your cookie settings
-      cookieBannerAccept:
+      cookeBannerAccept:
         paragraph1: "You’ve accepted additional cookies. You can "
         paragraph2: " at any time."
-      cookieBannerReject:
+      cookeBannerReject:
         paragraph1: "You’ve rejected additional cookies. You can "
         paragraph2: " at any time."
       buttonAcceptText: Accept analytics cookies
