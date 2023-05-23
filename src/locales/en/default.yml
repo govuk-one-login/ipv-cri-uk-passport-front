@@ -50,6 +50,7 @@ passport:
   checkDetailsContext: We’ll check your details with the HM Passport Office to make sure your passport has not been cancelled or reported as lost or stolen.
   passportTryAnotherWay: If you do not have a UK passport or you cannot remember your details, you can <a href="prove-another-way" class="govuk-link">prove your identity another way</a> instead.
   passportGivenNames: Given names
+  retryBannerTitle: Error
   retryTitle: Check your details match what’s on your UK passport
   retryWarningLabel: Warning
   retryWarningText: You will not be able to change your details again if you make a mistake this time
