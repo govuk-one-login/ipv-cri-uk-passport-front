@@ -25,7 +25,7 @@ middleNames:
   validation:
     maxlength: "Rhowch eich enwau canol fel maent yn ymddangos ar eich pasbort"
     regexpassport: "Rhowch eich enwau canol fel maent yn ymddangos ar eich pasbort"
-    firstNameMiddleNameLength: ""
+    firstNameMiddleNameLength: "Rhowch eich enw cyntaf a chanol fel maent yn ymddangos ar eich pasbort"
 dateOfBirth:
   legend: "Dyddiad geni"
   hint: "Er enghraifft, 5 9 1973"
