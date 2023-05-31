@@ -55,6 +55,7 @@ passport:
   checkDetailsContext: "Byddwn yn gwirio’ch manylion gyda Swyddfa Basbort EM i wneud yn siwr nad yw eich pasbort wedi’i ganslo na’i hysbysu fel wedi’i golli neu ei ddwyn."
   passportTryAnotherWay: 'Os nad oes gennych basbort y DU neu os na allwch gofio’ch manylion, gallwch <a href="prove-another-way" class="govuk-link">brofi pwy ydych chi mewn ffordd arall</a> yn lle hynny.'
   passportGivenNames: "Enwau a roddwyd"
+  retryBannerTitle: "Gwall"
   retryTitle: "Gwiriwch bod eich manylion yn cyfateb i’r hyn sydd ar eich pasbort y DU"
   retryWarningLabel: "Rhybudd"
   retryWarningText: "Ni fyddwch yn gallu newid eich manylion eto os gwnewch gamgymeriad y tro hwn"
