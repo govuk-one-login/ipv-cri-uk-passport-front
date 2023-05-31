@@ -1,5 +1,5 @@
 {
-  "name": "di-ipv-cri-uk-passport-front",
+  "name": "di-ipv-cri-uk-passport-front-v1",
   "version": "0.0.1",
   "description": "DCS Credential Issuer user interface for the Identity Proofing and Verification (IPV) system within the GDS digital identity platform, GOV.UK Sign In.",
   "main": "src/app.js",
@@ -32,14 +32,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alphagov/di-ipv-cri-uk-passport-front.git"
+    "url": "git+https://github.com/alphagov/di-ipv-cri-uk-passport-front-v1.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/alphagov/di-ipv-cri-uk-passport-front/issues"
+    "url": "https://github.com/alphagov/di-ipv-cri-uk-passport-front-v1/issues"
   },
-  "homepage": "https://github.com/alphagov/di-ipv-cri-uk-passport-front#readme",
+  "homepage": "https://github.com/alphagov/di-ipv-cri-uk-passport-front-v1#readme",
   "devDependencies": {
     "chai": "4.3.6",
     "chai-as-promised": "7.1.1",

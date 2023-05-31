@@ -4,7 +4,7 @@
 // based on the code at
 // https://github.com/alphagov/di-authentication-frontend/blob/main/src/assets/javascript/cookies.js
 
-var cookies = function(trackingId, analyticsCookieDomain, journeyState) {
+var cookies = function (trackingId, analyticsCookieDomain, journeyState) {
   var COOKIES_PREFERENCES_SET = "cookies_preferences_set";
   var cookiesAccepted = document.querySelector("#cookies-accepted");
   var cookiesRejected = document.querySelector("#cookies-rejected");
@@ -15,20 +15,29 @@ var cookies = function(trackingId, analyticsCookieDomain, journeyState) {
   var rejectCookies = document.querySelector('button[name="cookiesReject"]');
 
   function cookieBannerInit() {
-    acceptCookies.addEventListener("click", function(event) {
-      event.preventDefault();
-      setBannerCookieConsent(true);
-    }.bind(this));
-    rejectCookies.addEventListener("click", function(event) {
-      event.preventDefault();
-      setBannerCookieConsent(false);
-    }.bind(this));
-    var hideButtons = Array.prototype.slice.call(hideCookieBanner);
-    hideButtons.forEach(function(element) {
-      element.addEventListener("click", function(event) {
+    acceptCookies.addEventListener(
+      "click",
+      function (event) {
         event.preventDefault();
-        hideElement(cookieBannerContainer);
-      }.bind(this));
+        setBannerCookieConsent(true);
+      }.bind(this)
+    );
+    rejectCookies.addEventListener(
+      "click",
+      function (event) {
+        event.preventDefault();
+        setBannerCookieConsent(false);
+      }.bind(this)
+    );
+    var hideButtons = Array.prototype.slice.call(hideCookieBanner);
+    hideButtons.forEach(function (element) {
+      element.addEventListener(
+        "click",
+        function (event) {
+          event.preventDefault();
+          hideElement(cookieBannerContainer);
+        }.bind(this)
+      );
     });
     var hasCookiesPolicy = getCookie(COOKIES_PREFERENCES_SET);
     if (!hasCookiesPolicy) {
@@ -36,11 +45,15 @@ var cookies = function(trackingId, analyticsCookieDomain, journeyState) {
     }
   }
   function setBannerCookieConsent(analyticsConsent) {
-    setCookie(COOKIES_PREFERENCES_SET, {
-      analytics: analyticsConsent
-    }, {
-      days: 365
-    });
+    setCookie(
+      COOKIES_PREFERENCES_SET,
+      {
+        analytics: analyticsConsent,
+      },
+      {
+        days: 365,
+      }
+    );
     hideElement(cookieBanner);
     if (analyticsConsent) {
       showElement(cookiesAccepted);
@@ -62,18 +75,22 @@ var cookies = function(trackingId, analyticsCookieDomain, journeyState) {
     var gtmScriptTag = document.createElement("script");
     gtmScriptTag.type = "text/javascript";
     gtmScriptTag.setAttribute("async", "true");
-    gtmScriptTag.setAttribute("src", "https://www.googletagmanager.com/gtm.js?id=" + trackingId);
+    gtmScriptTag.setAttribute(
+      "src",
+      "https://www.googletagmanager.com/gtm.js?id=" + trackingId
+    );
     document.documentElement.firstChild.appendChild(gtmScriptTag);
   }
   function initGtm() {
-    window.dataLayer = [ {
-      "gtm.allowlist": [ "google" ],
-      "gtm.blocklist": [ "adm", "awct", "sp", "gclidw", "gcs", "opt" ]
-    },
+    window.dataLayer = [
       {
-        'event': "progEvent",
-        'ProgrammeName': 'DI - PYI'
-      }
+        "gtm.allowlist": ["google"],
+        "gtm.blocklist": ["adm", "awct", "sp", "gclidw", "gcs", "opt"],
+      },
+      {
+        event: "progEvent",
+        ProgrammeName: "DI - PYI",
+      },
     ];
     //var sessionJourney = getJourneyMapping(journeyState);
     function gtag(obj) {
@@ -82,12 +99,12 @@ var cookies = function(trackingId, analyticsCookieDomain, journeyState) {
     if (journeyState) {
       dataLayer.push({
         event: "journeyEvent",
-        JourneyStatus: journeyState
-      })
+        JourneyStatus: journeyState,
+      });
     }
     gtag({
       "gtm.start": new Date().getTime(),
-      event: "gtm.js"
+      event: "gtm.js",
     });
   }
   function initLinkerHandlers() {
@@ -176,7 +193,14 @@ var cookies = function(trackingId, analyticsCookieDomain, journeyState) {
     if (options.days) {
       var date = new Date();
       date.setTime(date.getTime() + options.days * 24 * 60 * 60 * 1e3);
-      cookieString = cookieString + "; expires=" + date.toGMTString() + "; path=/;" + " domain=" + analyticsCookieDomain + ";";
+      cookieString =
+        cookieString +
+        "; expires=" +
+        date.toGMTString() +
+        "; path=/;" +
+        " domain=" +
+        analyticsCookieDomain +
+        ";";
     }
     if (document.location.protocol === "https:") {
       cookieString = cookieString + "; Secure";
@@ -192,18 +216,22 @@ var cookies = function(trackingId, analyticsCookieDomain, journeyState) {
   return {
     cookieBannerInit: cookieBannerInit,
     hasConsentForAnalytics: hasConsentForAnalytics,
-    initAnalytics: initAnalytics
+    initAnalytics: initAnalytics,
   };
 };
 
 window.GOVSignIn = window.GOVSignIn || {};
 window.GOVSignIn.Cookies = cookies;
 
-(function(w) {
+(function (w) {
   "use strict";
   function appInit(trackingId, analyticsCookieDomain, journeyState) {
     window.GOVUKFrontend.initAll();
-    var cookies = window.GOVSignIn.Cookies(trackingId, analyticsCookieDomain, journeyState);
+    var cookies = window.GOVSignIn.Cookies(
+      trackingId,
+      analyticsCookieDomain,
+      journeyState
+    );
     if (cookies.hasConsentForAnalytics()) {
       cookies.initAnalytics();
     }
@@ -213,11 +241,11 @@ window.GOVSignIn.Cookies = cookies;
 
   let disableSubmit = false;
   window.disableFormSubmit = function disableFormSubmit() {
-    if(!disableSubmit) {
+    if (!disableSubmit) {
       disableSubmit = true;
-      document.getElementById('submitButton').disabled = true;
-      return true
+      document.getElementById("submitButton").disabled = true;
+      return true;
     }
     return false;
-  }
+  };
 })(window);
