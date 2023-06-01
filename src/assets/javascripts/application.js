@@ -1,9 +1,6 @@
 /* global dataLayer */
 "use strict";
 
-// based on the code at
-// https://github.com/alphagov/di-authentication-frontend/blob/main/src/assets/javascript/cookies.js
-
 var cookies = function (trackingId, analyticsCookieDomain, journeyState) {
   var COOKIES_PREFERENCES_SET = "cookies_preferences_set";
   var cookiesAccepted = document.querySelector("#cookies-accepted");
