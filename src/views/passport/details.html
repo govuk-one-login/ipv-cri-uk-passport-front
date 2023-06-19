@@ -62,7 +62,7 @@ html: translate("passport.passportTryAnotherWay")
 
 
 
-    {% call hmpoForm(ctx, {attributes: {onsubmit: 'window.disableFormSubmit()'} }) %}
+    {% call hmpoForm(ctx) %}
 
     {{ hmpoText(ctx, {
         id: "passportNumber",
@@ -141,6 +141,49 @@ html: translate("passport.passportTryAnotherWay")
 
     {% endcall %}
 
+{% endblock %}
+
+{% block scripts %}
+<script nonce="{{ cspNonce }}">
+
+<!--    Disable enter button from submitting the form but allow if form submit button is focused-->
+    var form = document.getElementsByTagName('form')[0];
+    form.addEventListener("keydown", function (event) {
+
+        var submitButton = document.getElementById('continue')
+        var submitButtonIsNotFocused = document.activeElement !== submitButton;
+
+        if ((event.code === 'Enter') && submitButtonIsNotFocused){
+            event.preventDefault();
+        }
+    });
+
+    var formSubmitted = false;
+
+    submitSpinner()
+
+    function delayDisableButton (button) {
+        button.className += ' button--spinner'
+        setTimeout(function() {
+            button.setAttribute('disabled', 'disabled')
+        }, 200);
+    }
+
+    function submitSpinner() {
+        var selects = document.getElementById('continue')
+
+        selects.addEventListener('click', function (event) {
+            if(!formSubmitted) {
+                formSubmitted = true;
+
+                delayDisableButton(event.target);
+            } else {
+                event.preventDefault()
+            }
+        })
+    }
+
+    </script>
 {% endblock %}
 
 {# generate the specific footer items required for the PYI flows #}
