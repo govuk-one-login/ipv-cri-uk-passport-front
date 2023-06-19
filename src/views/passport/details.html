@@ -150,7 +150,7 @@ html: translate("passport.passportTryAnotherWay")
     var form = document.getElementsByTagName('form')[0];
     form.addEventListener("keydown", function (event) {
 
-        var submitButton = document.getElementById('continue')
+        var submitButton = document.getElementById('submitButton')
         var submitButtonIsNotFocused = document.activeElement !== submitButton;
 
         if ((event.code === 'Enter') && submitButtonIsNotFocused){
@@ -170,7 +170,7 @@ html: translate("passport.passportTryAnotherWay")
     }
 
     function submitSpinner() {
-        var selects = document.getElementById('continue')
+        var selects = document.getElementById('submitButton')
 
         selects.addEventListener('click', function (event) {
             if(!formSubmitted) {
