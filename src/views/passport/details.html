@@ -144,6 +144,7 @@ html: translate("passport.passportTryAnotherWay")
 {% endblock %}
 
 {% block scripts %}
+{{ super ()}}
 <script nonce="{{ cspNonce }}">
 
 <!--    Disable enter button from submitting the form but allow if form submit button is focused-->
