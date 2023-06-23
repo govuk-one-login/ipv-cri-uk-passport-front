@@ -1,0 +1,38 @@
+// spinner button styling
+
+#submitButton.button--spinner {
+  position: relative;
+  transition: width ease 5s;
+  &::before {
+    content: "";
+    position: relative;
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: -9px;
+    height: 25px;
+    width: 25px;
+    background: transparent url("/public/images/mini-button-spinner.svg")
+      no-repeat;
+    background-size: 25px 25px;
+    animation-name: spin;
+    animation-duration: 0.75s;
+    animation-iteration-count: infinite;
+    transform-origin: 50% 50%;
+    // spin the svg image
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
+  // override opacity of disabled button so spinner is more visible
+  &[disabled],
+  &[disabled]:hover {
+    //background-color: #44834D;
+    opacity: 0.7;
+    box-shadow: 0 2px 0 #88988c;
+  }
+}
