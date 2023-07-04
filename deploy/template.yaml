@@ -46,6 +46,9 @@ Conditions:
       - Fn::Equals:
           - !Ref PermissionsBoundary
           - "none"
+  IsPerformance: !Or
+    - !Equals [ !Ref Environment, production ]
+    - !Equals [ !Ref Environment, build ]
 
 Mappings:
   EcsConfiguration:
@@ -311,6 +314,7 @@ Resources:
       - LoadBalancerListener
 
   PassportFrontAutoScalingTarget:
+    Condition: IsPerformance
     Type: AWS::ApplicationAutoScaling::ScalableTarget
     Properties:
       MaxCapacity: 5
@@ -325,6 +329,7 @@ Resources:
       ServiceNamespace: ecs
 
   PassportFrontAutoScalingPolicy:
+    Condition: IsPerformance
     DependsOn: PassportFrontAutoScalingTarget
     Type: AWS::ApplicationAutoScaling::ScalingPolicy
     Properties:
