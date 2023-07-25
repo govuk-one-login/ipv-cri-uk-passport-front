@@ -1,26 +1,40 @@
-# Digital Identity DCS Credential Issuer Front
+# Digital Identity Passport Credential Issuer
 
-`di-ipv-cri-uk-passport-front`
+This the front-end code for V1 of the UK Passport Credential Issuer(CRI) for the Identity Proofing and Verification (IPV) system within the GDS digital identity platform, GOV.UK Sign In.
 
-This is the home for the DCS Credential Issuer front end user interface for the Identity Proofing and Verification (IPV) system within the GDS digital identity platform, GOV.UK Sign In.
+Passport front V1 was created as part of all CRI's standardizing on using -
+- [common-express](https://github.com/alphagov/di-ipv-cri-common-express) for common processing steps and error handling.
+- [hmpo-form-wizard](https://github.com/HMPO/hmpo-form-wizard) for routes and field validation.
 
-# Installation
+## Code Owners
 
-Clone this repository and then run
-
-```bash
-yarn install
-```
+This repo has a `CODEOWNERS` file in the root and is configured to require PRs to reviewed by Code Owners.
 
 ## Environment Variables
 
 - `API_BASE_URL` - URL to the cri-passport-back api.
-- `PORT` - Default port to run webserver on. (Default to `3000`)
-- `SESSION_SECRET` - Secret used when configuring the HMPO session.
+- `PORT` - Default port to run webserver on.
 
-### Code Owners
+##  Local Testing
 
-This repo has a `CODEOWNERS` file in the root and is configured to require PRs to reviewed by Code Owners.
+```bash
+export API_BASE_URL=<URL> PORT=5050
+yarn install && yarn build && yarn run dev
+```
+
+## Linting
+
+Check with `yarn lint`
+
+Apply with `yarn lint-apply`
+
+## Unit Tests
+
+Run with `yarn run test`
+
+## Automation Tests
+
+Run with `yarn run test:browser:ci`
 
 ## Pre-Commit Checking / Verification
 
@@ -87,4 +101,9 @@ W3011 Both UpdateReplacePolicy and DeletionPolicy are needed to protect Resource
 core/deploy/dns-zones/template.yaml:20:3
 Checkov..............................................(no files to check)Skipped
 - hook id: checkov
+```
+
+To remove the pre-commit hooks should there be an issue
+```
+pre-commit uninstall
 ```
