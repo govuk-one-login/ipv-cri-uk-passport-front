@@ -73,6 +73,55 @@ describe("validate controller", () => {
     );
   });
 
+  it("should add a document check routing header if a feature set has been set", async () => {
+    const sessionId = "passport123";
+
+    req.sessionModel.set("passportNumber", "123456789");
+    req.session.tokenId = sessionId;
+    req.sessionModel.set("surname", "Jones Smith");
+    req.sessionModel.set("firstName", "Dan");
+    req.sessionModel.set("middleNames", "Joe");
+    req.sessionModel.set("dateOfBirth", "10/02/1975");
+    req.sessionModel.set("expiryDate", "15/01/2035");
+    req.session.authParams = {
+      redirect_uri: "A VALUE",
+      state: "A VALUE",
+    };
+    req.session.featureSet = "hmpoDVAD";
+
+    const data = {
+      redirect_uri: "https://client.example.com",
+      state: "TEST",
+    };
+
+    const resolvedPromise = new Promise((resolve) => resolve({ data }));
+    sandbox.stub(axios, "post").returns(resolvedPromise);
+
+    await validate.saveValues(req, res, next);
+
+    sandbox.assert.calledWith(
+      axios.post,
+      sinon.match("/check-passport"),
+      {
+        passportNumber: "123456789",
+        surname: "Jones Smith",
+        forenames: ["Dan", "Joe"],
+        dateOfBirth: "10/02/1975",
+        expiryDate: "15/01/2035",
+      },
+      {
+        headers: {
+          "document-checking-route": "dvad",
+          session_id: sessionId,
+        },
+      }
+    );
+
+    expect(req.session.authParams.redirect_uri).to.eq(
+      "https://client.example.com"
+    );
+  });
+
   it("should set an error object in the session if redirect uri is missing", async () => {
     req.sessionModel.set("passportNumber", "123456789");
     req.sessionModel.set("surname", "Jones Smith");
