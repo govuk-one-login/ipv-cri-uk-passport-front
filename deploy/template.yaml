@@ -1,7 +1,9 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
+Transform:
+  - AWS::Serverless-2016-10-31
 Description: >-
-  This creates the necessary components to deploy IPV Passport Front onto ECS
+  This creates the necessary components to deploy Passport Front onto ECS
   Fargate within an existing VPC and private subnets (provided as parameters).
   Passport Front can be invoked via the public API Gateway on the url in the
   PassportFrontUrl output.
@@ -16,11 +18,7 @@ Parameters:
   Environment:
     Description: The name of the environment to deploy to.
     Type: String
-    AllowedPattern: ((production)|(integration)|(staging)|(build)|(dev.*))
-  ImageTag:
-    Description: The tag of passport-front image to deploy in the task definition.
-    Type: String
-    Default: "none"
+    AllowedPattern: ((production)|(integration)|(staging)|(build)|(dev))
   VpcStackName:
     Description: >
       The name of the stack that defines the VPC in which this container will
@@ -40,32 +38,40 @@ Conditions:
     - !Equals [!Ref Environment, staging]
     - !Equals [!Ref Environment, integration]
     - !Equals [!Ref Environment, production]
-  IsProduction: !Equals [ !Ref Environment, production ]
+  IsProduction: !Equals [!Ref Environment, production]
+  IsPerformance: !Or
+    - !Equals [!Ref Environment, build]
+    - !Equals [!Ref Environment, production]
   UsePermissionsBoundary:
     Fn::Not:
       - Fn::Equals:
           - !Ref PermissionsBoundary
           - "none"
-  IsPerformance: !Or
-    - !Equals [ !Ref Environment, production ]
-    - !Equals [ !Ref Environment, build ]
 
 Mappings:
-  EcsConfiguration:
-    dev:
-      desiredTaskCount: 1
-    build:
-      desiredTaskCount: 2
-    staging:
-      desiredTaskCount: 2
-    integration:
-      desiredTaskCount: 2
-    production:
-      desiredTaskCount: 2
-  SecurityGroups:
-    PrefixListIds:
-      dynamodb: "pl-b3a742da"
-      s3: "pl-7ca54015"
+
+  # Auto Scaling Min Containers
+  MinContainerCount:
+    Environment:
+      dev: 1
+      build: 2
+      staging: 2
+      integration: 2
+      production: 2
+
+  # Auto Scaling Max Containers
+  MaxContainerCount:
+    Environment:
+      dev: 1
+      build: 5
+      staging: 5
+      integration: 5
+      production: 5
+
+  # see https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html
+  ElasticLoadBalancerAccountIds:
+    eu-west-2:
+      AccountId: 652711504416
 
 Resources:
   # Security Groups for the ECS service and load balancer
@@ -76,14 +82,13 @@ Resources:
         Passport Front LoadBalancer Security Group
       # checkov:skip=CKV_AWS_260: Security group rules to be reviewed in JIRA PYIC-1464
       SecurityGroupIngress:
-        - CidrIp:
-            Fn::ImportValue: !Sub ${VpcStackName}-VpcCidr
+        - CidrIp: 0.0.0.0/0
           Description: Allow from anyone on port 80
           FromPort: 80
           IpProtocol: tcp
           ToPort: 80
       VpcId:
-        Fn::ImportValue: !Sub ${VpcStackName}-VpcId
+        Fn::ImportValue: !Sub "${VpcStackName}-VpcId"
 
   LoadBalancerSGEgressToECSSecurityGroup:
     Type: "AWS::EC2::SecurityGroupEgress"
@@ -103,22 +108,9 @@ Resources:
       GroupDescription: >-
         Passport Front ECS Security Group outbound permissions ruleset
       SecurityGroupEgress:
-        - DestinationPrefixListId: !FindInMap [SecurityGroups, PrefixListIds, dynamodb]
-          Description: Allow outbound traffic to dynamodb vpc endpoint
-          IpProtocol: tcp
-          FromPort: 443
-          ToPort: 443
-        - DestinationPrefixListId: !FindInMap [SecurityGroups, PrefixListIds, s3]
-          Description: Allow outbound traffic to s3 vpc endpoint
-          IpProtocol: tcp
-          FromPort: 443
-          ToPort: 443
-        - DestinationSecurityGroupId:
-            Fn::ImportValue: !Sub ${VpcStackName}-AWSServicesEndpointSecurityGroupId
-          Description: Allow outbound traffic to Interface vpc endpoint security group
-          IpProtocol: tcp
-          FromPort: 443
-          ToPort: 443
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
       VpcId:
         Fn::ImportValue: !Sub ${VpcStackName}-VpcId
 
@@ -135,24 +127,12 @@ Resources:
       SourceSecurityGroupId: !GetAtt LoadBalancerSG.GroupId
 
   AccessLogsBucket:
+    Condition: IsNotDevelopment
     Type:
       AWS::S3::Bucket
       #checkov:skip=CKV_AWS_18: This is the bucket where our access logs go and AWS advise not sending a bucket's access logs to itself.
     Properties:
-      BucketName: !Join
-        - "-"
-        - - !Ref AWS::StackName
-          - "accesslogsbucket"
-          - Fn::Select:
-              - 4
-              - Fn::Split:
-                  - "-"
-                  - Fn::Select:
-                      - 2
-                      - Fn::Split:
-                          - /
-                          - Ref: AWS::StackId
-      AccessControl: LogDeliveryWrite
+      BucketName: !Sub passport-front-${Environment}-access-logs
       VersioningConfiguration:
         Status: "Enabled"
       PublicAccessBlockConfiguration:
@@ -166,6 +146,7 @@ Resources:
               SSEAlgorithm: AES256
 
   PassportFrontAccessLogsBucketPolicy:
+    Condition: IsNotDevelopment
     Type: AWS::S3::BucketPolicy
     Properties:
       Bucket: !Ref AccessLogsBucket
@@ -174,32 +155,18 @@ Resources:
         Statement:
           - Effect: Allow
             Principal:
-              AWS:
-                - arn:aws:iam::652711504416:root
+              AWS: !Sub
+                - "arn:aws:iam::${ElbAccountId}:root"
+                - ElbAccountId:
+                    !FindInMap [
+                      ElasticLoadBalancerAccountIds,
+                      !Ref AWS::Region,
+                      AccountId,
+                    ]
             Action:
               - s3:PutObject
             Resource:
               - !Sub arn:aws:s3:::${AccessLogsBucket}/passport-front-${Environment}/AWSLogs/${AWS::AccountId}/*
-          - Effect: Allow
-            Principal:
-              Service: logging.s3.amazonaws.com
-            Action: s3:PutObject
-            Resource: !Sub "arn:aws:s3:::${AccessLogsBucket}/*"
-            Condition:
-              StringEquals:
-                "aws:SourceAccount": !Sub "${AWS::AccountId}"
-          - Effect: Deny
-            Resource:
-              - !GetAtt AccessLogsBucket.Arn
-              - !Sub "${AccessLogsBucket.Arn}/*"
-            Principal: "*"
-            Action:
-              - "s3:*"
-            Condition:
-              Bool:
-                "aws:SecureTransport": false
-              NumericLessThan:
-                "s3:TlsVersion": "1.2"
 
   # Private Application Load Balancer
   LoadBalancer:
@@ -214,31 +181,15 @@ Resources:
         - Fn::ImportValue: !Sub ${VpcStackName}-PrivateSubnetIdB
         - Fn::ImportValue: !Sub ${VpcStackName}-PrivateSubnetIdC
       Type: application
-      LoadBalancerAttributes:
-        - Key: routing.http.drop_invalid_header_fields.enabled
-          Value: true
-        - !If
-          - IsNotDevelopment
-          - Key: access_logs.s3.enabled
+      LoadBalancerAttributes: !If
+        - IsNotDevelopment
+        - - Key: access_logs.s3.enabled
             Value: true
-          - !Ref AWS::NoValue
-        - !If
-          - IsNotDevelopment
           - Key: access_logs.s3.bucket
             Value: !Ref AccessLogsBucket
-          - !Ref AWS::NoValue
-        - !If
-          - IsNotDevelopment
           - Key: access_logs.s3.prefix
             Value: !Sub passport-front-${Environment}
-          - !Ref AWS::NoValue
-        - !If
-          - IsNotDevelopment
-          - Key: deletion_protection.enabled
-            Value: true
-          - !Ref AWS::NoValue
-    DependsOn:
-      - PassportFrontAccessLogsBucketPolicy
+        - !Ref AWS::NoValue
 
   LoadBalancerListenerTargetGroupECS:
     Type: "AWS::ElasticLoadBalancingV2::TargetGroup"
@@ -269,6 +220,84 @@ Resources:
       Port: 80
       Protocol: HTTP
 
+  #
+  #  ElastiCache (for session caching)
+  #
+
+  ElastiCacheSubnetGroup:
+    Type: AWS::ElastiCache::SubnetGroup
+    Properties:
+      Description: SubnetGroup for ElastiCache
+      SubnetIds:
+        - Fn::ImportValue: !Sub "${VpcStackName}-PrivateSubnetIdA"
+        - Fn::ImportValue: !Sub "${VpcStackName}-PrivateSubnetIdB"
+        - Fn::ImportValue: !Sub "${VpcStackName}-PrivateSubnetIdC"
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-SubnetGroup"
+        - Key: Product
+          Value: "GOV.UK sign in"
+        - Key: System
+          Value: "Passport CRI"
+        - Key: Environment
+          Value: !Sub "${Environment}"
+
+  ElastiCacheParameterGroup:
+    Type: AWS::ElastiCache::ParameterGroup
+    Properties:
+      CacheParameterGroupFamily: redis3.2
+      Properties:
+        cluster-enabled: "yes"
+      Description: Cache parameter group
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-CacheParameterGroup"
+        - Key: Product
+          Value: "GOV.UK sign in"
+        - Key: System
+          Value: "Passport CRI"
+        - Key: Environment
+          Value: !Sub "${Environment}"
+
+  ElastiCacheSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: >-
+        Passport Front Redis Security Group
+      SecurityGroupIngress:
+        - Description: Allow inbound on port 6379
+          SourceSecurityGroupId: !GetAtt ECSSecurityGroup.GroupId
+          FromPort: 6379
+          IpProtocol: tcp
+          ToPort: 6379
+      VpcId:
+        Fn::ImportValue: !Sub "${VpcStackName}-VpcId"
+
+  ElastiCacheReplicationGroup:
+    Type: AWS::ElastiCache::ReplicationGroup
+    Properties:
+      AutomaticFailoverEnabled: true
+      CacheNodeType: cache.t2.micro
+      CacheSubnetGroupName: !Ref ElastiCacheSubnetGroup
+      CacheParameterGroupName: !Ref ElastiCacheParameterGroup
+      Engine: redis
+      EngineVersion: 3.2.10
+      MultiAZEnabled: true
+      NumNodeGroups: 1
+      ReplicasPerNodeGroup: 1
+      ReplicationGroupDescription: Replication group for Elastiache
+      SecurityGroupIds:
+        - !Ref ElastiCacheSecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-ElastiCacheReplicationGroup"
+        - Key: Product
+          Value: "GOV.UK sign in"
+        - Key: System
+          Value: "Passport CRI"
+        - Key: Environment
+          Value: !Sub "${Environment}"
+
   # ECS cluster, service and task definition
   PassportFrontEcsCluster:
     Type: "AWS::ECS::Cluster"
@@ -276,6 +305,15 @@ Resources:
       ClusterSettings:
         - Name: containerInsights
           Value: enabled
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-ECSCluster"
+        - Key: Product
+          Value: "GOV.UK sign in"
+        - Key: System
+          Value: "Passport CRI"
+        - Key: Environment
+          Value: !Sub "${Environment}"
 
   PassportFrontEcsService:
     Type: "AWS::ECS::Service"
@@ -285,14 +323,11 @@ Resources:
         MaximumPercent: 200
         MinimumHealthyPercent: 50
         DeploymentCircuitBreaker:
-          Enable: true
-          Rollback: true
+          Enable: TRUE
+          Rollback: TRUE
       DeploymentController:
         Type: ECS
-      DesiredCount: !FindInMap
-        - EcsConfiguration
-        - !Ref Environment
-        - desiredTaskCount
+      DesiredCount: !FindInMap [MinContainerCount, Environment, !Ref 'Environment']
       EnableECSManagedTags: false
       HealthCheckGracePeriodSeconds: 60
       LaunchType: FARGATE
@@ -310,42 +345,17 @@ Resources:
             - Fn::ImportValue: !Sub ${VpcStackName}-PrivateSubnetIdB
             - Fn::ImportValue: !Sub ${VpcStackName}-PrivateSubnetIdC
       TaskDefinition: !Ref ECSServiceTaskDefinition
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-ECS"
+        - Key: Product
+          Value: "GOV.UK sign in"
+        - Key: System
+          Value: "Passport CRI"
+        - Key: Environment
+          Value: !Sub "${Environment}"
     DependsOn:
       - LoadBalancerListener
-
-  PassportFrontAutoScalingTarget:
-    Condition: IsPerformance
-    Type: AWS::ApplicationAutoScaling::ScalableTarget
-    Properties:
-      MaxCapacity: 5
-      MinCapacity: 2
-      ResourceId: !Join
-        - '/'
-        - - "service"
-          - !Ref PassportFrontEcsCluster
-          - !GetAtt PassportFrontEcsService.Name
-      RoleARN: !Sub "arn:aws:iam::${AWS::AccountId}:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
-      ScalableDimension: ecs:service:DesiredCount
-      ServiceNamespace: ecs
-
-  PassportFrontAutoScalingPolicy:
-    Condition: IsPerformance
-    DependsOn: PassportFrontAutoScalingTarget
-    Type: AWS::ApplicationAutoScaling::ScalingPolicy
-    Properties:
-      PolicyName: PassportFrontAutoScalingPolicy
-      PolicyType: TargetTrackingScaling
-      ResourceId: !Join
-        - '/'
-        - - "service"
-          - !Ref PassportFrontEcsCluster
-          - !GetAtt PassportFrontEcsService.Name
-      ScalableDimension: ecs:service:DesiredCount
-      ServiceNamespace: ecs
-      TargetTrackingScalingPolicyConfiguration:
-        PredefinedMetricSpecification:
-          PredefinedMetricType: ECSServiceAverageCPUUtilization
-        TargetValue: 70
 
   ECSAccessLogsGroup:
     Type: AWS::Logs::LogGroup
@@ -367,27 +377,27 @@ Resources:
     Properties:
       ContainerDefinitions:
         - Essential: true
-          Image:
-            !If [
-              IsNotDevelopment,
-              CONTAINER-IMAGE-PLACEHOLDER,
-              !Sub "${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/passport-front-development:${ImageTag}",
-            ]
+          Image: CONTAINER-IMAGE-PLACEHOLDER
           Name: app
           Environment:
             - Name: API_BASE_URL
               Value:
                 Fn::ImportValue: !Sub ${ApiStackName}-PrivateUKPassportApiBaseUrl
+            - Name: EXTERNAL_WEBSITE_HOST
+              Value: !GetAtt ApiGwHttpEndpoint.ApiEndpoint
             - Name: SESSION_TABLE_NAME
               Value: !Sub
                 - "cri-passport-front-sessions-${Environment}"
                 - Environment: !Ref Environment
-            - Name: EXTERNAL_WEBSITE_HOST
-              Value: !GetAtt ApiGwHttpEndpoint.ApiEndpoint
             - Name: GTM_ID
-              Value: !If [ IsProduction, "GTM-TT5HDKV", "GTM-TK92W68" ]
+              Value: !If [IsProduction, "GTM-TT5HDKV", "GTM-TK92W68"]
             - Name: ANALYTICS_DOMAIN
-              Value: !If [ IsProduction, "account.gov.uk", !Sub "${Environment}.account.gov.uk" ]
+              Value:
+                !If [
+                  IsProduction,
+                  "account.gov.uk",
+                  !Sub "${Environment}.account.gov.uk",
+                ]
           PortMappings:
             - ContainerPort: 8080
               Protocol: tcp
@@ -404,6 +414,15 @@ Resources:
       RequiresCompatibilities:
         - FARGATE
       TaskRoleArn: !GetAtt ECSTaskRole.Arn
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-TaskDefinition"
+        - Key: Product
+          Value: "GOV.UK sign in"
+        - Key: System
+          Value: "Passport CRI"
+        - Key: Environment
+          Value: !Sub "${Environment}"
 
   ECSTaskExecutionRole:
     Type: "AWS::IAM::Role"
@@ -472,19 +491,6 @@ Resources:
         - !Ref PermissionsBoundary
         - !Ref AWS::NoValue
 
-  # Create the VPC Link to join the API Gateway to the
-  # private Load Balancer in front of Passport Front ECS
-  # Service.
-  VpcLink:
-    Type: "AWS::ApiGatewayV2::VpcLink"
-    Properties:
-      Name: ApiGwVpcLinkToLoadBalancer
-      SubnetIds:
-        - Fn::ImportValue: !Sub ${VpcStackName}-PrivateSubnetIdA
-        - Fn::ImportValue: !Sub ${VpcStackName}-PrivateSubnetIdB
-        - Fn::ImportValue: !Sub ${VpcStackName}-PrivateSubnetIdC
-      SecurityGroupIds: []
-
   ApiGwHttpEndpoint:
     Type: "AWS::ApiGatewayV2::Api"
     Properties:
@@ -496,7 +502,8 @@ Resources:
     Properties:
       ApiId: !Ref ApiGwHttpEndpoint
       IntegrationType: HTTP_PROXY
-      ConnectionId: !Ref VpcLink
+      ConnectionId:
+        Fn::ImportValue: !Sub "${VpcStackName}-VpcLinkId"
       ConnectionType: VPC_LINK
       IntegrationMethod: ANY
       IntegrationUri: !Ref LoadBalancerListener
@@ -575,6 +582,40 @@ Resources:
             Condition:
               ArnLike:
                 "kms:EncryptionContext:aws:logs:arn": !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:*"
+
+  ECSAutoScalingTarget:
+    Condition: IsPerformance
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+    Properties:
+      MaxCapacity: !FindInMap [MaxContainerCount, Environment, !Ref 'Environment']
+      MinCapacity: !FindInMap [MinContainerCount, Environment, !Ref 'Environment']
+      ResourceId: !Join
+        - '/'
+        - - "service"
+          - !Ref PassportFrontEcsCluster
+          - !GetAtt PassportFrontEcsService.Name
+      RoleARN: !Sub "arn:aws:iam::${AWS::AccountId}:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
+      ScalableDimension: ecs:service:DesiredCount
+      ServiceNamespace: ecs
+
+  ECSAutoScalingPolicy:
+    Condition: IsPerformance
+    DependsOn: ECSAutoScalingTarget
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    Properties:
+      PolicyName: ECSAutoScalingPolicy
+      PolicyType: TargetTrackingScaling
+      ResourceId: !Join
+        - '/'
+        - - "service"
+          - !Ref PassportFrontEcsCluster
+          - !GetAtt PassportFrontEcsService.Name
+      ScalableDimension: ecs:service:DesiredCount
+      ServiceNamespace: ecs
+      TargetTrackingScalingPolicyConfiguration:
+        PredefinedMetricSpecification:
+          PredefinedMetricType: ECSServiceAverageCPUUtilization
+        TargetValue: 70.0
 
   PassportFrontSessionsTable:
     Type: AWS::DynamoDB::Table
