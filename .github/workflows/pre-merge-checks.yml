@@ -8,27 +8,35 @@ on:
       - synchronize
 
 jobs:
-  run-tests:
+  run-premerge-checks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v1
+      - name: Check out repository code
+        uses: actions/checkout@v3
         with:
-          node-version: 16.16.0
-          cache: 'yarn'
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          cache: "yarn"
+
       - name: Install dependencies
         run: yarn install
+
       - name: Run lint
         run: yarn lint
+
       - name: Run test and write coverage
         run: yarn test:coverage
+
+#      - name: Run browser tests
+#        run: yarn run test:browser:ci
+
       - name: Run sonarcloud scan
         if: ${{ github.actor != 'dependabot[bot]' }}
-        uses: sonarsource/sonarcloud-github-action@master
+        uses: SonarSource/sonarcloud-github-action@master
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} # obtained from https://sonarcloud.io
-      - name: Build docker image
-        run: |
-          cd ${GITHUB_WORKSPACE} || exit 1
-          docker build -t "passport-front-build:test" .
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
