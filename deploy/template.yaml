@@ -144,6 +144,9 @@ Resources:
         ServerSideEncryptionConfiguration:
           - ServerSideEncryptionByDefault:
               SSEAlgorithm: AES256
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerPreferred
 
   PassportFrontAccessLogsBucketPolicy:
     Condition: IsNotDevelopment
