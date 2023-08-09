@@ -139,7 +139,7 @@ Resources:
           - Fn::Select:
               - 4
               - Fn::Split:
-                  - "-"
+                  - '-'
                   - Fn::Select:
                       - 2
                       - Fn::Split:
@@ -147,7 +147,7 @@ Resources:
                           - Ref: AWS::StackId
       AccessControl: LogDeliveryWrite
       VersioningConfiguration:
-        Status: "Enabled"
+        Status: Enabled
       PublicAccessBlockConfiguration:
         BlockPublicAcls: true
         BlockPublicPolicy: true
@@ -169,39 +169,46 @@ Resources:
       PolicyDocument:
         Version: "2012-10-17"
         Statement:
-          - Effect: Allow
+          - Sid: AllowLoadBalancerToLogToS3
+            Effect: Allow
             Principal:
               AWS: !Sub
                 - "arn:aws:iam::${ElbAccountId}:root"
-                - ElbAccountId:
-                    !FindInMap [
-                      ElasticLoadBalancerAccountIds,
-                      !Ref AWS::Region,
-                      AccountId,
-                    ]
+                - ElbAccountId: !FindInMap [ ElasticLoadBalancerAccountIds, !Ref AWS::Region, AccountId ]
             Action:
               - s3:PutObject
             Resource: !Sub "${AccessLogsBucket.Arn}/AWSLogs/${AWS::AccountId}/*"
-          - Effect: Allow
+          - Sid: AllowAwsLogDeliveryToLogToS3
+            Effect: Allow
             Principal:
-              Service: logging.s3.amazonaws.com
-            Action: s3:PutObject
-            Resource: !Sub "arn:aws:s3:::${AccessLogsBucket}/*"
+              Service: delivery.logs.amazonaws.com
+            Action:
+              - s3:PutObject
+            Resource: !Sub "${AccessLogsBucket.Arn}/AWSLogs/${AWS::AccountId}/*"
             Condition:
               StringEquals:
-                "aws:SourceAccount": !Sub "${AWS::AccountId}"
-          - Effect: Deny
-            Resource:
-              - !GetAtt AccessLogsBucket.Arn
-              - !Sub "${AccessLogsBucket.Arn}/*"
-            Principal: "*"
+                "s3:x-amz-acl": bucket-owner-full-control
+                "aws:SourceAccount": !Ref AWS::AccountId
+          - Sid: AllowAwsLogDeliveryToReadBucketAcl
+            Effect: Allow
+            Principal:
+              Service: delivery.logs.amazonaws.com
+            Action:
+              - s3:GetBucketAcl
+            Resource: !GetAtt AccessLogsBucket.Arn
+            Condition:
+              StringEquals:
+                "aws:SourceAccount": !Ref AWS::AccountId
+          - Sid: AllowSSLRequestsOnly
+            Effect: Deny
             Action:
               - "s3:*"
+            Resource:
+              - !Sub "${AccessLogsBucket.Arn}/*"
+            Principal: "*"
             Condition:
               Bool:
-                "aws:SecureTransport": false
-              NumericLessThan:
-                "s3:TlsVersion": "1.2"
+                "aws:SecureTransport": "false"
 
   # Private Application Load Balancer
   LoadBalancer:
