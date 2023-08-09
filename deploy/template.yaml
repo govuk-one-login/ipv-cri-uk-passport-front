@@ -132,7 +132,20 @@ Resources:
       AWS::S3::Bucket
       #checkov:skip=CKV_AWS_18: This is the bucket where our access logs go and AWS advise not sending a bucket's access logs to itself.
     Properties:
-      BucketName: !Sub passport-front-${Environment}-access-logs
+      BucketName: !Join
+        - "-"
+        - - !Ref AWS::StackName
+          - "accesslogsbucket"
+          - Fn::Select:
+              - 4
+              - Fn::Split:
+                  - "-"
+                  - Fn::Select:
+                      - 2
+                      - Fn::Split:
+                          - /
+                          - Ref: AWS::StackId
+      AccessControl: LogDeliveryWrite
       VersioningConfiguration:
         Status: "Enabled"
       PublicAccessBlockConfiguration:
@@ -168,8 +181,27 @@ Resources:
                     ]
             Action:
               - s3:PutObject
+            Resource: !Sub "${AccessLogsBucket.Arn}/AWSLogs/${AWS::AccountId}/*"
+          - Effect: Allow
+            Principal:
+              Service: logging.s3.amazonaws.com
+            Action: s3:PutObject
+            Resource: !Sub "arn:aws:s3:::${AccessLogsBucket}/*"
+            Condition:
+              StringEquals:
+                "aws:SourceAccount": !Sub "${AWS::AccountId}"
+          - Effect: Deny
             Resource:
-              - !Sub arn:aws:s3:::${AccessLogsBucket}/passport-front-${Environment}/AWSLogs/${AWS::AccountId}/*
+              - !GetAtt AccessLogsBucket.Arn
+              - !Sub "${AccessLogsBucket.Arn}/*"
+            Principal: "*"
+            Action:
+              - "s3:*"
+            Condition:
+              Bool:
+                "aws:SecureTransport": false
+              NumericLessThan:
+                "s3:TlsVersion": "1.2"
 
   # Private Application Load Balancer
   LoadBalancer:
@@ -190,8 +222,6 @@ Resources:
             Value: true
           - Key: access_logs.s3.bucket
             Value: !Ref AccessLogsBucket
-          - Key: access_logs.s3.prefix
-            Value: !Sub passport-front-${Environment}
         - !Ref AWS::NoValue
 
   LoadBalancerListenerTargetGroupECS:
