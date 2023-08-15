@@ -31,6 +31,10 @@ class ValidateController extends BaseController {
         session_id: req.session.tokenId,
       };
 
+      if (req.session.featureSet === "hmpoDVAD") {
+        headers["document-checking-route"] = "dvad";
+      }
+
       logger.info("validate: calling check-passport lambda", { req, res });
       const checkPassportResponse = await axios.post(
         `${BASE_URL}${CHECK}`,

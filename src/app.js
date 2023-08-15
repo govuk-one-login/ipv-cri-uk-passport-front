@@ -17,6 +17,7 @@ const { setGTM } = require("di-ipv-cri-common-express/src/lib/settings");
 const { getGTM } = require("di-ipv-cri-common-express/src/lib/locals");
 const steps = require("./app/passport/steps");
 const fields = require("./app/passport/fields");
+const featureSets = require("./app/passport/featureSets");
 
 const {
   API,
@@ -117,7 +118,7 @@ router.use(getGTM);
 
 router.use(setScenarioHeaders);
 router.use(setAxiosDefaults);
-
+router.use(featureSets);
 router.use("/oauth2", commonExpress.routes.oauth2);
 
 const wizardOptions = {
