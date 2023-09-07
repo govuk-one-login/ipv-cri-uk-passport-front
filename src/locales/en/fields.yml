@@ -42,7 +42,7 @@ expiryDate:
   hint: "For example, 27 5 2029"
   validation:
     default: "Enter the expiry date as it appears on your passport"
-    after: "Your passport must not have expired more than 18 months ago"
+    expiryDate: "Your passport must not have expired more than 18 months ago"
 
 "date-day":
   label: Day

@@ -21,4 +21,16 @@ module.exports = {
 
     return nameMin && middleNameLength + firstNameLength <= length;
   },
+  expiryDateValidator(_value, validMonths, expiryDateField) {
+    let earliestValidDate = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth() - validMonths,
+      new Date().getDate()
+    );
+
+    const expiryDate = new Date(this.values[expiryDateField]);
+
+    // Note always compare as Dates
+    return expiryDate >= earliestValidDate;
+  },
 };
