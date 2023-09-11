@@ -37,7 +37,7 @@ expiryDate:
   hint: "Er enghraifft, 27 5 2029"
   validation:
     default: "Rhowch y dyddiad dod i ben fel mae’n ymddangos ar eich pasbort"
-    after: "Mae’n rhaid i’ch pasbort fod heb wedi dod i ben dros 18 mis yn ôl"
+    expiryDate: "Mae’n rhaid i’ch pasbort fod heb wedi dod i ben dros 18 mis yn ôl"
 date-day:
   label: "Diwrnod"
 date-month:

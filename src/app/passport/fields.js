@@ -1,8 +1,14 @@
 const { firstNameMiddleNameLengthValidator } = require("./fieldsHelper");
+const { expiryDateValidator } = require("./fieldsHelper");
 
 const firstNameMiddleNameLengthValidatorObj = {
   fn: firstNameMiddleNameLengthValidator,
   arguments: [30, "firstName", "middleNames"],
+};
+
+const expiryDateValidatorObj = {
+  fn: expiryDateValidator,
+  arguments: [18, "expiryDate"],
 };
 
 module.exports = {
@@ -67,17 +73,10 @@ module.exports = {
     validate: [
       "required",
       "date",
+      { type: "date" },
       {
-        type: "after",
-        arguments: [
-          new Date(
-            new Date().getFullYear(),
-            new Date().getMonth() - 18,
-            new Date().getDate()
-          )
-            .toISOString()
-            .split("T")[0],
-        ],
+        type: "expiryDate",
+        ...expiryDateValidatorObj,
       },
     ],
   },
