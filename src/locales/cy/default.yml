@@ -14,8 +14,8 @@ govuk:
     content: 'Mae hwn yn wasanaeth newydd – bydd eich <a class="govuk-link" rel="noopener" target="_blank" href="https://signin.account.gov.uk/contact-us">adborth (agor mewn tab newydd)</a> yn ein helpu i’w wella.'
   cookie:
     cookieBanner:
-      title: "Cwcis ar GOV.UK"
-      heading: "Cwcis ar GOV.UK"
+      title: "Cwcis ar gyfrif GOV.UK One Login"
+      heading: "Cwcis ar gyfrif GOV.UK One Login"
       paragraph1: "Rydym yn defnyddio rhai cwcis hanfodol i wneud i’r gwasanaeth hwn weithio."
       paragraph2: "Hoffem osod cwcis ychwanegol er mwyn i ni allu cofio eich gosodiadau, deall sut rydych yn defnyddio’r gwasanaeth a gwneud gwelliannau."
       changeCookiePreferencesLink: "newid eich gosodiadau cwcis"
