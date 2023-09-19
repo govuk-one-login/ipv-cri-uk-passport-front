@@ -404,13 +404,13 @@ Resources:
       RetentionInDays: 14
       KmsKeyId: !GetAtt LoggingKmsKey.Arn
 
-  # ECSAccessLogsGroupSubscriptionFilterCSLS:
-  #   Type: AWS::Logs::SubscriptionFilter
-  #   Condition: IsNotDevelopment
-  #   Properties:
-  #     DestinationArn: "arn:aws:logs:eu-west-2:885513274347:destination:csls_cw_logs_destination_prodpython"
-  #     FilterPattern: ""
-  #     LogGroupName: !Ref ECSAccessLogsGroup
+  ECSAccessLogsGroupSubscriptionFilterCSLS:
+    Type: AWS::Logs::SubscriptionFilter
+    Condition: IsNotDevelopment
+    Properties:
+      DestinationArn: "arn:aws:logs:eu-west-2:885513274347:destination:csls_cw_logs_destination_prodpython"
+      FilterPattern: ""
+      LogGroupName: !Ref ECSAccessLogsGroup
 
   ECSServiceTaskDefinition:
     Type: "AWS::ECS::TaskDefinition"
@@ -588,13 +588,13 @@ Resources:
       KmsKeyId: !GetAtt LoggingKmsKey.Arn
       RetentionInDays: 14
 
-  # APIGWAccessLogsGroupSubscriptionFilterCSLS:
-  #   Type: AWS::Logs::SubscriptionFilter
-  #   Condition: IsNotDevelopment
-  #   Properties:
-  #     DestinationArn: "arn:aws:logs:eu-west-2:885513274347:destination:csls_cw_logs_destination_prodpython"
-  #     FilterPattern: ""
-  #     LogGroupName: !Ref APIGWAccessLogsGroup
+  APIGWAccessLogsGroupSubscriptionFilterCSLS:
+    Type: AWS::Logs::SubscriptionFilter
+    Condition: IsNotDevelopment
+    Properties:
+      DestinationArn: "arn:aws:logs:eu-west-2:885513274347:destination:csls_cw_logs_destination_prodpython"
+      FilterPattern: ""
+      LogGroupName: !Ref APIGWAccessLogsGroup
 
   LoggingKmsKey:
     Type: AWS::KMS::Key
