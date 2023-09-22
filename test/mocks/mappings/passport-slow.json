@@ -1,0 +1,76 @@
+{
+  "mappings": [
+    {
+      "scenarioName": "passport-success-slow",
+      "request": {
+        "method": "GET",
+        "url": "/__reset/passport-success-slow"
+      },
+      "response": {
+        "status": 200
+      }
+    },
+    {
+      "scenarioName": "passport-success-slow",
+      "request": {
+        "method": "POST",
+        "urlPath": "/session",
+        "headers": {
+          "x-scenario-id": {
+            "equalTo": "passport-success-slow"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "jsonBody": {
+          "session_id": "ABADCAFE",
+          "state": "sT@t3",
+          "redirect_uri": "http://example.net/return"
+        }
+      }
+    },
+    {
+      "scenarioName": "passport-success-slow",
+      "request": {
+        "method": "POST",
+        "urlPath": "/check-passport",
+        "headers": {
+          "x-scenario-id": {
+            "equalTo": "passport-success-slow"
+          },
+          "session_id": {
+            "equalTo": "ABADCAFE"
+          }
+        }
+      },
+      "response": {
+        "fixedDelayMilliseconds": "5000",
+        "status": 200
+      }
+    },
+    {
+      "scenarioName": "passport-success-slow",
+      "request": {
+        "method": "GET",
+        "urlPath": "/authorization",
+        "headers": {
+          "x-scenario-id": {
+            "equalTo": "passport-success-slow"
+          },
+          "session-id": {
+            "equalTo": "ABADCAFE"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "jsonBody": {
+          "authorizationCode": {
+            "value": "FACEFEED"
+          }
+        }
+      }
+    }
+  ]
+}
