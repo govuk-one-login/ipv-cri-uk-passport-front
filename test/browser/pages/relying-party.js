@@ -8,7 +8,7 @@ module.exports = class PlaywrightDevPage {
 
   async goto() {
     this.startingUrl =
-      "http://localhost:5030/oauth2/authorize?request=lorem&client_id=standalone";
+      "http://localhost:5050/oauth2/authorize?request=lorem&client_id=standalone";
 
     await this.page.goto(this.startingUrl);
   }

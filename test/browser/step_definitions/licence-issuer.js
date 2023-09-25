@@ -4,7 +4,7 @@ const { expect } = require("chai");
 
 const { LicenceIssuerPage } = require("../pages");
 
-When(/^they (?:have )?start(?:ed)? the DL journey$/, async function () {});
+When(/^they (?:have )?start(?:ed)? the Passport journey$/, async function () {});
 
 Given(/they (?:can )?see? the licence-issuer page$/, async function () {
   const licenceIssuerPage = new LicenceIssuerPage(this.page);

@@ -8,7 +8,7 @@ Then(
   /^I should be on the Passport details entry page (.*)$/,
   async function (PassportPageTitle) {
     const passportPage = new PassportPage(this.page);
-    await passportPage.assertDVLAPageTitle(PassportPageTitle);
+    await passportPage.assertPageTitle(PassportPageTitle);
   }
 );
 
@@ -18,7 +18,7 @@ Then(/^User clicks on continue$/, { timeout: 2 * 5000 }, async function () {
 });
 
 Given(
-  /^User enters DVLA data as a (.*)$/,
+  /^User enters passport data as a (.*)$/,
   { timeout: 2 * 5000 },
   async function (passportSubject) {
     const passportPage = new PassportPage(this.page);
@@ -114,9 +114,7 @@ Then(
   { timeout: 2 * 5000 },
   async function (daysToSubtract) {
     const passportPage = new PassportPage(this.page);
-    await passportPage.userReEntersExpiryDayAsCurrentDateMinus(
-      daysToSubtract
-    );
+    await passportPage.userReEntersExpiryDayAsCurrentDateMinus(daysToSubtract);
   }
 );
 
@@ -191,9 +189,7 @@ Then(
   /^I see the Lastname error in the error summary as (.*)$/,
   async function (errorSummaryText) {
     const passportPage = new PassportPage(this.page);
-    await passportPage.assertInvalidLastNameInErrorSummary(
-      errorSummaryText
-    );
+    await passportPage.assertInvalidLastNameInErrorSummary(errorSummaryText);
   }
 );
 
@@ -209,9 +205,7 @@ Then(
   /^I see the Firstname error summary as (.*)$/,
   async function (errorSummaryText) {
     const passportPage = new PassportPage(this.page);
-    await passportPage.assertInvalidFirstNameInErrorSummary(
-      errorSummaryText
-    );
+    await passportPage.assertInvalidFirstNameInErrorSummary(errorSummaryText);
   }
 );
 
@@ -227,9 +221,7 @@ Then(
   /^I see the middlenames error summary as (.*)$/,
   async function (errorSummaryText) {
     const passportPage = new PassportPage(this.page);
-    await passportPage.assertInvalidMiddleNameInErrorSummary(
-      errorSummaryText
-    );
+    await passportPage.assertInvalidMiddleNameInErrorSummary(errorSummaryText);
   }
 );
 
@@ -271,9 +263,7 @@ Then(
   /^I see the issue number error in summary as (.*)$/,
   async function (errorSummaryText) {
     const passportPage = new PassportPage(this.page);
-    await passportPage.assertInvalidIssueNumberInErrorSummary(
-      errorSummaryText
-    );
+    await passportPage.assertInvalidIssueNumberInErrorSummary(errorSummaryText);
   }
 );
 
@@ -289,9 +279,7 @@ Then(
   /^I see the postcode error in summary as (.*)$/,
   async function (errorSummaryText) {
     const passportPage = new PassportPage(this.page);
-    await passportPage.assertInvalidPostcodeInErrorSummary(
-      errorSummaryText
-    );
+    await passportPage.assertInvalidPostcodeInErrorSummary(errorSummaryText);
   }
 );
 
@@ -339,9 +327,7 @@ Then(
   /^I can see the valid to date error in the error summary as (.*)$/,
   async function (errorSummaryText) {
     const passportPage = new PassportPage(this.page);
-    await passportPage.assertInvalidValidToDateInErrorSummary(
-      errorSummaryText
-    );
+    await passportPage.assertInvalidValidToDateInErrorSummary(errorSummaryText);
   }
 );
 
@@ -391,10 +377,7 @@ Given(
   { timeout: 3 * 5000 },
   async function (dvaPassportSubject) {
     const passportPage = new DVADetailsEntryPage(this.page);
-    await passportPage.userEntersDVAData(
-      "DVA",
-      dvaPassportSubject
-    );
+    await passportPage.userEntersDVAData("DVA", dvaPassportSubject);
   }
 );
 
@@ -609,9 +592,7 @@ Then(
   { timeout: 2 * 5000 },
   async function (consentSecondSentence) {
     const passportPage = new PassportPage(this.page);
-    await passportPage.assertDVLAConsentSentenceTwo(
-      consentSecondSentence
-    );
+    await passportPage.assertDVLAConsentSentenceTwo(consentSecondSentence);
   }
 );
 
@@ -648,9 +629,7 @@ Then(
   /^I see Check your details as (.*)$/,
   async function (errorSummaryMessage) {
     const passportPage = new PassportPage(this.page);
-    await passportPage.assertYouWillBeAbleToFindSentence(
-      errorSummaryMessage
-    );
+    await passportPage.assertYouWillBeAbleToFindSentence(errorSummaryMessage);
   }
 );
 
@@ -667,9 +646,7 @@ Then(
 
 Then(/^I see sentence (.*)$/, async function (pageHeadingDVASentence) {
   const passportPage = new DVADetailsEntryPage(this.page);
-  await passportPage.assertDVAPageHeadingSentence(
-    pageHeadingDVASentence
-  );
+  await passportPage.assertDVAPageHeadingSentence(pageHeadingDVASentence);
 });
 
 Then(
@@ -774,9 +751,7 @@ Then(
   { timeout: 2 * 5000 },
   async function (consentSecondSentence) {
     const passportPage = new DVADetailsEntryPage(this.page);
-    await passportPage.assertDVAConsentSentenceTwo(
-      consentSecondSentence
-    );
+    await passportPage.assertDVAConsentSentenceTwo(consentSecondSentence);
   }
 );
 

@@ -1,8 +1,6 @@
 const PassportSubject = require("../model/PassportSubject.js");
 
-exports.getPassportTestUserFromMap = function (
-  passportSubjectScenario
-) {
+exports.getPassportTestUserFromMap = function (passportSubjectScenario) {
   var primaryPassport = new PassportSubject();
   primaryPassport.fill({
     passportNumber: "321654987",
@@ -16,8 +14,8 @@ exports.getPassportTestUserFromMap = function (
     passportValidToMonth: "10",
     passportValidToYear: "2042",
   });
-};
 
-    if (passportSubjectScenario === "PassportSubjectHappyKenneth") {
-      return primaryPassport;
-    };
+  if (passportSubjectScenario === "PassportSubjectHappyKenneth") {
+    return primaryPassport;
+  }
+};

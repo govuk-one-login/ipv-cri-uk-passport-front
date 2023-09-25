@@ -8,7 +8,7 @@ function PassportSubject(
   firstName,
   passportValidToDay,
   passportValidToMonth,
-  passportValidToYear,
+  passportValidToYear
 ) {
   this.passportNumber = passportNumber || null;
   this.birthDay = birthDay || null;
@@ -20,7 +20,6 @@ function PassportSubject(
   this.passportValidToDay = passportValidToDay || null;
   this.passportValidToMonth = passportValidToMonth || null;
   this.passportValidToYear = passportValidToYear || null;
-  this.postcode = postcode || null;
 }
 
 PassportSubject.prototype.getPassportNumber = function () {
@@ -59,9 +58,7 @@ PassportSubject.prototype.getLicenceIssueDay = function () {
   return this.licenceIssueDay;
 };
 
-PassportSubject.prototype.setLicenceIssueDay = function (
-  licenceIssueDay
-) {
+PassportSubject.prototype.setLicenceIssueDay = function (licenceIssueDay) {
   this.licenceIssueDay = licenceIssueDay;
 };
 
@@ -69,9 +66,7 @@ PassportSubject.prototype.getLicenceIssueMonth = function () {
   return this.licenceIssueMonth;
 };
 
-PassportSubject.prototype.setLicenceIssueMonth = function (
-  licenceIssueMonth
-) {
+PassportSubject.prototype.setLicenceIssueMonth = function (licenceIssueMonth) {
   this.licenceIssueMonth = licenceIssueMonth;
 };
 
@@ -79,9 +74,7 @@ PassportSubject.prototype.getLicenceIssueYear = function () {
   return this.licenceIssueYear;
 };
 
-PassportSubject.prototype.setLicenceIssueYear = function (
-  licenceIssueYear
-) {
+PassportSubject.prototype.setLicenceIssueYear = function (licenceIssueYear) {
   this.licenceIssueYear = licenceIssueYear;
 };
 
@@ -131,9 +124,7 @@ PassportSubject.prototype.getPassportValidToDay = function () {
   return this.passportValidToDay;
 };
 
-PassportSubject.prototype.setLicenceValidToDay = function (
-  passportValidToDay
-) {
+PassportSubject.prototype.setLicenceValidToDay = function (passportValidToDay) {
   this.passportValidToDay = passportValidToDay;
 };
 
@@ -171,12 +162,10 @@ PassportSubject.prototype.equals = function (otherPassportSubject) {
     otherPassportSubject.getBirthDay() == this.getBirthDay() &&
     otherPassportSubject.getBirthMonth() == this.getBirthMonth() &&
     otherPassportSubject.getBirthYear() == this.getBirthYear() &&
-    otherPassportSubject.getLicenceIssueDay() ==
-      this.getLicenceIssueDay() &&
+    otherPassportSubject.getLicenceIssueDay() == this.getLicenceIssueDay() &&
     otherPassportSubject.getLicenceIssueMonth() ==
       this.getLicenceIssueMonth() &&
-    otherPassportSubject.getLicenceIssueYear() ==
-      this.getLicenceIssueYear() &&
+    otherPassportSubject.getLicenceIssueYear() == this.getLicenceIssueYear() &&
     otherPassportSubject.getIssueNumber() == this.getIssueNumber() &&
     otherPassportSubject.getConsentDVLACheckbox() ==
       this.getConsentDVLACheckbox() &&

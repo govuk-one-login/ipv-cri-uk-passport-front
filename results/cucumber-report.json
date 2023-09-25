@@ -1,0 +1,370 @@
+[
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "passport-test;passport-last-name-with-numbers-or-special-characters-error-validation",
+        "keyword": "Scenario Outline",
+        "line": 14,
+        "name": "Passport Last name with numbers or special characters error validation",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 76190999
+            }
+          },
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 461060124
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 5,
+            "name": "Authenticatable Anita is using the system",
+            "match": {
+              "location": "test/browser/step_definitions/details.js:5"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 873080415
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 6,
+            "name": "they have provided their details",
+            "match": {
+              "location": "test/browser/step_definitions/details.js:12"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 593334
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 7,
+            "name": "they have started the Passport journey",
+            "match": {
+              "location": "test/browser/step_definitions/licence-issuer.js:7"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 231249
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I should be on the Passport details entry page Enter your details exactly as they appear on your UK passport – Prove your identity – GOV.UK",
+            "match": {
+              "location": "test/browser/step_definitions/PassportStepDefs.js:7"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 13589749
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 15,
+            "name": "User enters passport data as a PassportSubjectHappyKenneth",
+            "match": {
+              "location": "test/browser/step_definitions/PassportStepDefs.js:20"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 550875,
+              "error_message": "locator.fill: value: expected string, got undefined\n    at PlaywrightDevPage.userEntersData (/Users/clsava/IdeaProjects/GDS/di-ipv-cri-uk-passport-front-v1/test/browser/pages/PassportPage.js:199:31)\n    at CustomWorld.<anonymous> (/Users/clsava/IdeaProjects/GDS/di-ipv-cri-uk-passport-front-v1/test/browser/step_definitions/PassportStepDefs.js:25:24)"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "User re-enters last name as KYLE123",
+            "match": {
+              "location": "test/browser/step_definitions/PassportStepDefs.js:31"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 17,
+            "name": "User clicks on continue",
+            "match": {
+              "location": "test/browser/step_definitions/PassportStepDefs.js:15"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 18,
+            "name": "I see the Lastname error in the error summary as Enter your surname as it appears on your passport",
+            "match": {
+              "location": "test/browser/step_definitions/PassportStepDefs.js:188"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 19,
+            "name": "I see the Lastname error in the error summary as Error:Enter your surname as it appears on your passport",
+            "match": {
+              "location": "test/browser/step_definitions/PassportStepDefs.js:188"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@mock-api:passport-failed",
+            "line": 1
+          },
+          {
+            "name": "@hmpoDVAD",
+            "line": 1
+          },
+          {
+            "name": "@mock-api:passport-success",
+            "line": 13
+          },
+          {
+            "name": "@Passport_test",
+            "line": 13
+          },
+          {
+            "name": "@build",
+            "line": 13
+          },
+          {
+            "name": "@staging",
+            "line": 13
+          },
+          {
+            "name": "@integration",
+            "line": 13
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "passport-test;passport-last-name-with-numbers-or-special-characters-error-validation",
+        "keyword": "Scenario Outline",
+        "line": 14,
+        "name": "Passport Last name with numbers or special characters error validation",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 5316917
+            }
+          },
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 60029416
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 5,
+            "name": "Authenticatable Anita is using the system",
+            "match": {
+              "location": "test/browser/step_definitions/details.js:5"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 760862959
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 6,
+            "name": "they have provided their details",
+            "match": {
+              "location": "test/browser/step_definitions/details.js:12"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 696124
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 7,
+            "name": "they have started the Passport journey",
+            "match": {
+              "location": "test/browser/step_definitions/licence-issuer.js:7"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 171166
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I should be on the Passport details entry page Enter your details exactly as they appear on your UK passport – Prove your identity – GOV.UK",
+            "match": {
+              "location": "test/browser/step_definitions/PassportStepDefs.js:7"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 7239791
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 15,
+            "name": "User enters passport data as a PassportSubjectHappyKenneth",
+            "match": {
+              "location": "test/browser/step_definitions/PassportStepDefs.js:20"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 1742250,
+              "error_message": "locator.fill: value: expected string, got undefined\n    at PlaywrightDevPage.userEntersData (/Users/clsava/IdeaProjects/GDS/di-ipv-cri-uk-passport-front-v1/test/browser/pages/PassportPage.js:199:31)\n    at CustomWorld.<anonymous> (/Users/clsava/IdeaProjects/GDS/di-ipv-cri-uk-passport-front-v1/test/browser/step_definitions/PassportStepDefs.js:25:24)"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "User re-enters last name as KYLE^&(",
+            "match": {
+              "location": "test/browser/step_definitions/PassportStepDefs.js:31"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 17,
+            "name": "User clicks on continue",
+            "match": {
+              "location": "test/browser/step_definitions/PassportStepDefs.js:15"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 18,
+            "name": "I see the Lastname error in the error summary as Enter your surname as it appears on your passport",
+            "match": {
+              "location": "test/browser/step_definitions/PassportStepDefs.js:188"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 19,
+            "name": "I see the Lastname error in the error summary as Error:Enter your surname as it appears on your passport",
+            "match": {
+              "location": "test/browser/step_definitions/PassportStepDefs.js:188"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@mock-api:passport-failed",
+            "line": 1
+          },
+          {
+            "name": "@hmpoDVAD",
+            "line": 1
+          },
+          {
+            "name": "@mock-api:passport-success",
+            "line": 13
+          },
+          {
+            "name": "@Passport_test",
+            "line": 13
+          },
+          {
+            "name": "@build",
+            "line": 13
+          },
+          {
+            "name": "@staging",
+            "line": 13
+          },
+          {
+            "name": "@integration",
+            "line": 13
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "passport-test",
+    "line": 2,
+    "keyword": "Feature",
+    "name": "Passport Test",
+    "tags": [
+      {
+        "name": "@mock-api:passport-failed",
+        "line": 1
+      },
+      {
+        "name": "@hmpoDVAD",
+        "line": 1
+      }
+    ],
+    "uri": "test/browser/features/passport/Passport.feature"
+  }
+]

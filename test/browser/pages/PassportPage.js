@@ -5,11 +5,9 @@ const TestDataCreator = require("../util/TestDataCreator");
 exports.PassportPage = class PlaywrightDevPage {
   constructor(page) {
     this.page = page;
-    this.url = "http://localhost:5030/details";
+    this.url = "http://localhost:5050/details";
 
-    this.passportNumber = this.page.locator(
-      'xpath=//*[@id="passportNumber"]'
-    );
+    this.passportNumber = this.page.locator('xpath=//*[@id="passportNumber"]');
 
     this.lastName = this.page.locator('xpath=//*[@id="surname"]');
     this.firstName = this.page.locator('xpath=//*[@id="firstName"]');
@@ -28,7 +26,6 @@ exports.PassportPage = class PlaywrightDevPage {
     this.passportValidToYear = this.page.locator(
       'xpath=//*[@id="expiryDate-year"]'
     );
-
 
     // Error summary items
 
@@ -185,7 +182,7 @@ exports.PassportPage = class PlaywrightDevPage {
     );
   }
 
-  async assertDVLAPageTitle(PassportPageTitle) {
+  async assertPageTitle(PassportPageTitle) {
     await this.page.waitForLoadState("domcontentloaded");
     expect(await this.isCurrentPage()).to.be.true;
     expect(await this.page.title()).to.equal(PassportPageTitle);
@@ -199,27 +196,23 @@ exports.PassportPage = class PlaywrightDevPage {
     var passportSubject = TestDataCreator.getPassportTestUserFromMap(
       passportSubjectScenario
     );
-      await this.passportNumber.fill(passportSubject.getPassportNumber());
-      await this.birthDay.fill(passportSubject.getBirthDay());
-      await this.birthMonth.fill(passportSubject.getBirthMonth());
-      await this.birthYear.fill(passportSubject.getBirthYear());
+    await this.passportNumber.fill(passportSubject.getPassportNumber());
+    await this.birthDay.fill(passportSubject.getBirthDay());
+    await this.birthMonth.fill(passportSubject.getBirthMonth());
+    await this.birthYear.fill(passportSubject.getBirthYear());
 
     if ((await passportSubject.getMiddleNames()) != null) {
       await this.middleNames.fill(passportSubject.getMiddleNames());
     }
     await this.firstName.fill(passportSubject.getFirstName());
     await this.lastName.fill(passportSubject.getLastName());
-    await this.passportValidToDay.fill(
-      passportSubject.getPassportValidToDay()
-    );
+    await this.passportValidToDay.fill(passportSubject.getPassportValidToDay());
     await this.passportValidToMonth.fill(
       passportSubject.getPassportValidToMonth()
     );
     await this.passportValidToYear.fill(
       passportSubject.getPassportValidToYear()
     );
-    await this.postcode.fill(passportSubject.getPostcode());
-    return await this.consentDVLACheckbox.click();
   }
 
   // Re-enter test data

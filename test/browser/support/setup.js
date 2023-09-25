@@ -14,9 +14,9 @@ BeforeAll(async function () {
       });
 });
 
-AfterAll(async function () {
-  await global.browser.close();
-});
+//AfterAll(async function () {
+//  await global.browser.close();
+//});
 
 // Add scenario header
 Before(async function ({ pickle } = {}) {
@@ -34,7 +34,7 @@ Before(async function ({ pickle } = {}) {
 
   this.SCENARIO_ID_HEADER = header;
 
-  const url = `http://localhost:8030/__reset/${header}`;
+  const url = `http://localhost:8050/__reset/${header}`;
 
   try {
     await axios.get(url);
@@ -58,7 +58,7 @@ Before(async function () {
 });
 
 // Cleanup after each scenario
-After(async function () {
-  await this.page.close();
-  await this.context.close();
-});
+//After(async function () {
+//  await this.page.close();
+//  await this.context.close();
+//});
