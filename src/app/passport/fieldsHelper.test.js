@@ -12,7 +12,7 @@ describe("firstName middleNames validation fields test", () => {
     expect(validator(1, 30, "firstName", "middleNames")).to.be.false;
   });
 
-  it("should be true when first and middle name combined less or equal to 30 characters", () => {
+  it("should be true when first and middle name combined less than 30 characters", () => {
     const validator = fields.firstNameMiddleNameLengthValidator.bind({
       values: {
         firstName: "jjjjjjjjjjjj",
@@ -64,6 +64,46 @@ describe("firstName middleNames validation fields test", () => {
     });
 
     expect(validator(1, 30, "firstName", "middleNames")).to.be.false;
+  });
+  it("should be false when first and middle name combined is 30 characters", () => {
+    const validator = fields.firstNameMiddleNameLengthValidator.bind({
+      values: {
+        firstName: "jjjjjjjjjjjjjjjjjjjj",
+        middleNames: "jjjjjjjjjj",
+      },
+    });
+
+    expect(validator(1, 30, "firstName", "middleNames")).to.be.false;
+  });
+  it("should be false when first and middle name combined is 31 characters", () => {
+    const validator = fields.firstNameMiddleNameLengthValidator.bind({
+      values: {
+        firstName: "jjjjjjjjjjjjjjjjjjjj",
+        middleNames: "jjjjjjjjjjj",
+      },
+    });
+
+    expect(validator(1, 30, "firstName", "middleNames")).to.be.false;
+  });
+  it("should be true when first and middle name combined is 29 characters", () => {
+    const validator = fields.firstNameMiddleNameLengthValidator.bind({
+      values: {
+        firstName: "jjjjjjjjjjjjjjjjjjj",
+        middleNames: "jjjjjjjjjj",
+      },
+    });
+
+    expect(validator(1, 30, "firstName", "middleNames")).to.be.true;
+  });
+  it("should be true when first name is 30 characters and middle names is null", () => {
+    const validator = fields.firstNameMiddleNameLengthValidator.bind({
+      values: {
+        firstName: "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjj",
+        middleNames: undefined,
+      },
+    });
+
+    expect(validator(1, 30, "firstName", "middleNames")).to.be.true;
   });
 });
 
