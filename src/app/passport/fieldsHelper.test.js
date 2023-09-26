@@ -36,7 +36,7 @@ describe("firstName middleNames validation fields test", () => {
   it("should be true when firstName is null but middleNames is valid", () => {
     const validator = fields.firstNameMiddleNameLengthValidator.bind({
       values: {
-        firstName: undefined,
+        firstName: "",
         middleNames: "jjjj",
       },
     });
@@ -48,7 +48,7 @@ describe("firstName middleNames validation fields test", () => {
     const validator = fields.firstNameMiddleNameLengthValidator.bind({
       values: {
         firstName: "jjjj",
-        middleNames: undefined,
+        middleNames: "",
       },
     });
 
@@ -65,6 +65,28 @@ describe("firstName middleNames validation fields test", () => {
 
     expect(validator(1, 30, "firstName", "middleNames")).to.be.false;
   });
+
+  it("should be true when first and middle name combined is 28 characters", () => {
+    const validator = fields.firstNameMiddleNameLengthValidator.bind({
+      values: {
+        firstName: "jjjjjjjjjjjjjjjjjjj",
+        middleNames: "jjjjjjjjj",
+      },
+    });
+
+    expect(validator(1, 30, "firstName", "middleNames")).to.be.true;
+  });
+
+  it("should be true when first and middle name plus extra character combined is 29 characters", () => {
+    const validator = fields.firstNameMiddleNameLengthValidator.bind({
+      values: {
+        firstName: "jjjjjjjjjjjjjjjjjjjj",
+        middleNames: "jjjjjjjjj",
+      },
+    });
+
+    expect(validator(1, 30, "firstName", "middleNames")).to.be.true;
+  });
   it("should be false when first and middle name combined is 30 characters", () => {
     const validator = fields.firstNameMiddleNameLengthValidator.bind({
       values: {
@@ -75,31 +97,12 @@ describe("firstName middleNames validation fields test", () => {
 
     expect(validator(1, 30, "firstName", "middleNames")).to.be.false;
   });
-  it("should be false when first and middle name combined is 31 characters", () => {
-    const validator = fields.firstNameMiddleNameLengthValidator.bind({
-      values: {
-        firstName: "jjjjjjjjjjjjjjjjjjjj",
-        middleNames: "jjjjjjjjjjj",
-      },
-    });
 
-    expect(validator(1, 30, "firstName", "middleNames")).to.be.false;
-  });
-  it("should be true when first and middle name combined is 29 characters", () => {
-    const validator = fields.firstNameMiddleNameLengthValidator.bind({
-      values: {
-        firstName: "jjjjjjjjjjjjjjjjjjj",
-        middleNames: "jjjjjjjjjj",
-      },
-    });
-
-    expect(validator(1, 30, "firstName", "middleNames")).to.be.true;
-  });
   it("should be true when first name is 30 characters and middle names is null", () => {
     const validator = fields.firstNameMiddleNameLengthValidator.bind({
       values: {
         firstName: "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjj",
-        middleNames: undefined,
+        middleNames: "",
       },
     });
 
