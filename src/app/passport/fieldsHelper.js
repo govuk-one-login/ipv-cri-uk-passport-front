@@ -9,17 +9,17 @@ module.exports = {
   ) {
     const firstName = this.values[firstNameField];
     const middleName = this.values[middleNameField];
-    const middleNameEmpty = !validators.string(middleName);
-    const firstNameEmpty = !validators.string(firstName);
-    const includeExtraCharacter = !middleNameEmpty && !firstNameEmpty;
-    const extraCharacter = includeExtraCharacter ? 1 : 0;
-    //This logic will add an extra character to nameMax (see below) if both first and
-    //middle name fields are used, in order to ensure we remain within 30 characters limit
 
     const middleNameLength = validators.string(middleName)
       ? middleName.length
       : 0;
     const firstNameLength = validators.string(firstName) ? firstName.length : 0;
+
+    const singleName = firstNameLength === 0 || middleNameLength === 0;
+
+    const extraCharacter = singleName ? 0 : 1;
+    //This logic will add an extra character to nameMax (see below) if both first and
+    //middle name fields are used, in order to ensure we remain within 30 characters limit
 
     const firstNameMin = firstNameLength > 0;
     const middleNameMin = middleNameLength > 0;
