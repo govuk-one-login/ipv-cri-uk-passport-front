@@ -57,7 +57,7 @@ Before(async function () {
   this.page = await this.context.newPage();
 });
 
- //Cleanup after each scenario
+//Cleanup after each scenario
 After(async function () {
   await this.page.close();
   await this.context.close();

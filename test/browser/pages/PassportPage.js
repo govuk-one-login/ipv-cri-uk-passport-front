@@ -242,8 +242,8 @@ exports.PassportPage = class PlaywrightDevPage {
   }
 
   async userReEntersExpiryDay(InvalidExpiryDay) {
-      await this.passportValidToDay.fill(InvalidExpiryDay);
-    }
+    await this.passportValidToDay.fill(InvalidExpiryDay);
+  }
 
   async userReEntersDayOfIssueAsCurrentDatePlus(days) {
     await this.passportValidToDay.fill(moment().add(days, "days").format("DD"));
@@ -254,8 +254,8 @@ exports.PassportPage = class PlaywrightDevPage {
   }
 
   async userReEntersExpiryYear(InvalidExpiryYear) {
-      await this.passportValidToYear.fill(InvalidExpiryYear);
-    }
+    await this.passportValidToYear.fill(InvalidExpiryYear);
+  }
 
   // Summary box errors
 
@@ -299,31 +299,31 @@ exports.PassportPage = class PlaywrightDevPage {
     );
   }
 
-   async assertInvalidExpiryInErrorSummary(errorSummaryText) {
-       await this.page.waitForLoadState("domcontentloaded");
-       expect(await this.isCurrentPage()).to.be.true;
-       expect(await this.invalidValidToDateErrorInSummary.innerText()).to.equal(
-         errorSummaryText
-       );
-     }
+  async assertInvalidExpiryInErrorSummary(errorSummaryText) {
+    await this.page.waitForLoadState("domcontentloaded");
+    expect(await this.isCurrentPage()).to.be.true;
+    expect(await this.invalidValidToDateErrorInSummary.innerText()).to.equal(
+      errorSummaryText
+    );
+  }
 
-   async assertInvalidDoBInErrorSummary(errorSummaryText) {
-     await this.page.waitForLoadState("domcontentloaded");
-     expect(await this.isCurrentPage()).to.be.true;
-     expect(await this.invalidDobErrorInSummary.innerText()).to.equal(
-       errorSummaryText
-     );
-   }
+  async assertInvalidDoBInErrorSummary(errorSummaryText) {
+    await this.page.waitForLoadState("domcontentloaded");
+    expect(await this.isCurrentPage()).to.be.true;
+    expect(await this.invalidDobErrorInSummary.innerText()).to.equal(
+      errorSummaryText
+    );
+  }
 
   async assertInvalidValidToDateInErrorSummary(errorSummaryText) {
-      await this.page.waitForLoadState("domcontentloaded");
-      expect(await this.isCurrentPage()).to.be.true;
-      expect(await this.invalidValidToDateErrorInSummary.innerText()).to.equal(
-        errorSummaryText
-      );
-    }
+    await this.page.waitForLoadState("domcontentloaded");
+    expect(await this.isCurrentPage()).to.be.true;
+    expect(await this.invalidValidToDateErrorInSummary.innerText()).to.equal(
+      errorSummaryText
+    );
+  }
 
-    // Field errors
+  // Field errors
 
   async assertInvalidLastNameOnField(fieldErrorText) {
     await this.page.waitForLoadState("domcontentloaded");
@@ -332,7 +332,6 @@ exports.PassportPage = class PlaywrightDevPage {
       fieldErrorText
     );
   }
-
 
   async assertInvalidFirstNameOnField(fieldErrorText) {
     await this.page.waitForLoadState("domcontentloaded");
@@ -374,8 +373,6 @@ exports.PassportPage = class PlaywrightDevPage {
     ).to.contains(retryMessageHeading);
   }
 
-
-
   async assertInvalidDoBOnField(fieldErrorText) {
     await this.page.waitForLoadState("domcontentloaded");
     expect(await this.isCurrentPage()).to.be.true;
@@ -383,8 +380,6 @@ exports.PassportPage = class PlaywrightDevPage {
       fieldErrorText
     );
   }
-
-
 
   async assertInvalidValidToDateOnField(fieldErrorText) {
     await this.page.waitForLoadState("domcontentloaded");
@@ -410,230 +405,4 @@ exports.PassportPage = class PlaywrightDevPage {
       assertBetaBannerText
     );
   }
-
-//  async assertLastName(dvlalastNameLabel) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    await expect(await this.lastNameLabel.textContent()).to.contains(
-//      dvlalastNameLabel
-//    );
-//  }
-//
-//  async assertGivenName(dvlagivenNameLegend) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.givenNameLegend.textContent()).to.contain(
-//      dvlagivenNameLegend
-//    );
-//  }
-//
-//  async assertFirstName(dvlaFirstName) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.firstNameLabel.textContent()).to.contain(dvlaFirstName);
-//  }
-//
-//  async assertMiddleName(dvlaMiddleName) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.middleNames.textContent()).to.contain(dvlaMiddleName);
-//  }
-//
-//  async assertFirstNameSentence(dvlaFirstNameSent) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.firstNameSentence.innerText()).to.equal(
-//      dvlaFirstNameSent
-//    );
-//  }
-//
-//  async assertMiddleNameSentence(dvlaMiddleNameSentence) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.middleNameSentence.innerText()).to.equal(
-//      dvlaMiddleNameSentence
-//    );
-//  }
-//
-//  async assertDoBFieldTitle(dobFieldTitleLegend) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.dobFieldTitleLegend.innerText()).to.equal(
-//      dobFieldTitleLegend
-//    );
-//  }
-//
-//  async assertDobExample(dobExample) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.dobExample.innerText()).to.equal(dobExample);
-//  }
-//
-//  async assertDay(day) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    await expect(await this.dayLabel.innerText()).to.contains(day);
-//  }
-//
-//  async assertMonth(month) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    await expect(await this.monthLabel.innerText()).to.contains(month);
-//  }
-//
-//  async assertYear(year) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    await expect(await this.yearLabel.innerText()).to.contains(year);
-//  }
-//
-//  async assertValidDateFieldTitle(validDateFieldTitle) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.validToFieldTitleLegend.innerText()).to.equal(
-//      validDateFieldTitle
-//    );
-//  }
-//
-//  async assertValidDateExample(validDateExample) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.validToFieldHint.innerText()).to.equal(validDateExample);
-//  }
-//
-//  async assertLicenceTitle(validpassportNumberLabel) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.passportNumberLabel.innerText()).to.equal(
-//      validpassportNumberLabel
-//    );
-//  }
-//
-//  async assertLicenceExample(validpassportNumberHint) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.passportNumberHint.innerText()).to.equal(
-//      validpassportNumberHint
-//    );
-//  }
-//
-//  async assertIssueNumberTitle(issueNumberLabel) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.issueNumberLabel.innerText()).to.equal(issueNumberLabel);
-//  }
-//
-//  async assertIssueSentenceExample(issueNumberSentence) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.issueNumberHint.innerText()).to.equal(
-//      issueNumberSentence
-//    );
-//  }
-//
-//  async assertPostcodeTitle(postcodeTitle) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.postcodeLabel.innerText()).to.equal(postcodeTitle);
-//  }
-//
-//  async assertPostcodeSentence(postcodeSentence) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.postcodeHint.innerText()).to.equal(postcodeSentence);
-//  }
-//
-//  async assertIssueDay(issueDay) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.issueDayLabel.innerText()).to.contains(issueDay);
-//  }
-//
-//  async assertIssueMonth(issueMonth) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.issueMonthLabel.innerText()).to.contains(issueMonth);
-//  }
-//
-//  async assertIssueYear(issueYear) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.issueYearLabel.innerText()).to.contains(issueYear);
-//  }
-//
-//  async assertValidToDay(validToDay) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.validTodayLabel.innerText()).to.contains(validToDay);
-//  }
-//
-//  async assertValidToMonth(validToMonth) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.validToMonthLabel.innerText()).to.contains(validToMonth);
-//  }
-//
-//  async assertValidToYear(validToYear) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.validToYearLabel.innerText()).to.contains(validToYear);
-//  }
-//
-//  async assertDVLAConsent(consentTitle) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.consentSectionTitle.innerText()).to.equal(consentTitle);
-//  }
-//
-//  async assertDVLAConsentSentenceOne(consentFirstSentence) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.consentSectionSentenceOne.innerText()).to.contains(
-//      consentFirstSentence
-//    );
-//  }
-//
-//  async assertDVLAConsentSentenceTwo(consentSecondSentence) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.consentSectionSentenceTwo.innerText()).to.contains(
-//      consentSecondSentence
-//    );
-//  }
-//
-//  async assertConsentOneLoginLink(consentOneLoginLink) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.oneLoginLink.innerText()).to.equal(consentOneLoginLink);
-//  }
-//
-//  async assertConsentPrivacyLink(consentPrivacyLink) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.privacyPolicyDVLALink.innerText()).to.equal(
-//      consentPrivacyLink
-//    );
-//  }
-//
-//  async assertRetryTitle(checkDetailsTitle) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.retryCheckDetailsTitleLabel.innerText()).to.contains(
-//      checkDetailsTitle
-//    );
-//  }
-//
-//  async assertErrorPrefix(errorPrefix) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.errorText.innerText()).to.equal(errorPrefix);
-//  }
-//
-//  async assertYouWillBeAbleToFindSentence(errorSummaryMessage) {
-//    await this.page.waitForLoadState("domcontentloaded");
-//    expect(await this.isCurrentPage()).to.be.true;
-//    expect(await this.thereWasAProblemFirstSentence.innerText()).to.contains(
-//      errorSummaryMessage
-//    );
-//  }
 };

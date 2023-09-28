@@ -10,7 +10,7 @@ Feature: Passport Test
 
 
 ###########   Field Validations ##########
-  @mock-api:cat @Passport_test @build @staging @integration
+  @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport Last name with numbers or special characters error validation dsadas
     Given User enters passport data as a <PassportSubject>
     And User re-enters last name as <InvalidLastName>
@@ -21,7 +21,7 @@ Feature: Passport Test
       | PassportSubject             | InvalidLastName |
       | PassportSubjectHappyKenneth | KYLE123         |
 
-  @mock-api:cat @Passport_test @build @staging @integration
+  @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport Last name with numbers or special characters error validation
     Given User enters passport data as a <PassportSubject>
     And User re-enters last name as <InvalidLastName>
@@ -32,7 +32,7 @@ Feature: Passport Test
       | PassportSubject             | InvalidLastName |
       | PassportSubjectHappyKenneth | KYLE^&(         |
 
-  @mock-api:cat @Passport_test @build @staging @integration
+  @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport No Last name in the Last name field error validation
     Given User enters passport data as a <PassportSubject>
     And User re-enters last name as <InvalidLastName>
@@ -43,7 +43,7 @@ Feature: Passport Test
       | PassportSubject             | InvalidLastName |
       | PassportSubjectHappyKenneth |                 |
 
-  @mock-api:cat @Passport_test @build @staging @integration
+  @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport First name with numberserror validation
     Given User enters passport data as a <PassportSubject>
     And User re-enters first name as <InvalidFirstName>
@@ -54,7 +54,7 @@ Feature: Passport Test
       | PassportSubject             | InvalidFirstName |
       | PassportSubjectHappyKenneth | SELINA987        |
 
-  @mock-api:cat @Passport_test @build @staging @integration
+  @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport First name with special characters error validation
     Given User enters passport data as a <PassportSubject>
     And User re-enters first name as <InvalidFirstName>
@@ -65,7 +65,7 @@ Feature: Passport Test
       | PassportSubject             | InvalidFirstName |
       | PassportSubjectHappyKenneth | SELINA^&(        |
 
-  @mock-api:cat @Passport_test @build @staging @integration
+  @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport No First name in the First name field error validation
     Given User enters passport data as a <PassportSubject>
     And User re-enters first name as <InvalidFirstName>
@@ -76,7 +76,7 @@ Feature: Passport Test
       | PassportSubject             | InvalidFirstName |
       | PassportSubjectHappyKenneth |                  |
 
-  @mock-api:cat @Passport_test @build @staging @integration
+  @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport Date of birth that are not real error validation
     Given User enters passport data as a <PassportSubject>
     And User re-enters day of birth as <InvalidDayOfBirth>
@@ -89,7 +89,7 @@ Feature: Passport Test
       | PassportSubject             | InvalidDayOfBirth | InvalidMonthOfBirth | InvalidYearOfBirth |
       | PassportSubjectHappyKenneth | 51                | 71                  | 198                |
 
-  @mock-api:cat @Passport_test @build @staging @integration
+  @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport Date of birth with special characters error validation
     Given User enters passport data as a <PassportSubject>
     And User re-enters day of birth as <InvalidDayOfBirth>
@@ -102,7 +102,7 @@ Feature: Passport Test
       | PassportSubject             | InvalidDayOfBirth | InvalidMonthOfBirth | InvalidYearOfBirth |
       | PassportSubjectHappyKenneth | @                 | *&                  | 19 7%              |
 
-  @mock-api:cat @Passport_test @build @staging @integration
+  @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport Date of birth in the future error validation
     Given User enters passport data as a <PassportSubject>
     And User re-enters day of birth as <InvalidDayOfBirth>
@@ -115,7 +115,7 @@ Feature: Passport Test
       | PassportSubject             | InvalidDayOfBirth | InvalidMonthOfBirth | InvalidYearOfBirth |
       | PassportSubjectHappyKenneth | 10                | 10                  | 2042               |
 
-  @mock-api:cat @Passport_test @build @staging @integration
+  @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport - No Date in the Date of birth field error validation
     Given User enters passport data as a <PassportSubject>
     And User re-enters day of birth as <InvalidDayOfBirth>
@@ -128,8 +128,7 @@ Feature: Passport Test
       | PassportSubject             | InvalidDayOfBirth | InvalidMonthOfBirth | InvalidYearOfBirth |
       | PassportSubjectHappyKenneth |                   |                     |                    |
 
-
-  @mock-api:real @Passport_test @build @staging @integration
+  @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport Valid to date that are not real error validation
     Given User enters passport data as a <PassportSubject>
     And User re-enters expiry day as <InvalidExpiryDay>
@@ -142,7 +141,7 @@ Feature: Passport Test
       | PassportSubject             | InvalidExpiryDay | InvalidExpiryMonth | InvalidExpiryYear |
       | PassportSubjectHappyKenneth | !@               | £$                 | %^ *              |
 
-  @mock-api:cat @Passport_test @build @staging @integration
+  @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport Valid to date with special characters error validation
     Given User enters passport data as a <PassportSubject>
     And User re-enters expiry day as <InvalidExpiryDay>
@@ -155,7 +154,7 @@ Feature: Passport Test
       | PassportSubject             | InvalidExpiryDay | InvalidExpiryMonth | InvalidExpiryYear |
       | PassportSubjectHappyKenneth | 4£               | 5!                 | 29 1@             |
 
-  @mock-api:cat @Passport_test @build @staging @integration
+  @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport Valid to date in the past error validation
     Given User enters passport data as a <PassportSubject>
     And User re-enters expiry day as <InvalidExpiryDay>
@@ -168,7 +167,7 @@ Feature: Passport Test
       | PassportSubject             | InvalidExpiryDay | InvalidExpiryMonth | InvalidExpiryYear |
       | PassportSubjectHappyKenneth | 10               | 01                 | 2010              |
 
-  @mock-api:cat @Passport_test @build @staging @integration
+  @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport - No date in the Valid to date field error validation
     Given User enters passport data as a <PassportSubject>
     And User re-enters expiry day as <InvalidExpiryDay>
@@ -181,7 +180,7 @@ Feature: Passport Test
       | PassportSubject             | InvalidExpiryDay | InvalidExpiryMonth | InvalidExpiryYear |
       | PassportSubjectHappyKenneth |                  |                    |                   |
 
-  @mock-api:cat @Passport_test @build @staging @integration
+  @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport number less than 8 characters error validation
     Given User enters passport data as a <PassportSubject>
     Then User re-enters passportNumber as <InvalidPassportNumber>
@@ -192,7 +191,7 @@ Feature: Passport Test
       | PassportSubject             | InvalidPassportNumber |
       | PassportSubjectHappyKenneth | 5566778               |
 
-  @mock-api:cat @Passport_test @build @staging @integration
+  @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport number with special characters and spaces error validation
     Given User enters passport data as a <PassportSubject>
     Then User re-enters passportNumber as <InvalidPassportNumber>
@@ -203,7 +202,7 @@ Feature: Passport Test
       | PassportSubject             | InvalidPassportNumber |
       | PassportSubjectHappyKenneth | 555667^&*             |
 
-  @mock-api:cat @Passport_test @build @staging @integration
+  @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport number with alpha numeric characters error validation
     Given User enters passport data as a <PassportSubject>
     Then User re-enters passportNumber as <InvalidPassportNumber>
@@ -214,7 +213,7 @@ Feature: Passport Test
       | PassportSubject             | InvalidPassportNumber |
       | PassportSubjectHappyKenneth | 555667ABC             |
 
-  @mock-api:cat @Passport_test @build @staging @integration
+  @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport number with alpha characters error validation
     Given User enters passport data as a <PassportSubject>
     Then User re-enters passportNumber as <InvalidPassportNumber>
@@ -225,7 +224,7 @@ Feature: Passport Test
       | PassportSubject             | InvalidPassportNumber |
       | PassportSubjectHappyKenneth | XYZabdABC             |
 
-  @mock-api:cat @Passport_test @build @staging @integration
+  @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport - No passport number in the passport number field error validation
     Given User enters passport data as a <PassportSubject>
     Then User re-enters passportNumber as <InvalidPassportNumber>

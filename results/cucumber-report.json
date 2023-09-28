@@ -161,7 +161,7 @@
             "line": 1
           },
           {
-            "name": "@mock-api:cat",
+            "name": "@mock-api:passport-success",
             "line": 13
           },
           {
@@ -342,7 +342,7 @@
             "line": 1
           },
           {
-            "name": "@mock-api:cat",
+            "name": "@mock-api:passport-success",
             "line": 24
           },
           {
@@ -523,7 +523,7 @@
             "line": 1
           },
           {
-            "name": "@mock-api:cat",
+            "name": "@mock-api:passport-success",
             "line": 35
           },
           {
@@ -704,7 +704,7 @@
             "line": 1
           },
           {
-            "name": "@mock-api:cat",
+            "name": "@mock-api:passport-success",
             "line": 46
           },
           {
@@ -885,7 +885,7 @@
             "line": 1
           },
           {
-            "name": "@mock-api:cat",
+            "name": "@mock-api:passport-success",
             "line": 57
           },
           {
@@ -1066,7 +1066,7 @@
             "line": 1
           },
           {
-            "name": "@mock-api:cat",
+            "name": "@mock-api:passport-success",
             "line": 68
           },
           {
@@ -1273,7 +1273,7 @@
             "line": 1
           },
           {
-            "name": "@mock-api:cat",
+            "name": "@mock-api:passport-success",
             "line": 79
           },
           {
@@ -1480,7 +1480,7 @@
             "line": 1
           },
           {
-            "name": "@mock-api:cat",
+            "name": "@mock-api:passport-success",
             "line": 92
           },
           {
@@ -1687,7 +1687,7 @@
             "line": 1
           },
           {
-            "name": "@mock-api:cat",
+            "name": "@mock-api:passport-success",
             "line": 105
           },
           {
@@ -1894,7 +1894,7 @@
             "line": 1
           },
           {
-            "name": "@mock-api:cat",
+            "name": "@mock-api:passport-success",
             "line": 118
           },
           {
@@ -2308,7 +2308,7 @@
             "line": 1
           },
           {
-            "name": "@mock-api:cat",
+            "name": "@mock-api:passport-success",
             "line": 145
           },
           {
@@ -2515,7 +2515,7 @@
             "line": 1
           },
           {
-            "name": "@mock-api:cat",
+            "name": "@mock-api:passport-success",
             "line": 158
           },
           {
@@ -2722,7 +2722,7 @@
             "line": 1
           },
           {
-            "name": "@mock-api:cat",
+            "name": "@mock-api:passport-success",
             "line": 171
           },
           {
@@ -2903,7 +2903,7 @@
             "line": 1
           },
           {
-            "name": "@mock-api:cat",
+            "name": "@mock-api:passport-success",
             "line": 184
           },
           {
@@ -3084,7 +3084,7 @@
             "line": 1
           },
           {
-            "name": "@mock-api:cat",
+            "name": "@mock-api:passport-success",
             "line": 195
           },
           {
@@ -3265,7 +3265,7 @@
             "line": 1
           },
           {
-            "name": "@mock-api:cat",
+            "name": "@mock-api:passport-success",
             "line": 206
           },
           {
@@ -3446,7 +3446,7 @@
             "line": 1
           },
           {
-            "name": "@mock-api:cat",
+            "name": "@mock-api:passport-success",
             "line": 217
           },
           {
@@ -3627,7 +3627,7 @@
             "line": 1
           },
           {
-            "name": "@mock-api:cat",
+            "name": "@mock-api:passport-success",
             "line": 228
           },
           {

@@ -247,7 +247,9 @@ Then(
   /^I see the Passport number error summary as (.*)$/,
   async function (errorSummaryText) {
     const passportPage = new PassportPage(this.page);
-    await passportPage.assertInvalidPassportNumberInErrorSummary(errorSummaryText);
+    await passportPage.assertInvalidPassportNumberInErrorSummary(
+      errorSummaryText
+    );
   }
 );
 
@@ -567,143 +569,5 @@ Then(
   async function (errorSummaryMessage) {
     const passportPage = new PassportPage(this.page);
     await passportPage.assertYouWillBeAbleToFindSentence(errorSummaryMessage);
-  }
-);
-
-//########### Text Content Comparisions - DVA ##############
-
-Then(
-  /^I see the heading (.*)$/,
-  { timeout: 2 * 5000 },
-  async function (pageHeadingDVA) {
-    const passportPage = new DVADetailsEntryPage(this.page);
-    await passportPage.assertDVAPageHeading(pageHeadingDVA);
-  }
-);
-
-Then(/^I see sentence (.*)$/, async function (pageHeadingDVASentence) {
-  const passportPage = new DVADetailsEntryPage(this.page);
-  await passportPage.assertDVAPageHeadingSentence(pageHeadingDVASentence);
-});
-
-Then(
-  /^I see We will check your details as (.*)$/,
-  async function (dVAPageSentence) {
-    const passportPage = new DVADetailsEntryPage(this.page);
-    await passportPage.assertdvaPageSentenceTwo(dVAPageSentence);
-  }
-);
-
-Then(/^I check the page title (.*)$/, async function (dvaPageTitle) {
-  const passportPage = new DVADetailsEntryPage(this.page);
-  await passportPage.assertDVAPageTitle(dvaPageTitle);
-});
-
-Then(
-  /^I can see the DVA DoB fields titled (.*)$/,
-  async function (dobFieldTitle) {
-    const passportPage = new DVADetailsEntryPage(this.page);
-    await passportPage.assertDVADoBFieldTitle(dobFieldTitle);
-  }
-);
-
-Then(/^I can see DVA DoB example DVA as (.*)$/, async function (dobExample) {
-  const passportPage = new DVADetailsEntryPage(this.page);
-  await passportPage.assertDVADobExample(dobExample);
-});
-
-Then(/^I can see DVA day as (.*)$/, async function (day) {
-  const passportPage = new DVADetailsEntryPage(this.page);
-  await passportPage.assertDVADay(day);
-});
-
-Then(/^I can see DVA month as (.*)$/, async function (month) {
-  const passportPage = new DVADetailsEntryPage(this.page);
-  await passportPage.assertDVAMonth(month);
-});
-
-Then(/^I can see DVA year as (.*)$/, async function (year) {
-  const passportPage = new DVADetailsEntryPage(this.page);
-  await passportPage.assertDVAYear(year);
-});
-
-Then(
-  /^I see the DVA Issue date field titled (.*)$/,
-  async function (issueFieldTitle) {
-    const passportPage = new DVADetailsEntryPage(this.page);
-    await passportPage.assertDVAIssueDateFieldTitle(issueFieldTitle);
-  }
-);
-
-Then(
-  /^I see DVA date section example as (.*)$/,
-  async function (issueDateExample) {
-    const passportPage = new DVADetailsEntryPage(this.page);
-    await passportPage.assertDVAIssueDateExample(issueDateExample);
-  }
-);
-
-Then(/^I can see DVA Issue day as (.*)$/, async function (issueDay) {
-  const passportPage = new DVADetailsEntryPage(this.page);
-  await passportPage.assertDVAIssueDay(issueDay);
-});
-
-Then(/^I can see DVA issue month as (.*)$/, async function (issueMonth) {
-  const passportPage = new DVADetailsEntryPage(this.page);
-  await passportPage.assertDVAIssueMonth(issueMonth);
-});
-
-Then(/^I can see DVA issue year as (.*)$/, async function (issueYear) {
-  const passportPage = new DVADetailsEntryPage(this.page);
-  await passportPage.assertDVAIssueYear(issueYear);
-});
-
-Then(
-  /^I can see DVA licence number field titled as (.*)$/,
-  async function (validLicenceTitle) {
-    const passportPage = new DVADetailsEntryPage(this.page);
-    await passportPage.assertDVALicenceTitle(validLicenceTitle);
-  }
-);
-
-Then(
-  /^I see the DVA licence sentence as (.*)$/,
-  async function (validLicenceExample) {
-    const passportPage = new DVADetailsEntryPage(this.page);
-    await passportPage.assertDVALicenceExample(validLicenceExample);
-  }
-);
-
-Then(
-  /^I see the DVA Consent first sentence (.*)$/,
-  { timeout: 2 * 5000 },
-  async function (consentFirstSentence) {
-    const passportPage = new DVADetailsEntryPage(this.page);
-    await passportPage.assertDVAConsentSentenceOne(consentFirstSentence);
-  }
-);
-
-Then(
-  /^I see the DVA Consent second sentence (.*)$/,
-  { timeout: 2 * 5000 },
-  async function (consentSecondSentence) {
-    const passportPage = new DVADetailsEntryPage(this.page);
-    await passportPage.assertDVAConsentSentenceTwo(consentSecondSentence);
-  }
-);
-
-Then(
-  /^I see DVA privacy notice link (.*)$/,
-  async function (consentPrivacyLink) {
-    const passportPage = new DVADetailsEntryPage(this.page);
-    await passportPage.assertDVAConsentPrivacyLink(consentPrivacyLink);
-  }
-);
-
-Then(
-  /^I see DVA One Login privacy notice link (.*)$/,
-  async function (consentOneLoginLink) {
-    const passportPage = new DVADetailsEntryPage(this.page);
-    await passportPage.assertDVAConsentOneLoginLink(consentOneLoginLink);
   }
 );
