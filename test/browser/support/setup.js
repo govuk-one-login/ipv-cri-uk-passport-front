@@ -14,9 +14,9 @@ BeforeAll(async function () {
       });
 });
 
-//AfterAll(async function () {
-//  await global.browser.close();
-//});
+AfterAll(async function () {
+  await global.browser.close();
+});
 
 // Add scenario header
 Before(async function ({ pickle } = {}) {
@@ -57,8 +57,8 @@ Before(async function () {
   this.page = await this.context.newPage();
 });
 
-// Cleanup after each scenario
-//After(async function () {
-//  await this.page.close();
-//  await this.context.close();
-//});
+ //Cleanup after each scenario
+After(async function () {
+  await this.page.close();
+  await this.context.close();
+});

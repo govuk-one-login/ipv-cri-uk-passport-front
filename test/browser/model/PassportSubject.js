@@ -23,11 +23,11 @@ function PassportSubject(
 }
 
 PassportSubject.prototype.getPassportNumber = function () {
-  return this.licenceNumber;
+  return this.passportNumber;
 };
 
-PassportSubject.prototype.setLicenceNumber = function (licenceNumber) {
-  this.licenceNumber = licenceNumber;
+PassportSubject.prototype.setLicenceNumber = function (passportNumber) {
+  this.passportNumber = passportNumber;
 };
 
 PassportSubject.prototype.getBirthDay = function () {
@@ -132,7 +132,7 @@ PassportSubject.prototype.getPassportValidToMonth = function () {
   return this.passportValidToMonth;
 };
 
-PassportSubject.prototype.setLicenceValidToMonth = function (
+PassportSubject.prototype.setPassportValidToMonth = function (
   passportValidToMonth
 ) {
   this.passportValidToMonth = passportValidToMonth;

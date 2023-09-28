@@ -105,7 +105,25 @@ Then(
   { timeout: 2 * 5000 },
   async function (InvalidExpiryDay) {
     const passportPage = new PassportPage(this.page);
-    await passportPage.userReEntersDayOfIssue(InvalidExpiryDay);
+    await passportPage.userReEntersExpiryDay(InvalidExpiryDay);
+  }
+);
+
+Then(
+  /^User re-enters expiry month as (.*)$/,
+  { timeout: 2 * 5000 },
+  async function (InvalidExpiryMonth) {
+    const passportPage = new PassportPage(this.page);
+    await passportPage.userReEntersExpiryMonth(InvalidExpiryMonth);
+  }
+);
+
+Then(
+  /^User re-enters expiry year as (.*)$/,
+  { timeout: 2 * 5000 },
+  async function (InvalidExpiryYear) {
+    const passportPage = new PassportPage(this.page);
+    await passportPage.userReEntersExpiryYear(InvalidExpiryYear);
   }
 );
 
@@ -128,24 +146,6 @@ Then(
 );
 
 Then(
-  /^User re-enters expiry month as (.*)$/,
-  { timeout: 2 * 5000 },
-  async function (InvalidExpiryMonth) {
-    const passportPage = new PassportPage(this.page);
-    await passportPage.userReEntersMonthOfIssue(InvalidExpiryMonth);
-  }
-);
-
-Then(
-  /^User re-enters year of issue as (.*)$/,
-  { timeout: 2 * 5000 },
-  async function (InvalidYearOfBirth) {
-    const passportPage = new PassportPage(this.page);
-    await passportPage.userReEntersYearOfIssue(InvalidYearOfBirth);
-  }
-);
-
-Then(
   /^User enters year of issue as current year minus (.*)$/,
   { timeout: 2 * 5000 },
   async function (yearsToSubtract) {
@@ -157,29 +157,13 @@ Then(
 );
 
 Then(
-  /^User re-enters valid to day as (.*)$/,
+  /^User enters expiry month as current month minus (.*)$/,
   { timeout: 2 * 5000 },
-  async function (InvalidValidToDay) {
+  async function (monthToSubtract) {
     const passportPage = new PassportPage(this.page);
-    await passportPage.userReEntersValidToDay(InvalidValidToDay);
-  }
-);
-
-Then(
-  /^User re-enters valid to month as (.*)$/,
-  { timeout: 2 * 5000 },
-  async function (InvalidValidToMonth) {
-    const passportPage = new PassportPage(this.page);
-    await passportPage.userReEntersValidToMonth(InvalidValidToMonth);
-  }
-);
-
-Then(
-  /^User re-enters valid to year (.*)$/,
-  { timeout: 2 * 5000 },
-  async function (InvalidValidToYear) {
-    const passportPage = new PassportPage(this.page);
-    await passportPage.userReEntersValidToYear(InvalidValidToYear);
+    await passportPage.userReEntersExpiryMonthAsCurrentDateMinus(
+      monthToSubtract
+    );
   }
 );
 
@@ -234,7 +218,7 @@ Then(
 );
 
 Then(
-  /^I see the licence number error in the summary as (.*)$/,
+  /^I see the Passport number error in the summary as (.*)$/,
   async function (errorSummaryText) {
     const passportPage = new PassportPage(this.page);
     await passportPage.assertInvalidPassportNumberInErrorSummary(
@@ -244,7 +228,7 @@ Then(
 );
 
 Then(
-  /^I can see the licence number error in the field as (.*)$/,
+  /^I can see the Passport number error in the field as (.*)$/,
   async function (fieldErrorText) {
     const passportPage = new PassportPage(this.page);
     await passportPage.assertInvalidPassportNumberOnField(fieldErrorText);
@@ -260,18 +244,18 @@ Then(
 );
 
 Then(
-  /^I see the issue number error in summary as (.*)$/,
+  /^I see the Passport number error summary as (.*)$/,
   async function (errorSummaryText) {
     const passportPage = new PassportPage(this.page);
-    await passportPage.assertInvalidIssueNumberInErrorSummary(errorSummaryText);
+    await passportPage.assertInvalidPassportNumberInErrorSummary(errorSummaryText);
   }
 );
 
 Then(
-  /^I see the issue number error in field as (.*)$/,
+  /^I see the Passport number error in field as (.*)$/,
   async function (fieldErrorText) {
     const passportPage = new PassportPage(this.page);
-    await passportPage.assertInvalidIssueNumberOnField(fieldErrorText);
+    await passportPage.assertInvalidPassportNumberOnField(fieldErrorText);
   }
 );
 
@@ -308,18 +292,18 @@ Then(
 );
 
 Then(
-  /^I see issue date error in summary as (.*)$/,
+  /^I see expiry date error summary as (.*)$/,
   async function (errorSummaryText) {
     const passportPage = new PassportPage(this.page);
-    await passportPage.assertInvalidIssueInErrorSummary(errorSummaryText);
+    await passportPage.assertInvalidExpiryInErrorSummary(errorSummaryText);
   }
 );
 
 Then(
-  /^I see invalid issue date field error as (.*)$/,
+  /^I see invalid expiry date in the field as (.*)$/,
   async function (fieldErrorText) {
     const passportPage = new PassportPage(this.page);
-    await passportPage.assertInvalidIssueOnField(fieldErrorText);
+    await passportPage.assertInvalidExpiryOnField(fieldErrorText);
   }
 );
 
@@ -338,53 +322,6 @@ Then(
     await passportPage.assertInvalidValidToDateOnField(fieldErrorText);
   }
 );
-
-Then(/^DVLA consent checkbox is unselected$/, async function () {
-  const passportPage = new PassportPage(this.page);
-  await passportPage.consentCheckBoxUnselect();
-});
-
-Then(
-  /^I can see the DVLA consent error summary as (.*)$/,
-  { timeout: 2 * 5000 },
-  async function (errorSummaryText) {
-    const passportPage = new PassportPage(this.page);
-    await passportPage.assertConsentErrorSummary(errorSummaryText);
-  }
-);
-
-Then(
-  /^I can see the DVLA consent error on the checkbox as (.*)$/,
-  { timeout: 2 * 5000 },
-  async function (fieldErrorText) {
-    const passportPage = new PassportPage(this.page);
-    await passportPage.assertConsentErrorOnField(fieldErrorText);
-  }
-);
-
-//##################### DVA ##########################
-
-Then(
-  /^I should be on the DVA details entry page (.*)$/,
-  async function (passportPageTitle) {
-    const passportPage = new DVADetailsEntryPage(this.page);
-    await passportPage.assertDVAPageTitle(passportPageTitle);
-  }
-);
-
-Given(
-  /^User enters DVA data as a (.*)$/,
-  { timeout: 3 * 5000 },
-  async function (dvaPassportSubject) {
-    const passportPage = new DVADetailsEntryPage(this.page);
-    await passportPage.userEntersDVAData("DVA", dvaPassportSubject);
-  }
-);
-
-Then(/^I check the page Title (.*)$/, async function (dvaErrorPageTitle) {
-  const passportPage = new DVADetailsEntryPage(this.page);
-  await passportPage.assertDVAErrorPageTitle(dvaErrorPageTitle);
-});
 
 //################### Text content comparisons ########################
 
