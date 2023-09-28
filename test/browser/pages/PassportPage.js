@@ -291,14 +291,6 @@ exports.PassportPage = class PlaywrightDevPage {
     );
   }
 
-  async assertInvalidIssueNumberInErrorSummary(errorSummaryText) {
-    await this.page.waitForLoadState("domcontentloaded");
-    expect(await this.isCurrentPage()).to.be.true;
-    expect(await this.invalidIssueNumberErrorInSummary.innerText()).to.equal(
-      errorSummaryText
-    );
-  }
-
   async assertInvalidExpiryInErrorSummary(errorSummaryText) {
     await this.page.waitForLoadState("domcontentloaded");
     expect(await this.isCurrentPage()).to.be.true;
@@ -363,14 +355,6 @@ exports.PassportPage = class PlaywrightDevPage {
     expect(await this.passportNumberFieldError.innerText()).to.contains(
       fieldErrorText
     );
-  }
-
-  async assertRetryErrorMessage(retryMessageHeading) {
-    await this.page.waitForLoadState("domcontentloaded");
-    expect(await this.isCurrentPage()).to.be.true;
-    expect(
-      await this.drivingLicenceRetryMessageHeading.innerText()
-    ).to.contains(retryMessageHeading);
   }
 
   async assertInvalidDoBOnField(fieldErrorText) {
