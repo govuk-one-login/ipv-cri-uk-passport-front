@@ -245,7 +245,7 @@ exports.PassportPage = class PlaywrightDevPage {
     await this.passportValidToDay.fill(InvalidExpiryDay);
   }
 
-  async userReEntersDayOfIssueAsCurrentDatePlus(days) {
+  async userReEntersExpiryDayAsCurrentDatePlus(days) {
     await this.passportValidToDay.fill(moment().add(days, "days").format("DD"));
   }
 

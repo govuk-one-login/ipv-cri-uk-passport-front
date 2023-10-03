@@ -1,4 +1,4 @@
-@mock-api:passport-failed @hmpoDVAD
+@mock-api:passport-failed
 Feature: Passport Test
 
   Background:

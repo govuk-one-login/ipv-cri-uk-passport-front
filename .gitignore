@@ -123,3 +123,6 @@ template.zip
 
 .DS_Store
 .vscode/
+
+# Test results
+results/*

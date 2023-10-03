@@ -26,7 +26,7 @@ PassportSubject.prototype.getPassportNumber = function () {
   return this.passportNumber;
 };
 
-PassportSubject.prototype.setLicenceNumber = function (passportNumber) {
+PassportSubject.prototype.setPassportNumber = function (passportNumber) {
   this.passportNumber = passportNumber;
 };
 
@@ -52,48 +52,6 @@ PassportSubject.prototype.getBirthYear = function () {
 
 PassportSubject.prototype.setBirthYear = function (birthYear) {
   this.birthYear = birthYear;
-};
-
-PassportSubject.prototype.getLicenceIssueDay = function () {
-  return this.licenceIssueDay;
-};
-
-PassportSubject.prototype.setLicenceIssueDay = function (licenceIssueDay) {
-  this.licenceIssueDay = licenceIssueDay;
-};
-
-PassportSubject.prototype.getLicenceIssueMonth = function () {
-  return this.licenceIssueMonth;
-};
-
-PassportSubject.prototype.setLicenceIssueMonth = function (licenceIssueMonth) {
-  this.licenceIssueMonth = licenceIssueMonth;
-};
-
-PassportSubject.prototype.getLicenceIssueYear = function () {
-  return this.licenceIssueYear;
-};
-
-PassportSubject.prototype.setLicenceIssueYear = function (licenceIssueYear) {
-  this.licenceIssueYear = licenceIssueYear;
-};
-
-PassportSubject.prototype.getIssueNumber = function () {
-  return this.issueNumber;
-};
-
-PassportSubject.prototype.setIssueNumber = function (issueNumber) {
-  this.issueNumber = issueNumber;
-};
-
-PassportSubject.prototype.getConsentDVLACheckbox = function () {
-  return this.consentDVLACheckbox;
-};
-
-PassportSubject.prototype.setConsentDVLACheckbox = function (
-  consentDVLACheckbox
-) {
-  this.consentDVLACheckbox = consentDVLACheckbox;
 };
 
 PassportSubject.prototype.getMiddleNames = function () {
@@ -124,7 +82,7 @@ PassportSubject.prototype.getPassportValidToDay = function () {
   return this.passportValidToDay;
 };
 
-PassportSubject.prototype.setLicenceValidToDay = function (passportValidToDay) {
+PassportSubject.prototype.setPassportValidToDay = function (passportValidToDay) {
   this.passportValidToDay = passportValidToDay;
 };
 
@@ -142,18 +100,10 @@ PassportSubject.prototype.getPassportValidToYear = function () {
   return this.passportValidToYear;
 };
 
-PassportSubject.prototype.setLicenceValidToYear = function (
+PassportSubject.prototype.setPassportValidToYear = function (
   passportValidToYear
 ) {
   this.passportValidToYear = passportValidToYear;
-};
-
-PassportSubject.prototype.getPostcode = function () {
-  return this.postcode;
-};
-
-PassportSubject.prototype.setPostcode = function (postcode) {
-  this.postcode = postcode;
 };
 
 PassportSubject.prototype.equals = function (otherPassportSubject) {
