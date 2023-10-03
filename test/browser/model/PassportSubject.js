@@ -82,7 +82,9 @@ PassportSubject.prototype.getPassportValidToDay = function () {
   return this.passportValidToDay;
 };
 
-PassportSubject.prototype.setPassportValidToDay = function (passportValidToDay) {
+PassportSubject.prototype.setPassportValidToDay = function (
+  passportValidToDay
+) {
   this.passportValidToDay = passportValidToDay;
 };
 
