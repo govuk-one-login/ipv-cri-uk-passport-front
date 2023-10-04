@@ -1,6 +1,6 @@
 const { Given, When, Then } = require("@cucumber/cucumber");
 
-const { PassportPage } = require("../pages/PassportPage");
+const { PassportPage } = require("../pages/PassportPage.js");
 
 Then(/^I can see CTA {string}$/, async function () {});
 
@@ -24,6 +24,11 @@ Given(
     const passportPage = new PassportPage(this.page);
     await passportPage.userEntersData(passportSubject);
   }
+);
+
+When(
+  /^they (?:have )?start(?:ed)? the Passport journey$/,
+  async function () {}
 );
 
 // Re-enter test data step-defs
@@ -258,22 +263,6 @@ Then(
   async function (fieldErrorText) {
     const passportPage = new PassportPage(this.page);
     await passportPage.assertInvalidPassportNumberOnField(fieldErrorText);
-  }
-);
-
-Then(
-  /^I see the postcode error in summary as (.*)$/,
-  async function (errorSummaryText) {
-    const passportPage = new PassportPage(this.page);
-    await passportPage.assertInvalidPostcodeInErrorSummary(errorSummaryText);
-  }
-);
-
-Then(
-  /^I see the postcode error in field as (.*)$/,
-  async function (fieldErrorText) {
-    const passportPage = new PassportPage(this.page);
-    await passportPage.assertInvalidPostcodeOnField(fieldErrorText);
   }
 );
 

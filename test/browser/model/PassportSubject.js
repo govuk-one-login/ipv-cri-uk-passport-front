@@ -114,13 +114,6 @@ PassportSubject.prototype.equals = function (otherPassportSubject) {
     otherPassportSubject.getBirthDay() == this.getBirthDay() &&
     otherPassportSubject.getBirthMonth() == this.getBirthMonth() &&
     otherPassportSubject.getBirthYear() == this.getBirthYear() &&
-    otherPassportSubject.getLicenceIssueDay() == this.getLicenceIssueDay() &&
-    otherPassportSubject.getLicenceIssueMonth() ==
-      this.getLicenceIssueMonth() &&
-    otherPassportSubject.getLicenceIssueYear() == this.getLicenceIssueYear() &&
-    otherPassportSubject.getIssueNumber() == this.getIssueNumber() &&
-    otherPassportSubject.getConsentDVLACheckbox() ==
-      this.getConsentDVLACheckbox() &&
     otherPassportSubject.getMiddleNames() == this.getMiddleNames() &&
     otherPassportSubject.getLastName() == this.getLastName() &&
     otherPassportSubject.getFirstName() == this.getFirstName() &&
@@ -129,8 +122,7 @@ PassportSubject.prototype.equals = function (otherPassportSubject) {
     otherPassportSubject.getPassportValidToMonth() ==
       this.getPassportValidToMonth() &&
     otherPassportSubject.getPassportValidToYear() ==
-      this.getPassportValidToYear() &&
-    otherPassportSubject.getPostcode() == this.getPostcode()
+      this.getPassportValidToYear()
   );
 };
 
