@@ -1,0 +1,49 @@
+{
+  "mappings": [
+    {
+      "scenarioName": "passport-check-error",
+      "request": {
+        "method": "GET",
+        "url": "/__reset/passport-check-error"
+      },
+      "response": {
+        "status": 200
+      }
+    },
+    {
+      "scenarioName": "passport-check-error",
+      "request": {
+        "method": "POST",
+        "urlPath": "/session",
+        "headers": {
+          "x-scenario-id": {
+            "equalTo": "passport-check-error"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "jsonBody": {
+          "session_id": "ABADCAFE",
+          "state": "sT@t3",
+          "redirect_uri": "http://example.net/return"
+        }
+      }
+    },
+    {
+      "scenarioName": "passport-check-error",
+      "request": {
+        "method": "POST",
+        "urlPath": "/check-passport",
+        "headers": {
+          "x-scenario-id": {
+            "equalTo": "passport-check-error"
+          }
+        }
+      },
+      "response": {
+        "status": 500
+      }
+    }
+  ]
+}

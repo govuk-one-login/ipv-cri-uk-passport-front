@@ -1,0 +1,83 @@
+{
+  "mappings": [
+    {
+      "scenarioName": "passport-failed",
+      "request": {
+        "method": "GET",
+        "url": "/__reset/passport-failed"
+      },
+      "response": {
+        "status": 200
+      }
+    },
+    {
+      "scenarioName": "passport-failed",
+      "request": {
+        "method": "POST",
+        "urlPath": "/session",
+        "headers": {
+          "x-scenario-id": {
+            "equalTo": "passport-failed"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "jsonBody": {
+          "session_id": "ABCDEF",
+          "state": "sT@t3",
+          "redirect_uri": "http://example.net/return"
+        }
+      }
+    },
+    {
+      "scenarioName": "passport-failed",
+      "request": {
+        "method": "POST",
+        "urlPath": "/check-passport",
+        "headers": {
+          "x-scenario-id": {
+            "equalTo": "passport-failed"
+          },
+          "session_id": {
+            "equalTo": "ABCDEF"
+          }
+        },
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": "$.passportNumber"
+          }
+        ]
+      },
+      "response": {
+        "status": 200,
+        "jsonBody": {
+          "retry": true
+        }
+      }
+    },
+    {
+      "scenarioName": "passport-failed",
+      "request": {
+        "method": "GET",
+        "urlPath": "/authorization",
+        "headers": {
+          "x-scenario-id": {
+            "equalTo": "passport-failed"
+          },
+          "session-id": {
+            "equalTo": "ABCDEF"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "jsonBody": {
+          "authorizationCode": {
+            "value": "FACEFEED"
+          }
+        }
+      }
+    }
+  ]
+}

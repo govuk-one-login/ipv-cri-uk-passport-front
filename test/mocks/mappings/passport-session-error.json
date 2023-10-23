@@ -1,0 +1,29 @@
+{
+  "mappings": [
+    {
+      "scenarioName": "passport-session-error",
+      "request": {
+        "method": "GET",
+        "url": "/__reset/passport-session-error"
+      },
+      "response": {
+        "status": 200
+      }
+    },
+    {
+      "scenarioName": "passport-session-error",
+      "request": {
+        "method": "POST",
+        "urlPath": "/session",
+        "headers": {
+          "x-scenario-id": {
+            "equalTo": "passport-session-error"
+          }
+        }
+      },
+      "response": {
+        "status": 500
+      }
+    }
+  ]
+}
