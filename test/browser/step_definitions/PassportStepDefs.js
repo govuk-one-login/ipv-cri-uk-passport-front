@@ -1,6 +1,7 @@
 const { Given, When, Then } = require("@cucumber/cucumber");
 
 const { PassportPage } = require("../pages/PassportPage.js");
+const { expect } = require("chai");
 
 Then(/^I can see CTA {string}$/, async function () {});
 
@@ -365,5 +366,16 @@ Then(
   async function (errorSummaryMessage) {
     const passportPage = new PassportPage(this.page);
     await passportPage.assertYouWillBeAbleToFindSentence(errorSummaryMessage);
+  }
+);
+
+Given(
+  /^they click Footer (.*) and assert I have been redirected correctly$/,
+  async function (linkName) {
+    const passportPage = new PassportPage(this.page);
+
+    expect(passportPage.isCurrentPage()).to.be.true;
+
+    await passportPage.assertFooterLink(linkName);
   }
 );

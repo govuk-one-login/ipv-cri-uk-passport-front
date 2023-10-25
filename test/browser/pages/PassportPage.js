@@ -26,6 +26,9 @@ exports.PassportPage = class PlaywrightDevPage {
     this.passportValidToYear = this.page.locator(
       'xpath=//*[@id="expiryDate-year"]'
     );
+    this.supportLink = this.page.locator(
+      "xpath=/html/body/footer/div/div/div[1]/ul/li[5]/a"
+    );
 
     // Error summary items
 
@@ -387,6 +390,14 @@ exports.PassportPage = class PlaywrightDevPage {
     expect(await this.isCurrentPage()).to.be.true;
     await expect(await this.betaBannerReads.textContent()).to.contains(
       assertBetaBannerText
+    );
+  }
+
+  async assertFooterLink() {
+    await this.supportLink.click();
+    await this.page.waitForTimeout(2000); //waitForNavigation and waitForLoadState do not work in this case
+    expect(await this.page.title()).to.not.equal(
+      "Page not found - GOV.UK One Login"
     );
   }
 };

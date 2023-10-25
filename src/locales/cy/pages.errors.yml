@@ -6,7 +6,7 @@ error:
     - '<h2 class="govuk-heading-m"> Beth allwch chi ei wneud </h2>'
     - "Ewch yn ôl i’r gwasanaeth roeddech yn ceisio ei ddefnyddio a dechrau eto. Gallwch chwilio am y gwasanaeth gan ddefnyddio’ch peiriant chwilio neu ddod o hyd iddo o hafan GOV.UK."
     - '<a href="https://www.gov.uk/" class="govuk-button" data-module="govuk-button"> Ewch i hafan GOV.UK </a>'
-    - '<a href="https://home.account.gov.uk/contact-gov-uk-one-login?fromURL=passport-cri" class="govuk-link"> Cysylltu â thîm cyfrif GOV.UK (agor mewn tab newydd) </a>'
+    - '<a href="https://home.account.gov.uk/contact-gov-uk-one-login" class="govuk-link" target="_blank"> Cysylltu â thîm cyfrif GOV.UK (agor mewn tab newydd) </a>'
 pageNotFound:
   title: "Tudalen heb ei darganfod"
   serviceNameRequired: false
@@ -15,7 +15,7 @@ pageNotFound:
     - "Os ydych wedi gludo’r cyfeiriad gwe, edrychwch i weld eich bod wedi copïo’r cyfeiriad cyfan."
     - "Gallwch hefyd fynd yn ôl i’r gwasanaeth roeddech yn ceisio ei ddefnyddio a dechrau eto. Gallwch chwilio am y gwasanaeth gan ddefnyddi’ch peiriant chwilio neu ddod o hyd iddo o hafan GOV.UK."
     - '<a href="https://www.gov.uk/" class="govuk-button" data-module="govuk-button">Ewch i hafan GOV.UK</a>'
-    - '<a href="https://home.account.gov.uk/contact-gov-uk-one-login?fromURL=passport-cri" class="govuk-link">Cysylltu â thîm cyfrif GOV.UK (agor mewn tab newydd)</a>'
+    - '<a href="https://home.account.gov.uk/contact-gov-uk-one-login" class="govuk-link" target="_blank">Cysylltu â thîm cyfrif GOV.UK (agor mewn tab newydd)</a>'
 sessionEnded:
   title: "Sesiwn wedi dod i ben"
   serviceNameRequired: false
