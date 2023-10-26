@@ -26,7 +26,7 @@ jobs:
           cache: "yarn"
 
       - name: Install dependencies
-        run: yarn install
+        run: yarn install && yarn playwright install
 
       - name: Run lint
         run: yarn lint
@@ -34,8 +34,8 @@ jobs:
       - name: Run test and write coverage
         run: yarn test:coverage
 
-#      - name: Run browser tests
-#        run: yarn run test:browser:ci
+      - name: Run browser tests
+        run: yarn run test:browser:ci
 
       - name: Run sonarcloud scan
         if: ${{ github.actor != 'dependabot[bot]' }}

@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node src/app.js",
-    "start:ci": "NODE_ENV=development API_BASE_URL=http://localhost:8050/ yarn dev",
+    "start:ci": "NODE_ENV=development API_BASE_URL=http://localhost:8050/ yarn start",
     "dev": "nodemon --inspect=0.0.0.0:9229 src/app.js",
     "build": "yarn build-sass && yarn build-js && yarn copy-assets",
     "build-sass": "rm -rf dist/public/style.css && sass --no-source-map src/assets/scss/application.scss dist/public/stylesheets/application.css --style compressed",
@@ -81,6 +81,7 @@
     "nunjucks": "3.2.4",
     "nyc": "15.1.0",
     "reqres": "^3.0.1",
+    "wait-on": "^7.0.1",
     "wiremock": "^3.1.0"
   }
 }

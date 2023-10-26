@@ -7,8 +7,6 @@ Feature: Passport Test
     And they have started the Passport journey
     And I should be on the Passport details entry page Enter your details exactly as they appear on your UK passport – Prove your identity – GOV.UK
 
-
-
 ###########   Field Validations ##########
   @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport Last name with numbers or special characters error validation dsadas
