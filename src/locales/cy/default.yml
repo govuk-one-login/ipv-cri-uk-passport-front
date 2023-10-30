@@ -11,7 +11,7 @@ govuk:
   skipLink: "Neidio i’r prif gynnwys"
   phaseBanner:
     tag: beta
-    content: 'Mae hwn yn wasanaeth newydd – bydd eich <a class="govuk-link" rel="noopener" target="_blank" href="https://signin.account.gov.uk/contact-us">adborth (agor mewn tab newydd)</a> yn ein helpu i’w wella.'
+    content: 'Mae hwn yn wasanaeth newydd – bydd eich <a class="govuk-link" rel="noopener" target="_blank" href="https://home.account.gov.uk/contact-gov-uk-one-login">adborth (agor mewn tab newydd)</a> yn ein helpu i’w wella.'
   cookie:
     cookieBanner:
       title: "Cwcis ar GOV.UK One Login"
@@ -40,7 +40,7 @@ govuk:
           text: "Telerau ac amodau"
         - href: "https://signin.account.gov.uk/privacy-notice"
           text: "Hysbysiad preifatrwydd"
-        - href: "https://signin.account.gov.uk/contact-us"
+        - href: "https://home.account.gov.uk/contact-gov-uk-one-login"
           text: "Cymorth"
     contentLicence:
       html: 'Mae’r holl gynnwys ar gael o dan <a class="govuk-footer__link" href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Trwydded Llywodraeth Agored v3.0</a>, oni nodir yn wahanol'

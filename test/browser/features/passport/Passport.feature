@@ -232,3 +232,11 @@ Feature: Passport Test
     Examples:
       | PassportSubject             | InvalidPassportNumber |
       | PassportSubjectHappyKenneth |                       |
+
+  @mock-api:passport-success
+  Scenario Outline: Check support links
+    And they click Footer <link> and assert I have been redirected correctly
+
+    Examples:
+      | link           |
+      | Support        |
