@@ -23,6 +23,7 @@ module.exports = {
   SESSION_SECRET: process.env.SESSION_SECRET,
   SESSION_TABLE_NAME: process.env.SESSION_TABLE_NAME,
   SESSION_TTL: process.env.SESSION_TTL || 7200000, // two hours in ms
+  LOG_LEVEL: process.env.LOG_LEVEL || "request",
   REDIS: {
     SESSION_URL: process.env.REDIS_SESSION_URL,
     PORT: process.env.REDIS_PORT || 6379,

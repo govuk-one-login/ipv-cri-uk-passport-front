@@ -73,6 +73,14 @@ Mappings:
     eu-west-2:
       AccountId: 652711504416
 
+  LogLevel:
+    Environment:
+      dev: "debug"
+      build: "debug"
+      staging: "request"
+      integration: "request"
+      production: "request"
+
 Resources:
   # Security Groups for the ECS service and load balancer
   LoadBalancerSG:
@@ -438,6 +446,8 @@ Resources:
                   "account.gov.uk",
                   !Sub "${Environment}.account.gov.uk",
                 ]
+            - Name: LOG_LEVEL
+              Value: !FindInMap [ LogLevel, Environment, !Ref 'Environment' ]
           PortMappings:
             - ContainerPort: 8080
               Protocol: tcp

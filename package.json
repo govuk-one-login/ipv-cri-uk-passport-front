@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node src/app.js",
     "start:ci": "NODE_ENV=development API_BASE_URL=http://localhost:8050/ yarn start",
-    "dev": "nodemon --inspect=0.0.0.0:9229 src/app.js",
+    "dev": "LOG_LEVEL=debug nodemon --inspect=0.0.0.0:9229 src/app.js",
     "build": "yarn build-sass && yarn build-js && yarn copy-assets",
     "build-sass": "rm -rf dist/public/style.css && sass --no-source-map src/assets/scss/application.scss dist/public/stylesheets/application.css --style compressed",
     "copy-assets": "mkdir -p dist && copyfiles -u 1 src/**/*.njk dist/ src/locales/**/** dist/ && copyfiles -u 3 src/assets/javascripts/*.js dist/public/scripts && copyfiles -u 3 src/assets/images/* dist/public/images",

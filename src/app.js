@@ -26,11 +26,13 @@ const {
   SESSION_SECRET,
   SESSION_TABLE_NAME,
   SESSION_TTL,
+  LOG_LEVEL,
 } = require("./lib/config");
 
 const { setup } = require("hmpo-app");
 
 const loggerConfig = {
+  consoleLevel: LOG_LEVEL,
   console: true,
   consoleJSON: true, // logstash json or pretty print output
   app: false,
