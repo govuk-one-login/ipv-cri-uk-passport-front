@@ -234,9 +234,7 @@ Feature: Passport Test
       | PassportSubjectHappyKenneth |                       |
 
   @mock-api:passport-success
-  Scenario Outline: Check support links
-    And they click Footer <link> and assert I have been redirected correctly
-
-    Examples:
-      | link           |
-      | Support        |
+  Scenario: Check support links
+    Given I see support link Support and assert the url
+    And I view the beta banner
+    And the beta banner reads This is a new service – your feedback (opens in new tab) will help us to improve it.

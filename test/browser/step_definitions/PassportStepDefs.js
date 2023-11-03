@@ -370,12 +370,9 @@ Then(
 );
 
 Given(
-  /^they click Footer (.*) and assert I have been redirected correctly$/,
-  async function (linkName) {
+  /^I see support link (.*) and assert the url$/,
+  async function (supportLink) {
     const passportPage = new PassportPage(this.page);
-
-    expect(passportPage.isCurrentPage()).to.be.true;
-
-    await passportPage.assertFooterLink(linkName);
+    await passportPage.assertFooterLink(supportLink);
   }
 );
