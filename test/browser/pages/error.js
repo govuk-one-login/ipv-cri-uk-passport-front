@@ -11,7 +11,7 @@ module.exports = class PlaywrightDevPage {
   }
 
   getErrorTitle() {
-    return this.page.textContent('[data-page="errors.error"]');
+    return this.page.textContent('[data-page="error"]');
   }
 
   isCurrentPage() {
