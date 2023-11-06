@@ -81,6 +81,14 @@ Mappings:
       integration: "request"
       production: "request"
 
+  ga4Enabled:
+    Environment:
+      dev: "true"
+      build: "false"
+      staging: "false"
+      integration: "false"
+      production: "false"
+
 Resources:
   # Security Groups for the ECS service and load balancer
   LoadBalancerSG:
@@ -437,8 +445,12 @@ Resources:
               Value: !Sub
                 - "cri-passport-front-sessions-${Environment}"
                 - Environment: !Ref Environment
-            - Name: GTM_ID
+            - Name: UA_CONTAINER_ID
               Value: !If [IsProduction, "GTM-TT5HDKV", "GTM-TK92W68"]
+            - Name: GA4_CONTAINER_ID
+              Value: !If [ IsProduction, "GTM-K4PBJH3", "GTM-KD86CMZ" ]
+            - Name: GA4_ENABLED
+              Value: !FindInMap [ ga4Enabled, Environment, !Ref 'Environment' ]
             - Name: ANALYTICS_DOMAIN
               Value:
                 !If [

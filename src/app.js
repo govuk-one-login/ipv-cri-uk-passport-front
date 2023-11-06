@@ -112,8 +112,11 @@ setOAuthPaths({ app, entryPointPath: APP.PATHS.PASSPORT });
 
 setGTM({
   app,
-  id: APP.ANALYTICS.ID,
   analyticsCookieDomain: APP.ANALYTICS.COOKIE_DOMAIN,
+  uaContainerId: APP.ANALYTICS.UA_CONTAINER_ID,
+  isGa4Enabled: APP.ANALYTICS.GA4_ENABLED,
+  ga4ContainerId: APP.ANALYTICS.GA4_CONTAINER_ID,
+  gaTaxonomyLevel2: "passport",
 });
 
 router.use(getGTM);

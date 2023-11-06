@@ -15,8 +15,10 @@ module.exports = {
       PASSPORT: "/",
     },
     ANALYTICS: {
-      ID: process.env.GTM_ID,
+      UA_CONTAINER_ID: process.env.GTM_ID,
       COOKIE_DOMAIN: process.env.ANALYTICS_DOMAIN || "localhost",
+      GA4_ENABLED: process.env.GA4_ENABLED || "false",
+      GA4_CONTAINER_ID: process.env.GA4_CONTAINER_ID,
     },
   },
   PORT: process.env.PORT || 5050,
