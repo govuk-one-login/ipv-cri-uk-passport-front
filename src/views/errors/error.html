@@ -9,3 +9,8 @@
 {% from "hmpo-html/macro.njk" import hmpoHtml %}
 {{ hmpoHtml(translate("pages." + hmpoPageKey + ".content", { default: [] })) }}
 {% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" nonce='{{cspNonce}}'>window.DI = window.DI || {};window.DI.httpStatusCode = 500</script>
+{{ super ()}}
+{% endblock %}
