@@ -234,9 +234,14 @@ Feature: Passport Test
       | PassportSubjectHappyKenneth |                       |
 
   @mock-api:passport-success
-  Scenario Outline: Check support links
-    And they click Footer <link> and assert I have been redirected correctly
-
-    Examples:
-      | link           |
-      | Support        |
+  Scenario: Check support links
+    Given I see support link Support in the footer and assert the url is correct and live
+    When I view the beta banner
+    Then the beta banner reads This is a new service – your feedback (opens in new tab) will help us to improve it.
+    And I assert the link in the banner is correct and live
+    Then I delete the session cookie
+    And User clicks on continue
+    Then they should see an error page
+    And I assert the link on the error page is correct and live
+    Then I go to page not found
+    And I assert the link on the page not found page is correct and live

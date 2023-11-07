@@ -1,7 +1,6 @@
 const { Given, When, Then } = require("@cucumber/cucumber");
 
 const { PassportPage } = require("../pages/PassportPage.js");
-const { expect } = require("chai");
 
 Then(/^I can see CTA {string}$/, async function () {});
 
@@ -370,12 +369,44 @@ Then(
 );
 
 Given(
-  /^they click Footer (.*) and assert I have been redirected correctly$/,
-  async function (linkName) {
+  /^I see support link (.*) in the footer and assert the url is correct and live$/,
+  async function (supportLink) {
     const passportPage = new PassportPage(this.page);
-
-    expect(passportPage.isCurrentPage()).to.be.true;
-
-    await passportPage.assertFooterLink(linkName);
+    await passportPage.assertFooterLink(supportLink);
+    await this.page.goBack();
   }
 );
+
+Given(
+  /^I assert the link in the banner is correct and live$/,
+  async function () {
+    const passportPage = new PassportPage(this.page);
+    await passportPage.assertBannerLink();
+  }
+);
+
+Given(
+  /^I assert the link on the error page is correct and live$/,
+  async function () {
+    const passportPage = new PassportPage(this.page);
+    await passportPage.assertErrorLink();
+  }
+);
+
+Given(
+  /^I assert the link on the page not found page is correct and live$/,
+  async function () {
+    const passportPage = new PassportPage(this.page);
+    await passportPage.assertNotFoundLink();
+  }
+);
+
+Given(/^I delete the session cookie$/, async function () {
+  const passportPage = new PassportPage(this.page);
+  await passportPage.deleteSessionCookie();
+});
+
+Given(/^I go to page not found$/, async function () {
+  const passportPage = new PassportPage(this.page);
+  await passportPage.goToPage("not-found");
+});
