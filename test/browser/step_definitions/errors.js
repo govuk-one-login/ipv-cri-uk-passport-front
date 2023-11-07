@@ -9,5 +9,7 @@ Then("they should see an error page", async function () {
 
   const errorTitle = await errorPage.getErrorTitle();
 
-  expect(errorTitle).to.equal(errorPage.getSomethingWentWrongMessage());
+  expect(errorTitle.trim()).to.equal(
+    errorPage.getSomethingWentWrongMessage().trim()
+  );
 });

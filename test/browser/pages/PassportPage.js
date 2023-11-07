@@ -173,6 +173,18 @@ exports.PassportPage = class PlaywrightDevPage {
     this.thereWasAProblemFirstSentence = this.page.locator(
       'xpath=//*[@id="main-content"]/div/div/div[1]/div[2]/p[1]'
     );
+
+    this.betaBannerLink = this.page.locator(
+      "xpath=/html/body/div[2]/div/p/span/a"
+    );
+
+    this.errorLink = this.page.locator(
+      'xpath=//*[@id="main-content"]/div/div/p[6]/a'
+    );
+
+    this.notFoundLink = this.page.locator(
+      'xpath=//*[@id="main-content"]/div/div/p[5]/a'
+    );
   }
 
   isCurrentPage() {
@@ -379,7 +391,7 @@ exports.PassportPage = class PlaywrightDevPage {
   //  Language
   async assertBetaBanner(betaBannerLabel) {
     await this.page.waitForLoadState("domcontentloaded");
-    //    expect(await this.isCurrentPage()).to.be.true;
+    expect(await this.isCurrentPage()).to.be.true;
     await expect(await this.betaBanner.textContent()).to.contains(
       betaBannerLabel
     );
@@ -387,10 +399,9 @@ exports.PassportPage = class PlaywrightDevPage {
 
   async assertBetaBannerText(assertBetaBannerText) {
     await this.page.waitForLoadState("domcontentloaded");
-    //    expect(await this.isCurrentPage()).to.be.true;
-    await expect(await this.betaBannerReads.textContent()).to.contains(
-      assertBetaBannerText
-    );
+    expect(await this.isCurrentPage()).to.be.true;
+    var textContent = await this.betaBannerReads.textContent();
+    await expect(textContent.trim()).to.equal(assertBetaBannerText.trim());
   }
 
   async assertFooterLink() {
@@ -399,5 +410,60 @@ exports.PassportPage = class PlaywrightDevPage {
     expect(await this.page.url()).to.equal(
       "https://home.account.gov.uk/contact-gov-uk-one-login"
     );
+  }
+
+  async assertBannerLink() {
+    await this.betaBannerLink.click();
+    await this.page.waitForTimeout(2000); //waitForNavigation and waitForLoadState do not work in this case
+    let context = await this.page.context();
+    let pages = await context.pages();
+    expect(await pages[1].url()).to.equal(
+      "https://home.account.gov.uk/contact-gov-uk-one-login"
+    );
+    expect(await pages[1].title()).to.not.equal(
+      "Page not found - GOV.UK One Login"
+    );
+    await pages[1].close();
+  }
+
+  async assertErrorLink() {
+    await this.errorLink.click();
+    await this.page.waitForTimeout(2000); //waitForNavigation and waitForLoadState do not work in this case
+    let context = await this.page.context();
+    let pages = await context.pages();
+    expect(await pages[1].url()).to.equal(
+      "https://home.account.gov.uk/contact-gov-uk-one-login"
+    );
+    expect(await pages[1].title()).to.not.equal(
+      "Page not found - GOV.UK One Login"
+    );
+    await pages[1].close();
+  }
+
+  async assertNotFoundLink() {
+    await this.notFoundLink.click();
+    await this.page.waitForTimeout(2000); //waitForNavigation and waitForLoadState do not work in this case
+    let context = await this.page.context();
+    let pages = await context.pages();
+    expect(await pages[1].url()).to.equal(
+      "https://home.account.gov.uk/contact-gov-uk-one-login"
+    );
+    expect(await pages[1].title()).to.not.equal(
+      "Page not found - GOV.UK One Login"
+    );
+    await pages[1].close();
+  }
+
+  async deleteSessionCookie() {
+    const cookieName = "service_session";
+    const cookies = (await this.page.context().cookies()).filter(
+      (cookie) => cookie.name !== cookieName
+    );
+    await this.page.context().clearCookies();
+    await this.page.context().addCookies(cookies);
+  }
+
+  async goToPage(pageName) {
+    await this.page.goto(this.page.url() + pageName);
   }
 };
