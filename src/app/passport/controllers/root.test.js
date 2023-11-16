@@ -16,32 +16,32 @@ describe("root controller", () => {
       status: sinon.fake(),
       redirect: sinon.fake(),
       send: sinon.fake(),
-      render: sinon.fake(),
+      render: sinon.fake()
     };
 
     req = {
       query: {
-        client_id: "s6BhdRkqt3",
+        client_id: "s6BhdRkqt3"
       },
       session: {
         shared_claims: {
           names: [
             { givenNames: ["Dan John"], familyName: "Watson" },
             { givenNames: ["Daniel"], familyName: "Watson" },
-            { givenNames: ["Danny, Dan"], familyName: "Watson" },
+            { givenNames: ["Danny, Dan"], familyName: "Watson" }
           ],
-          dateOfBirths: ["2021-03-01", "1991-03-01"],
-        },
+          dateOfBirths: ["2021-03-01", "1991-03-01"]
+        }
       },
       sessionModel: {
         get: sinon.fake(),
         set: sinon.fake(),
-        unset: sinon.fake(),
+        unset: sinon.fake()
       },
       journeyModel: {
-        set: sinon.fake(),
+        set: sinon.fake()
       },
-      form: {},
+      form: {}
     };
 
     next = sinon.fake();
@@ -74,7 +74,7 @@ describe("root controller", () => {
   it("should not update journeyModel if no shared attributes present", async () => {
     req.session.shared_claims = {
       names: [],
-      dateOfBirths: [],
+      dateOfBirths: []
     };
 
     await root.saveValues(req, res, next);

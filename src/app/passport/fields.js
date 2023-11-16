@@ -3,12 +3,12 @@ const { expiryDateValidator } = require("./fieldsHelper");
 
 const firstNameMiddleNameLengthValidatorObj = {
   fn: firstNameMiddleNameLengthValidator,
-  arguments: [30, "firstName", "middleNames"],
+  arguments: [30, "firstName", "middleNames"]
 };
 
 const expiryDateValidatorObj = {
   fn: expiryDateValidator,
-  arguments: [18, "expiryDate"],
+  arguments: [18, "expiryDate"]
 };
 
 module.exports = {
@@ -20,18 +20,18 @@ module.exports = {
       "required",
       "numeric",
       { type: "exactlength", arguments: [9] },
-      { type: "limit", fn: (value) => !value.startsWith("9") },
+      { type: "limit", fn: (value) => !value.startsWith("9") }
     ],
-    classes: "govuk-input--width-10",
+    classes: "govuk-input--width-10"
   },
   surname: {
     type: "text",
     validate: [
       "required",
       { type: "maxlength", arguments: [30] },
-      { type: "regexpassport", fn: (value) => value.match(/^[a-zA-Z .'-]*$/) },
+      { type: "regexpassport", fn: (value) => value.match(/^[a-zA-Z .'-]*$/) }
     ],
-    journeyKey: "surname",
+    journeyKey: "surname"
   },
   firstName: {
     type: "text",
@@ -41,10 +41,10 @@ module.exports = {
       { type: "regexpassport", fn: (value) => value.match(/^[a-zA-Z .'-]*$/) },
       {
         type: "firstNameMiddleNameLength",
-        ...firstNameMiddleNameLengthValidatorObj,
-      },
+        ...firstNameMiddleNameLengthValidatorObj
+      }
     ],
-    journeyKey: "firstName",
+    journeyKey: "firstName"
   },
   middleNames: {
     type: "text",
@@ -54,9 +54,9 @@ module.exports = {
       { type: "regexpassport", fn: (value) => value.match(/^[a-zA-Z .'-]*$/) },
       {
         type: "firstNameMiddleNameLength",
-        ...firstNameMiddleNameLengthValidatorObj,
-      },
-    ],
+        ...firstNameMiddleNameLengthValidatorObj
+      }
+    ]
   },
   dateOfBirth: {
     type: "date",
@@ -64,8 +64,8 @@ module.exports = {
     validate: [
       "required",
       "date",
-      { type: "before", arguments: [new Date().toISOString().split("T")[0]] },
-    ],
+      { type: "before", arguments: [new Date().toISOString().split("T")[0]] }
+    ]
   },
   expiryDate: {
     type: "date",
@@ -76,13 +76,13 @@ module.exports = {
       { type: "date" },
       {
         type: "expiryDate",
-        ...expiryDateValidatorObj,
-      },
-    ],
+        ...expiryDateValidatorObj
+      }
+    ]
   },
   proveAnotherWayRadio: {
     type: "radios",
     items: ["proveAnotherWay", "retry"],
-    validate: ["required"],
-  },
+    validate: ["required"]
+  }
 };

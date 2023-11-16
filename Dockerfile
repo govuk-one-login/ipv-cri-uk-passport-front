@@ -1,9 +1,9 @@
-FROM node:18.16.0-alpine3.16@sha256:f47850733d8522489f57bfe86d790b1ee167a4b863d83d37572fb28cf10ec5e8 AS builder
+FROM node:20.9.0-alpine3.17@sha256:c049e006a20730f3d2536a8551c2e4ad74a397fdce707f2b79c353837f142d5c AS builder
 WORKDIR /app
 RUN [ "yarn", "set", "version", "1.22.17" ]
+COPY .yarn ./.yarn
 COPY /src ./src
-COPY package.json ./
-COPY yarn.lock ./
+COPY package.json yarn.lock .yarnrc.yml ./
 
 RUN yarn install
 RUN yarn build
@@ -13,7 +13,7 @@ RUN yarn build
 RUN [ "rm", "-rf", "node_modules" ]
 RUN yarn install --production
 
-FROM node:18.16.0-alpine3.16@sha256:f47850733d8522489f57bfe86d790b1ee167a4b863d83d37572fb28cf10ec5e8 AS final
+FROM node:20.9.0-alpine3.17@sha256:c049e006a20730f3d2536a8551c2e4ad74a397fdce707f2b79c353837f142d5c AS final
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 RUN ["apk", "--no-cache", "upgrade"]

@@ -19,7 +19,7 @@ describe("feature sets", () => {
     beforeEach(() => {
       req = {
         query: {},
-        session: {},
+        session: {}
       };
       res = {};
       next = sinon.stub();

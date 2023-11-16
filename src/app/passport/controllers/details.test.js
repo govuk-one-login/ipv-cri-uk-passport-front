@@ -26,8 +26,8 @@ describe("details controller", () => {
     req.sessionModel.set("showRetryMessage", true);
     req.form = {
       options: {
-        dateFields: [],
-      },
+        dateFields: []
+      }
     };
 
     await details.saveValues(req, res, next);

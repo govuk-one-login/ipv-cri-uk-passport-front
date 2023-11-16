@@ -40,5 +40,5 @@ module.exports = {
 
     // Note always compare as Dates
     return expiryDate >= earliestValidDate;
-  },
+  }
 };

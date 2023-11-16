@@ -6,7 +6,7 @@ const users = {
   "Authenticatable Anita": {},
   "Erroring Ethem": {},
   "Not Authenticatable Neil": {},
-  "Validating Valerie": {},
+  "Validating Valerie": {}
 };
 
 class CustomWorld {

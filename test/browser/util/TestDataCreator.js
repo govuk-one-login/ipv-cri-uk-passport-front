@@ -12,7 +12,7 @@ exports.getPassportTestUserFromMap = function (passportSubjectScenario) {
     firstName: "KENNETH",
     passportValidToDay: "01",
     passportValidToMonth: "10",
-    passportValidToYear: "2042",
+    passportValidToYear: "2042"
   });
 
   if (passportSubjectScenario === "PassportSubjectHappyKenneth") {

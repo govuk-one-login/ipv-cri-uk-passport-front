@@ -38,12 +38,12 @@ describe("validate controller", () => {
     req.sessionModel.set("expiryDate", "15/01/2035");
     req.session.authParams = {
       redirect_uri: "A VALUE",
-      state: "A VALUE",
+      state: "A VALUE"
     };
 
     const data = {
       redirect_uri: "https://client.example.com",
-      state: "TEST",
+      state: "TEST"
     };
 
     const resolvedPromise = new Promise((resolve) => resolve({ data }));
@@ -59,12 +59,12 @@ describe("validate controller", () => {
         surname: "Jones Smith",
         forenames: ["Dan", "Joe"],
         dateOfBirth: "10/02/1975",
-        expiryDate: "15/01/2035",
+        expiryDate: "15/01/2035"
       },
       {
         headers: {
-          session_id: sessionId,
-        },
+          session_id: sessionId
+        }
       }
     );
 
@@ -85,13 +85,13 @@ describe("validate controller", () => {
     req.sessionModel.set("expiryDate", "15/01/2035");
     req.session.authParams = {
       redirect_uri: "A VALUE",
-      state: "A VALUE",
+      state: "A VALUE"
     };
     req.session.featureSet = "hmpoDVAD";
 
     const data = {
       redirect_uri: "https://client.example.com",
-      state: "TEST",
+      state: "TEST"
     };
 
     const resolvedPromise = new Promise((resolve) => resolve({ data }));
@@ -107,13 +107,13 @@ describe("validate controller", () => {
         surname: "Jones Smith",
         forenames: ["Dan", "Joe"],
         dateOfBirth: "10/02/1975",
-        expiryDate: "15/01/2035",
+        expiryDate: "15/01/2035"
       },
       {
         headers: {
           "document-checking-route": "dvad",
-          session_id: sessionId,
-        },
+          session_id: sessionId
+        }
       }
     );
 
@@ -132,7 +132,7 @@ describe("validate controller", () => {
 
     const data = {
       redirect_uri: undefined,
-      state: "TEST",
+      state: "TEST"
     };
     const resolvedPromise = new Promise((resolve) => resolve({ data }));
     sandbox.stub(axios, "post").returns(resolvedPromise);
@@ -156,7 +156,7 @@ describe("validate controller", () => {
 
     const data = {
       redirect_uri: "http://example.com",
-      state: undefined,
+      state: undefined
     };
     const resolvedPromise = new Promise((resolve) => resolve({ data }));
     sandbox.stub(axios, "post").returns(resolvedPromise);
@@ -179,7 +179,7 @@ describe("validate controller", () => {
     req.sessionModel.set("expiryDate", "15/01/2035");
 
     const data = {
-      result: "retry",
+      result: "retry"
     };
 
     const resolvedPromise = new Promise((resolve) => resolve({ data }));
@@ -201,7 +201,7 @@ describe("validate controller", () => {
     req.sessionModel.set("expiryDate", "15/01/2035");
 
     const data = {
-      result: "retry",
+      result: "retry"
     };
 
     const resolvedPromise = new Promise((resolve) => resolve({ data }));
@@ -221,7 +221,7 @@ describe("validate controller", () => {
 
     const data = {
       redirect_uri: "http://example.com",
-      state: "test-state",
+      state: "test-state"
     };
 
     const resolvedPromise = new Promise((resolve) => resolve({ data }));
