@@ -1,11 +1,16 @@
 {% extends "base-page.njk" %}
-{% set hmpoPageKey = "errors.error" %}
+{% set hmpoPageKey = "error" %}
 
 {% block mainContent %}
 <h1 id="header" data-page="{{hmpoPageKey}}" class="govuk-heading-l">
-    {{ translate("pages." + hmpoPageKey+'.title', { default: [] }) | safe }}
+    {{ translate(hmpoPageKey+'.title', { default: [] }) | safe }}
 </h1>
 
 {% from "hmpo-html/macro.njk" import hmpoHtml %}
-{{ hmpoHtml(translate("pages." + hmpoPageKey + ".content", { default: [] })) }}
+{{ hmpoHtml(translate(hmpoPageKey + ".content", { default: [] })) }}
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" nonce='{{cspNonce}}'>window.DI = window.DI || {};window.DI.httpStatusCode = 500</script>
+{{ super ()}}
 {% endblock %}
