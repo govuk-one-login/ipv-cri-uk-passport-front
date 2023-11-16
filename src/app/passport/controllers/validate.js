@@ -4,8 +4,8 @@ const BaseController = require("hmpo-form-wizard").Controller;
 const {
   API: {
     BASE_URL,
-    PATHS: { CHECK },
-  },
+    PATHS: { CHECK }
+  }
 } = require("../../../lib/config");
 
 const logger = require("hmpo-logger").get();
@@ -23,12 +23,12 @@ class ValidateController extends BaseController {
       surname: req.sessionModel.get("surname"),
       forenames: forenames,
       dateOfBirth: req.sessionModel.get("dateOfBirth"),
-      expiryDate: req.sessionModel.get("expiryDate"),
+      expiryDate: req.sessionModel.get("expiryDate")
     };
 
     try {
       const headers = {
-        session_id: req.session.tokenId,
+        session_id: req.session.tokenId
       };
 
       if (req.session.featureSet === "hmpoDVAD") {
@@ -52,7 +52,7 @@ class ValidateController extends BaseController {
 
         logger.info("Validate: redirecting user to callBack with url ", {
           req,
-          res,
+          res
         });
       }
 
@@ -72,7 +72,7 @@ class ValidateController extends BaseController {
 
         const error = {
           error: "server_error",
-          error_description: message,
+          error_description: message
         };
         req.sessionModel.set("error", error);
         callback(err);

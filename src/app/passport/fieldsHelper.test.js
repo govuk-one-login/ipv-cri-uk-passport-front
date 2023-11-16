@@ -5,8 +5,8 @@ describe("firstName middleNames validation fields test", () => {
     const validator = fields.firstNameMiddleNameLengthValidator.bind({
       values: {
         firstName: "jjjjjjjjjjjjjjjjjjjjj",
-        middleNames: "jjjjjjjjjj",
-      },
+        middleNames: "jjjjjjjjjj"
+      }
     });
 
     expect(validator(1, 30, "firstName", "middleNames")).to.be.false;
@@ -16,8 +16,8 @@ describe("firstName middleNames validation fields test", () => {
     const validator = fields.firstNameMiddleNameLengthValidator.bind({
       values: {
         firstName: "jjjjjjjjjjjj",
-        middleNames: "jjjjjjjjjj",
-      },
+        middleNames: "jjjjjjjjjj"
+      }
     });
 
     expect(validator(1, 30, "firstName", "middleNames")).to.be.true;
@@ -26,8 +26,8 @@ describe("firstName middleNames validation fields test", () => {
   it("should be false when firstname is only entered and is over 30 characters", () => {
     const validator = fields.firstNameMiddleNameLengthValidator.bind({
       values: {
-        firstName: "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj",
-      },
+        firstName: "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj"
+      }
     });
 
     expect(validator(1, 30, "firstName", "middleNames")).to.be.false;
@@ -37,8 +37,8 @@ describe("firstName middleNames validation fields test", () => {
     const validator = fields.firstNameMiddleNameLengthValidator.bind({
       values: {
         firstName: "",
-        middleNames: "jjjj",
-      },
+        middleNames: "jjjj"
+      }
     });
 
     expect(validator(1, 30, "firstName", "middleNames")).to.be.true;
@@ -48,8 +48,8 @@ describe("firstName middleNames validation fields test", () => {
     const validator = fields.firstNameMiddleNameLengthValidator.bind({
       values: {
         firstName: "jjjj",
-        middleNames: "",
-      },
+        middleNames: ""
+      }
     });
 
     expect(validator(1, 30, "firstName", "middleNames")).to.be.true;
@@ -59,8 +59,8 @@ describe("firstName middleNames validation fields test", () => {
     const validator = fields.firstNameMiddleNameLengthValidator.bind({
       values: {
         firstName: "",
-        middleNames: "",
-      },
+        middleNames: ""
+      }
     });
 
     expect(validator(1, 30, "firstName", "middleNames")).to.be.false;
@@ -70,8 +70,8 @@ describe("firstName middleNames validation fields test", () => {
     const validator = fields.firstNameMiddleNameLengthValidator.bind({
       values: {
         firstName: "jjjjjjjjjjjjjjjjjjj",
-        middleNames: "jjjjjjjjj",
-      },
+        middleNames: "jjjjjjjjj"
+      }
     });
 
     expect(validator(1, 30, "firstName", "middleNames")).to.be.true;
@@ -81,8 +81,8 @@ describe("firstName middleNames validation fields test", () => {
     const validator = fields.firstNameMiddleNameLengthValidator.bind({
       values: {
         firstName: "jjjjjjjjjjjjjjjjjjjj",
-        middleNames: "jjjjjjjjj",
-      },
+        middleNames: "jjjjjjjjj"
+      }
     });
 
     expect(validator(1, 30, "firstName", "middleNames")).to.be.true;
@@ -91,8 +91,8 @@ describe("firstName middleNames validation fields test", () => {
     const validator = fields.firstNameMiddleNameLengthValidator.bind({
       values: {
         firstName: "jjjjjjjjjjjjjjjjjjjj",
-        middleNames: "jjjjjjjjjj",
-      },
+        middleNames: "jjjjjjjjjj"
+      }
     });
 
     expect(validator(1, 30, "firstName", "middleNames")).to.be.false;
@@ -102,8 +102,8 @@ describe("firstName middleNames validation fields test", () => {
     const validator = fields.firstNameMiddleNameLengthValidator.bind({
       values: {
         firstName: "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjj",
-        middleNames: "",
-      },
+        middleNames: ""
+      }
     });
 
     expect(validator(1, 30, "firstName", "middleNames")).to.be.true;
@@ -118,8 +118,8 @@ describe("expiryDate validation fields test", () => {
           new Date().getFullYear() + 1,
           new Date().getMonth(),
           new Date().getDate()
-        ),
-      },
+        )
+      }
     });
 
     expect(validator(1, 18, "expiryDate")).to.be.true;
@@ -132,8 +132,8 @@ describe("expiryDate validation fields test", () => {
           new Date().getFullYear(),
           new Date().getMonth() + 1,
           new Date().getDate()
-        ),
-      },
+        )
+      }
     });
 
     expect(validator(1, 18, "expiryDate")).to.be.true;
@@ -146,8 +146,8 @@ describe("expiryDate validation fields test", () => {
           new Date().getFullYear(),
           new Date().getMonth(),
           new Date().getDate()
-        ),
-      },
+        )
+      }
     });
 
     expect(validator(1, 18, "expiryDate")).to.be.true;
@@ -160,8 +160,8 @@ describe("expiryDate validation fields test", () => {
           new Date().getFullYear(),
           new Date().getMonth() - 17,
           new Date().getDate()
-        ),
-      },
+        )
+      }
     });
 
     expect(validator(1, 18, "expiryDate")).to.be.true;
@@ -174,8 +174,8 @@ describe("expiryDate validation fields test", () => {
           new Date().getFullYear(),
           new Date().getMonth() - 18,
           new Date().getDate()
-        ),
-      },
+        )
+      }
     });
 
     expect(validator(1, 18, "expiryDate")).to.be.true;
@@ -188,8 +188,8 @@ describe("expiryDate validation fields test", () => {
           new Date().getFullYear(),
           new Date().getMonth() - 19,
           new Date().getDate()
-        ),
-      },
+        )
+      }
     });
 
     expect(validator(1, 18, "expiryDate")).to.be.false;
@@ -202,8 +202,8 @@ describe("expiryDate validation fields test", () => {
           new Date().getFullYear(),
           new Date().getMonth() - 20,
           new Date().getDate()
-        ),
-      },
+        )
+      }
     });
 
     expect(validator(1, 18, "expiryDate")).to.be.false;
@@ -216,8 +216,8 @@ describe("expiryDate validation fields test", () => {
           new Date().getFullYear() - 2,
           new Date().getMonth(),
           new Date().getDate()
-        ),
-      },
+        )
+      }
     });
 
     expect(validator(1, 18, "expiryDate")).to.be.false;

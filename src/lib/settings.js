@@ -7,5 +7,5 @@ module.exports = {
 
   setOAuthPaths: ({ app, entryPointPath }) => {
     app.set("APP.PATHS.ENTRYPOINT", entryPointPath);
-  },
+  }
 };

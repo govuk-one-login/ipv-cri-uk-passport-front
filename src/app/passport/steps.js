@@ -8,7 +8,7 @@ module.exports = {
     entryPoint: true,
     skip: true,
     controller: root,
-    next: "details",
+    next: "details"
   },
   "/details": {
     fields: [
@@ -17,10 +17,10 @@ module.exports = {
       "firstName",
       "middleNames",
       "dateOfBirth",
-      "expiryDate",
+      "expiryDate"
     ],
     controller: details,
-    next: "validate",
+    next: "validate"
   },
   "/prove-another-way": {
     prereqs: ["/"],
@@ -29,10 +29,10 @@ module.exports = {
       {
         field: "proveAnotherWayRadio",
         value: "retry",
-        next: "/details",
+        next: "/details"
       },
-      "/oauth2/callback",
-    ],
+      "/oauth2/callback"
+    ]
   },
   "/validate": {
     controller: validate,
@@ -42,9 +42,9 @@ module.exports = {
         field: "showRetryMessage",
         op: "===",
         value: true,
-        next: "/details",
+        next: "/details"
       },
-      "/oauth2/callback",
-    ],
-  },
+      "/oauth2/callback"
+    ]
+  }
 };

@@ -12,12 +12,14 @@ module.exports = {
     setupDefaultMocks: true,
   },
   root: true,
-  extends: ["eslint:recommended", "prettier"],
+  extends: ['eslint:recommended', 'prettier'],
   rules: {
-    "no-console": 2,
-    "padding-line-between-statements": [
-      "error",
-      { blankLine: "any", prev: "*", next: "*" },
+    'global-require': 0,
+    'no-console': 2,
+    'comma-dangle': 0,
+    'padding-line-between-statements': [
+      'error',
+      { blankLine: 'any', prev: '*', next: '*' },
     ],
   },
 };

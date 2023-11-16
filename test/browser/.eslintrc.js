@@ -6,8 +6,8 @@ module.exports = {
       {
         vars: "all",
         args: "after-used",
-        varsIgnorePattern: "Given|And|When|Then",
-      },
-    ],
-  },
+        varsIgnorePattern: "Given|And|When|Then"
+      }
+    ]
+  }
 };
