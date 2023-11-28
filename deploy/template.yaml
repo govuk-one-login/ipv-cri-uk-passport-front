@@ -205,7 +205,7 @@ Resources:
                     !FindInMap [
                       ElasticLoadBalancerAccountIds,
                       !Ref AWS::Region,
-                      AccountId,
+                      AccountId
                     ]
             Action:
               - s3:PutObject
@@ -473,10 +473,10 @@ Resources:
                 !If [
                   IsProduction,
                   "account.gov.uk",
-                  !Sub "${Environment}.account.gov.uk",
+                  !Sub "${Environment}.account.gov.uk"
                 ]
             - Name: LOG_LEVEL
-              Value: !FindInMap [ LogLevel, Environment, !Ref 'Environment' ]
+              Value: !FindInMap [LogLevel, Environment, !Ref "Environment"]
           Secrets:
             - Name: DT_TENANT
               ValueFrom: !Join
