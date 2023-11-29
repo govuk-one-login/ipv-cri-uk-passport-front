@@ -166,7 +166,7 @@ Resources:
           - Fn::Select:
               - 4
               - Fn::Split:
-                  - "-"
+                  - '-'
                   - Fn::Select:
                       - 2
                       - Fn::Split:
@@ -201,12 +201,7 @@ Resources:
             Principal:
               AWS: !Sub
                 - "arn:aws:iam::${ElbAccountId}:root"
-                - ElbAccountId:
-                    !FindInMap [
-                      ElasticLoadBalancerAccountIds,
-                      !Ref AWS::Region,
-                      AccountId
-                    ]
+                - ElbAccountId: !FindInMap [ ElasticLoadBalancerAccountIds, !Ref AWS::Region, AccountId ]
             Action:
               - s3:PutObject
             Resource: !Sub "${AccessLogsBucket.Arn}/AWSLogs/${AWS::AccountId}/*"
@@ -399,8 +394,7 @@ Resources:
           Rollback: TRUE
       DeploymentController:
         Type: ECS
-      DesiredCount:
-        !FindInMap [MinContainerCount, Environment, !Ref "Environment"]
+      DesiredCount: !FindInMap [MinContainerCount, Environment, !Ref 'Environment']
       EnableECSManagedTags: false
       HealthCheckGracePeriodSeconds: 60
       LaunchType: FARGATE
@@ -465,7 +459,7 @@ Resources:
             - Name: UA_CONTAINER_ID
               Value: !If [IsProduction, "GTM-TT5HDKV", "GTM-TK92W68"]
             - Name: GA4_CONTAINER_ID
-              Value: !If [IsProduction, "GTM-K4PBJH3", "GTM-KD86CMZ"]
+              Value: !If [ IsProduction, "GTM-K4PBJH3", "GTM-KD86CMZ" ]
             - Name: GA4_ENABLED
               Value: !FindInMap [ga4Enabled, Environment, !Ref "Environment"]
             - Name: ANALYTICS_DOMAIN
@@ -476,23 +470,35 @@ Resources:
                   !Sub "${Environment}.account.gov.uk"
                 ]
             - Name: LOG_LEVEL
-              Value: !FindInMap [LogLevel, Environment, !Ref "Environment"]
+              Value: !FindInMap [ LogLevel, Environment, !Ref 'Environment' ]
           Secrets:
             - Name: DT_TENANT
               ValueFrom: !Join
-                - ''
-                - - !FindInMap [ EnvironmentConfiguration, !Ref Environment, dynatraceSecretArn ]
-                  - ':DT_TENANT::'
+                - ""
+                - - !FindInMap [
+                      EnvironmentConfiguration,
+                      !Ref Environment,
+                      dynatraceSecretArn
+                    ]
+                  - ":DT_TENANT::"
             - Name: DT_TENANTTOKEN
               ValueFrom: !Join
-                - ''
-                - - !FindInMap [ EnvironmentConfiguration, !Ref Environment, dynatraceSecretArn ]
-                  - ':DT_TENANTTOKEN::'
+                - ""
+                - - !FindInMap [
+                      EnvironmentConfiguration,
+                      !Ref Environment,
+                      dynatraceSecretArn
+                    ]
+                  - ":DT_TENANTTOKEN::"
             - Name: DT_CONNECTION_POINT
               ValueFrom: !Join
-              - ''
-              - - !FindInMap [ EnvironmentConfiguration, !Ref Environment, dynatraceSecretArn ]
-                - ':DT_CONNECTION_POINT::'
+                - ""
+                - - !FindInMap [
+                      EnvironmentConfiguration,
+                      !Ref Environment,
+                      dynatraceSecretArn
+                    ]
+                  - ":DT_CONNECTION_POINT::"
           PortMappings:
             - ContainerPort: 8080
               Protocol: tcp
@@ -708,12 +714,10 @@ Resources:
     Condition: IsPerformance
     Type: AWS::ApplicationAutoScaling::ScalableTarget
     Properties:
-      MaxCapacity:
-        !FindInMap [MaxContainerCount, Environment, !Ref "Environment"]
-      MinCapacity:
-        !FindInMap [MinContainerCount, Environment, !Ref "Environment"]
+      MaxCapacity: !FindInMap [MaxContainerCount, Environment, !Ref 'Environment']
+      MinCapacity: !FindInMap [MinContainerCount, Environment, !Ref 'Environment']
       ResourceId: !Join
-        - "/"
+        - '/'
         - - "service"
           - !Ref PassportFrontEcsCluster
           - !GetAtt PassportFrontEcsService.Name
@@ -760,11 +764,11 @@ Resources:
         SSEEnabled: true
         SSEType: KMS
 
-  ####################################################################
-  #                                                                  #
-  # Alerts                                                           #
-  #                                                                  #
-  ####################################################################
+####################################################################
+#                                                                  #
+# Alerts                                                           #
+#                                                                  #
+####################################################################
 
   PassportNoTaskCountAlarm:
     Type: AWS::CloudWatch::Alarm
@@ -854,7 +858,7 @@ Resources:
       TopicArn:
         Ref: AlarmTopicPassport
       Endpoint:
-        Fn::Sub: "{{resolve:ssm:/alerting/pagerduty-passport/url}}"
+        Fn::Sub: '{{resolve:ssm:/alerting/pagerduty-passport/url}}'
       Protocol: https
     Metadata:
       SamResourceId: AlarmTopicSubscriptionPagerDutyPassport
