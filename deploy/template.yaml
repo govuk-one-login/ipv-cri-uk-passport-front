@@ -95,10 +95,10 @@ Mappings:
   ga4Enabled:
     Environment:
       dev: "true"
-      build: "false"
-      staging: "false"
-      integration: "false"
-      production: "false"
+      build: "true"
+      staging: "true"
+      integration: "true"
+      production: "true"
 
 Resources:
   # Security Groups for the ECS service and load balancer
