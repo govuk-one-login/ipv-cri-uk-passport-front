@@ -51,54 +51,45 @@ Conditions:
 Mappings:
   EnvironmentConfiguration:
     dev:
+      logLevel: "debug"
       dynatraceSecretArn: arn:aws:secretsmanager:eu-west-2:216552277552:secret:DynatraceNonProductionVariables
+      fargateCPUsize: "256"
+      fargateRAMsize: "512"
+      desiredTaskCount: 2
+      ga4Enabled: "true"
     build:
+      logLevel: "request"
       dynatraceSecretArn: arn:aws:secretsmanager:eu-west-2:216552277552:secret:DynatraceNonProductionVariables
+      fargateCPUsize: "1024"
+      fargateRAMsize: "2048"
+      desiredTaskCount: 2
+      ga4Enabled: "true"
     staging:
+      logLevel: "request"
       dynatraceSecretArn: arn:aws:secretsmanager:eu-west-2:216552277552:secret:DynatraceNonProductionVariables
+      fargateCPUsize: "256"
+      fargateRAMsize: "512"
+      desiredTaskCount: 2
+      ga4Enabled: "true"
     integration:
+      logLevel: "request"
       dynatraceSecretArn: arn:aws:secretsmanager:eu-west-2:216552277552:secret:DynatraceNonProductionVariables
+      fargateCPUsize: "512"
+      fargateRAMsize: "1024"
+      desiredTaskCount: 2
+      ga4Enabled: "true"
     production:
+      logLevel: "request"
       dynatraceSecretArn: arn:aws:secretsmanager:eu-west-2:216552277552:secret:DynatraceProductionVariables
-
-  # Auto Scaling Min Containers
-  MinContainerCount:
-    Environment:
-      dev: 1
-      build: 2
-      staging: 2
-      integration: 2
-      production: 2
-
-  # Auto Scaling Max Containers
-  MaxContainerCount:
-    Environment:
-      dev: 1
-      build: 5
-      staging: 5
-      integration: 5
-      production: 5
+      fargateCPUsize: "1024"
+      fargateRAMsize: "2048"
+      desiredTaskCount: 2
+      ga4Enabled: "true"
 
   # see https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html
   ElasticLoadBalancerAccountIds:
     eu-west-2:
       AccountId: 652711504416
-
-  LogLevel:
-    Environment:
-      dev: "debug"
-      build: "debug"
-      staging: "request"
-      integration: "request"
-      production: "request"
-
-  ga4Enabled:
-    Environment:
-      dev: "true"
-      build: "true"
-      staging: "true"
-      integration: "true"
-      production: "true"
 
 Resources:
   # Security Groups for the ECS service and load balancer
@@ -394,7 +385,10 @@ Resources:
           Rollback: TRUE
       DeploymentController:
         Type: ECS
-      DesiredCount: !FindInMap [MinContainerCount, Environment, !Ref 'Environment']
+      DesiredCount: !FindInMap
+        - EnvironmentConfiguration
+        - !Ref "Environment"
+        - desiredTaskCount
       EnableECSManagedTags: false
       HealthCheckGracePeriodSeconds: 60
       LaunchType: FARGATE
@@ -461,7 +455,7 @@ Resources:
             - Name: GA4_CONTAINER_ID
               Value: !If [ IsProduction, "GTM-K4PBJH3", "GTM-KD86CMZ" ]
             - Name: GA4_ENABLED
-              Value: !FindInMap [ga4Enabled, Environment, !Ref "Environment"]
+              Value: !FindInMap [ EnvironmentConfiguration, !Ref "Environment", ga4Enabled ]
             - Name: ANALYTICS_DOMAIN
               Value:
                 !If [
@@ -470,7 +464,7 @@ Resources:
                   !Sub "${Environment}.account.gov.uk"
                 ]
             - Name: LOG_LEVEL
-              Value: !FindInMap [ LogLevel, Environment, !Ref 'Environment' ]
+              Value: !FindInMap [ EnvironmentConfiguration, !Ref "Environment", logLevel ]
           Secrets:
             - Name: DT_TENANT
               ValueFrom: !Join
@@ -508,9 +502,9 @@ Resources:
               awslogs-group: !Ref ECSAccessLogsGroup
               awslogs-region: !Sub ${AWS::Region}
               awslogs-stream-prefix: !Sub passport-front-${Environment}
-      Cpu: "512"
+      Cpu: !FindInMap [ EnvironmentConfiguration, !Ref "Environment", fargateCPUsize ]
       ExecutionRoleArn: !GetAtt ECSTaskExecutionRole.Arn
-      Memory: "1024"
+      Memory: !FindInMap [ EnvironmentConfiguration, !Ref "Environment", fargateRAMsize ]
       NetworkMode: awsvpc
       RequiresCompatibilities:
         - FARGATE
@@ -714,8 +708,8 @@ Resources:
     Condition: IsPerformance
     Type: AWS::ApplicationAutoScaling::ScalableTarget
     Properties:
-      MaxCapacity: !FindInMap [MaxContainerCount, Environment, !Ref 'Environment']
-      MinCapacity: !FindInMap [MinContainerCount, Environment, !Ref 'Environment']
+      MaxCapacity: 60
+      MinCapacity: 2
       ResourceId: !Join
         - '/'
         - - "service"
@@ -742,7 +736,106 @@ Resources:
       TargetTrackingScalingPolicyConfiguration:
         PredefinedMetricSpecification:
           PredefinedMetricType: ECSServiceAverageCPUUtilization
-        TargetValue: 70.0
+        TargetValue: 60
+        ScaleInCooldown: 420
+        ScaleOutCooldown: 60
+
+  StepScaleInPolicy:
+    Condition: IsPerformance
+    DependsOn: ECSAutoScalingTarget
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    Properties:
+      PolicyName: StepScalingInPolicy
+      PolicyType: StepScaling
+      ResourceId: !Join
+        - '/'
+        - - "service"
+          - !Ref PassportFrontEcsCluster
+          - !GetAtt PassportFrontEcsService.Name
+      ScalableDimension: ecs:service:DesiredCount
+      ServiceNamespace: ecs
+      StepScalingPolicyConfiguration:
+        AdjustmentType: PercentChangeInCapacity
+        Cooldown: 420
+        StepAdjustments:
+          - MetricIntervalUpperBound: -40
+            ScalingAdjustment: -50
+
+  StepScaleOutPolicy:
+    Condition: IsPerformance
+    DependsOn: ECSAutoScalingTarget
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    Properties:
+      PolicyName: StepScalingOutPolicy
+      PolicyType: StepScaling
+      ResourceId: !Join
+        - '/'
+        - - "service"
+          - !Ref PassportFrontEcsCluster
+          - !GetAtt PassportFrontEcsService.Name
+      ScalableDimension: ecs:service:DesiredCount
+      ServiceNamespace: ecs
+      StepScalingPolicyConfiguration:
+        AdjustmentType: PercentChangeInCapacity
+        Cooldown: 120
+        MinAdjustmentMagnitude: 5
+        StepAdjustments:
+          - MetricIntervalLowerBound: 20
+            MetricIntervalUpperBound: 30
+            ScalingAdjustment: 200
+          - MetricIntervalLowerBound: 30
+            MetricIntervalUpperBound: 35
+            ScalingAdjustment: 300
+          - MetricIntervalLowerBound: 35
+            ScalingAdjustment: 500
+
+  StepScaleOutAlarm:
+    Condition: IsPerformance
+    DependsOn: ECSAutoScalingTarget
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      ActionsEnabled: true
+      AlarmActions:
+        - !Ref StepScaleOutPolicy
+      AlarmDescription: "PassportFrontClusterOver60PercentCPU"
+      ComparisonOperator: "GreaterThanThreshold"
+      DatapointsToAlarm: "2"
+      Dimensions:
+        - Name: ClusterName
+          Value: !Ref PassportFrontEcsCluster
+        - Name: ServiceName
+          Value: !GetAtt PassportFrontEcsService.Name
+      Unit: "Percent"
+      EvaluationPeriods: "2"
+      MetricName: "CPUUtilization"
+      Namespace: "AWS/ECS"
+      Statistic: "Average"
+      Period: "60"
+      Threshold: "60"
+
+  StepScaleInAlarm:
+    Condition: IsPerformance
+    DependsOn: ECSAutoScalingTarget
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      ActionsEnabled: true
+      AlarmActions:
+        - !Ref StepScaleInPolicy
+      AlarmDescription: "PassportFrontClusterUnder60PercentCPU"
+      ComparisonOperator: "LessThanThreshold"
+      DatapointsToAlarm: "5"
+      Dimensions:
+        - Name: ClusterName
+          Value: !Ref PassportFrontEcsCluster
+        - Name: ServiceName
+          Value: !GetAtt PassportFrontEcsService.Name
+      Unit: "Percent"
+      EvaluationPeriods: "5"
+      MetricName: "CPUUtilization"
+      Namespace: "AWS/ECS"
+      Statistic: "Average"
+      Period: "60"
+      Threshold: "60"
 
   PassportFrontSessionsTable:
     Type: AWS::DynamoDB::Table
