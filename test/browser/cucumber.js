@@ -7,8 +7,8 @@ module.exports = {
       "./test/browser/step_definitions/**/*.js"
     ],
     format: [
-      "html:results/cucumber-report.html",
-      "json:results/cucumber-report.json"
+      "html:reports/cucumber-report.html",
+      "json:reports/cucumber-report.json"
     ]
   }
 };

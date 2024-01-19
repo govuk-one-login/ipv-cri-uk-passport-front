@@ -160,10 +160,10 @@
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.23.3.tgz#0ce0be31a4ca4f1884b5786057cadcb6c3be58f9"
   integrity sha512-uVsWNvlVsIninV2prNz/3lHCb+5CJ+e+IUBfbjToAHODtfGYLfCFuY4AU7TskI+dAKk+njsPiBjq1gKTvZOBaw==
 
-"@babel/runtime@^7.22.5":
-  version "7.23.2"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.2.tgz#062b0ac103261d68a966c4c7baf2ae3e62ec3885"
-  integrity sha512-mM8eg4yl5D6i3lu2QKPuPH4FArvJ8KhTofbE7jwMUv9KX5mBvwPAqnV3MlyBNqdp9RyRKP6Yck8TrfYrPvX3bg==
+"@babel/runtime@^7.23.2":
+  version "7.23.9"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.9.tgz#47791a15e4603bb5f905bc0753801cf21d6345f7"
+  integrity sha512-0CX6F+BI2s9dkUqr08KFrAIZgNFj75rdBU/DjCyYLIaV/quFjkk6T+EJ2LkZHyZTbEV4L5p97mNkUsHl2wLFAw==
   dependencies:
     regenerator-runtime "^0.14.0"
 
@@ -365,17 +365,22 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.53.0.tgz#bea56f2ed2b5baea164348ff4d5a879f6f81f20d"
   integrity sha512-Kn7K8dx/5U6+cT1yEhpX1w4PCSg0M+XyRILPgvwcEBjerFWCwQj5sbr3/VmxqV0JGHCBCzyd6LxypEuehypY1w==
 
-"@govuk-one-login/di-ipv-cri-common-express@5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@govuk-one-login/di-ipv-cri-common-express/-/di-ipv-cri-common-express-5.1.0.tgz#37fe7c0bfd93c32bb9e4e673b274df6be820193f"
-  integrity sha512-13Rvmuj6yZnhAUybzyz6U6aqk9ieA2A9DG/Uo+Edn/SD7MfqCjMykpLIMaz9vhXjVVLo4Y7R5yEhzvf8KmB6NQ==
+"@govuk-one-login/di-ipv-cri-common-express@6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@govuk-one-login/di-ipv-cri-common-express/-/di-ipv-cri-common-express-6.0.0.tgz#13173600c7dc41e826c084f6901877f162cfdcf2"
+  integrity sha512-iEJIhUgBiOYtMv940vt/F7lC3CrAg4AV66gYZqepHIC7grrOrIai/uUQ8HNtf1MTE+ezthEDc0810kL9uaXmPA==
   dependencies:
     hmpo-logger "7.0.1"
-    i18next "23.6.0"
-    i18next-fs-backend "2.2.0"
-    i18next-http-middleware "3.4.1"
+    i18next "23.8.1"
+    i18next-fs-backend "2.3.1"
+    i18next-http-middleware "3.5.0"
     lodash.differencewith "4.5.0"
     lodash.frompairs "4.0.1"
+
+"@govuk-one-login/one-login-analytics@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@govuk-one-login/one-login-analytics/-/one-login-analytics-0.0.9.tgz#e5746f75943e26e6c52d43f1292af139589688ed"
+  integrity sha512-zsvmvDgkvMZyO5OGHAyjj3aYlIToOLEbORwjCXOB9+1kqBTe0HfXqhzy6TMxHg00UctbX8yy8Gw1muFHoe2C9A==
 
 "@hapi/hoek@^9.0.0":
   version "9.3.0"
@@ -2742,22 +2747,22 @@ husky@8.0.1:
   resolved "https://registry.yarnpkg.com/husky/-/husky-8.0.1.tgz#511cb3e57de3e3190514ae49ed50f6bc3f50b3e9"
   integrity sha512-xs7/chUH/CKdOCs7Zy0Aev9e/dKOMZf3K1Az1nar3tzlv0jfqnYtu235bstsWTmXOR0EfINrPa97yy4Lz6RiKw==
 
-i18next-fs-backend@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/i18next-fs-backend/-/i18next-fs-backend-2.2.0.tgz#016c865344632a666ea80653deae466fbfa6042c"
-  integrity sha512-VOPHhdDX0M/csRqEw+9Ectpf6wvTIg1MZDfAHxc3JKnAlJz7fcZSAKAeyDohOq0xuLx57esYpJopIvBaRb0Bag==
+i18next-fs-backend@2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/i18next-fs-backend/-/i18next-fs-backend-2.3.1.tgz#0c7d2459ff4a039e2b3228131809fbc0e74ff1a8"
+  integrity sha512-tvfXskmG/9o+TJ5Fxu54sSO5OkY6d+uMn+K6JiUGLJrwxAVfer+8V3nU8jq3ts9Pe5lXJv4b1N7foIjJ8Iy2Gg==
 
-i18next-http-middleware@3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/i18next-http-middleware/-/i18next-http-middleware-3.4.1.tgz#a2f63e568999f822a309e817973f80dbbaa45bb5"
-  integrity sha512-5zYt+2WKZLKmhC0qSUKXAE98MNiM2ysXzHVQ2LoGkLjE5qXkMC7Nf570fc+SWnFF/yMh4Ur+gywgzLiBojfjZA==
+i18next-http-middleware@3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/i18next-http-middleware/-/i18next-http-middleware-3.5.0.tgz#5919dfee4ba8c28782fb8cd5adf9c90d1c9307d4"
+  integrity sha512-BqATaFCMVHJYZX4cBmhvpBqZNvnvjjmcSzxJvLWTwgJ4gn5kwYoyVikn7AB5kxiQrFjSuZsjDFv76CdsAHwpZw==
 
-i18next@23.6.0:
-  version "23.6.0"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-23.6.0.tgz#c6e996cfd3fef0bf60be3b7c581c35338dba5a71"
-  integrity sha512-z0Cxr0MGkt+kli306WS4nNNM++9cgt2b2VCMprY92j+AIab/oclgPxdwtTZVLP1zn5t5uo8M6uLsZmYrcjr3HA==
+i18next@23.8.1:
+  version "23.8.1"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-23.8.1.tgz#c9c6c0a2718177457192d3a867af5b35cd2f46fe"
+  integrity sha512-Yhe6oiJhigSh64ev7nVVywu7vHjuUG41MRmFKNwphbkadqTL1ozZFBQISflY7/ju+gL6I/SPfI1GgWQh1yYArA==
   dependencies:
-    "@babel/runtime" "^7.22.5"
+    "@babel/runtime" "^7.23.2"
 
 iconv-lite@0.4.24:
   version "0.4.24"

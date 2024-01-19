@@ -125,4 +125,4 @@ template.zip
 .vscode/
 
 # Test results
-results/*
+reports/*

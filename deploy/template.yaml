@@ -56,35 +56,40 @@ Mappings:
       fargateCPUsize: "256"
       fargateRAMsize: "512"
       desiredTaskCount: 2
-      ga4Enabled: "true"
+      ga4Disabled: "false"
+      uaDisabled: "false"
     build:
       logLevel: "request"
       dynatraceSecretArn: arn:aws:secretsmanager:eu-west-2:216552277552:secret:DynatraceNonProductionVariables
       fargateCPUsize: "1024"
       fargateRAMsize: "2048"
       desiredTaskCount: 2
-      ga4Enabled: "true"
+      ga4Disabled: "false"
+      uaDisabled: "false"
     staging:
       logLevel: "request"
       dynatraceSecretArn: arn:aws:secretsmanager:eu-west-2:216552277552:secret:DynatraceNonProductionVariables
       fargateCPUsize: "256"
       fargateRAMsize: "512"
       desiredTaskCount: 2
-      ga4Enabled: "true"
+      ga4Disabled: "false"
+      uaDisabled: "false"
     integration:
       logLevel: "request"
       dynatraceSecretArn: arn:aws:secretsmanager:eu-west-2:216552277552:secret:DynatraceNonProductionVariables
       fargateCPUsize: "512"
       fargateRAMsize: "1024"
       desiredTaskCount: 2
-      ga4Enabled: "true"
+      ga4Disabled: "true"
+      uaDisabled: "false"
     production:
       logLevel: "request"
       dynatraceSecretArn: arn:aws:secretsmanager:eu-west-2:216552277552:secret:DynatraceProductionVariables
       fargateCPUsize: "1024"
       fargateRAMsize: "2048"
       desiredTaskCount: 2
-      ga4Enabled: "true"
+      ga4Disabled: "true"
+      uaDisabled: "false"
 
   # see https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html
   ElasticLoadBalancerAccountIds:
@@ -450,12 +455,14 @@ Resources:
               Value: !Sub
                 - "cri-passport-front-sessions-${Environment}"
                 - Environment: !Ref Environment
-            - Name: UA_CONTAINER_ID
+            - Name: UNIVERSAL_ANALYTICS_GTM_CONTAINER_ID
               Value: !If [IsProduction, "GTM-TT5HDKV", "GTM-TK92W68"]
-            - Name: GA4_CONTAINER_ID
+            - Name: GOOGLE_ANALYTICS_4_GTM_CONTAINER_ID
               Value: !If [ IsProduction, "GTM-K4PBJH3", "GTM-KD86CMZ" ]
-            - Name: GA4_ENABLED
-              Value: !FindInMap [ EnvironmentConfiguration, !Ref "Environment", ga4Enabled ]
+            - Name: GA4_DISABLED
+              Value: !FindInMap [ EnvironmentConfiguration, !Ref "Environment", ga4Disabled ]
+            - Name: UA_DISABLED
+              Value: !FindInMap [ EnvironmentConfiguration, !Ref "Environment", uaDisabled ]
             - Name: ANALYTICS_DOMAIN
               Value:
                 !If [

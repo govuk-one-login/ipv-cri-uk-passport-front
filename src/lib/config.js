@@ -14,11 +14,12 @@ module.exports = {
     PATHS: {
       PASSPORT: "/"
     },
-    ANALYTICS: {
-      UA_CONTAINER_ID: process.env.UA_CONTAINER_ID,
-      COOKIE_DOMAIN: process.env.ANALYTICS_DOMAIN || "localhost",
-      GA4_ENABLED: process.env.GA4_ENABLED || "false",
-      GA4_CONTAINER_ID: process.env.GA4_CONTAINER_ID
+    GTM: {
+      GA4_ID: process.env.GOOGLE_ANALYTICS_4_GTM_CONTAINER_ID || "GTM-XXXXXXX",
+      UA_ID: process.env.UNIVERSAL_ANALYTICS_GTM_CONTAINER_ID || "UA-XXXXXXX",
+      ANALYTICS_COOKIE_DOMAIN: process.env.ANALYTICS_DOMAIN || "localhost",
+      GA4_DISABLED: process.env.GA4_DISABLED || false,
+      UA_DISABLED: process.env.UA_DISABLED || true
     }
   },
   PORT: process.env.PORT || 5050,

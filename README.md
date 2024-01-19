@@ -3,6 +3,7 @@
 This the front-end code for V1 of the UK Passport Credential Issuer(CRI) for the Identity Proofing and Verification (IPV) system within the GDS digital identity platform, GOV.UK Sign In.
 
 Passport front V1 was created as part of all CRI's standardizing on using -
+
 - [common-express](https://github.com/alphagov/di-ipv-cri-common-express) for common processing steps and error handling.
 - [hmpo-form-wizard](https://github.com/HMPO/hmpo-form-wizard) for routes and field validation.
 
@@ -14,8 +15,12 @@ This repo has a `CODEOWNERS` file in the root and is configured to require PRs t
 
 - `API_BASE_URL` - URL to the cri-passport-back api.
 - `PORT` - Default port to run webserver on.
+- `GOOGLE_ANALYTICS_4_GTM_CONTAINER_ID` - Container ID for GA4 tracking.
+- `UNIVERSAL_ANALYTICS_GTM_CONTAINER_ID` - Container ID for UA tracking.
+- `GA4_DISABLED` - BOOLEAN
+- `UA_DISABLED` - BOOLEAN
 
-##  Local Testing
+## Local Testing
 
 ```bash
 export API_BASE_URL=<URL> PORT=5050
@@ -104,6 +109,7 @@ Checkov..............................................(no files to check)Skipped
 ```
 
 To remove the pre-commit hooks should there be an issue
+
 ```
 pre-commit uninstall
 ```
