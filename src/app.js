@@ -11,10 +11,9 @@ const commonExpress = require("di-ipv-cri-common-express");
 const setHeaders = commonExpress.lib.headers;
 const setScenarioHeaders = commonExpress.lib.scenarioHeaders;
 const setAxiosDefaults = commonExpress.lib.axios;
-
+const { setGTM, getGTM } = require("./lib/locals");
 const { setAPIConfig, setOAuthPaths } = require("./lib/settings");
-const { setGTM } = require("di-ipv-cri-common-express/src/lib/settings");
-const { getGTM } = require("di-ipv-cri-common-express/src/lib/locals");
+
 const steps = require("./app/passport/steps");
 const fields = require("./app/passport/fields");
 const featureSets = require("./app/passport/featureSets");
