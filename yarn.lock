@@ -365,6 +365,18 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.53.0.tgz#bea56f2ed2b5baea164348ff4d5a879f6f81f20d"
   integrity sha512-Kn7K8dx/5U6+cT1yEhpX1w4PCSg0M+XyRILPgvwcEBjerFWCwQj5sbr3/VmxqV0JGHCBCzyd6LxypEuehypY1w==
 
+"@govuk-one-login/di-ipv-cri-common-express@5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@govuk-one-login/di-ipv-cri-common-express/-/di-ipv-cri-common-express-5.0.0.tgz#7c2ecf3061b26e7ca4debc860e4a0bb5929741a9"
+  integrity sha512-OYfU6g4TQ374wGIDIEMDhe1z9Y60nbMvTsuRxQRtqdr0uxOqLuwuBEXZopbe6DFctHwzU2IS+Fgmgl8i5WJRxA==
+  dependencies:
+    hmpo-logger "7.0.1"
+    i18next "23.6.0"
+    i18next-fs-backend "2.2.0"
+    i18next-http-middleware "3.4.1"
+    lodash.differencewith "4.5.0"
+    lodash.frompairs "4.0.1"
+
 "@hapi/hoek@^9.0.0":
   version "9.3.0"
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.3.0.tgz#8368869dcb735be2e7f5cb7647de78e167a251fb"
@@ -1626,17 +1638,6 @@ destroy@1.2.0:
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.2.0.tgz#4803735509ad8be552934c67df614f94e66fa015"
   integrity sha512-2sJGJTaXIIaR1w4iJSNoN0hnMY7Gpc/n8D4qSCJw8QqFWXf7cuAgnEHxBpweaVcPevC2l3KpjYCx3NypQQgaJg==
 
-di-ipv-cri-common-express@govuk-one-login/ipv-cri-common-express.git#v4.0.0:
-  version "4.0.0-0"
-  resolved "https://codeload.github.com/govuk-one-login/ipv-cri-common-express/tar.gz/cf1e52582111519559e5ab6fc41f8c44309e7db9"
-  dependencies:
-    hmpo-logger "7.0.1"
-    i18next "23.6.0"
-    i18next-fs-backend "2.2.0"
-    i18next-http-middleware "3.4.1"
-    lodash.differencewith "4.5.0"
-    lodash.frompairs "4.0.1"
-
 diff@5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-5.0.0.tgz#7ed6ad76d859d030787ec35855f5b1daf31d852b"
@@ -2490,10 +2491,10 @@ got@<12:
     p-cancelable "^2.0.0"
     responselike "^2.0.0"
 
-govuk-frontend@4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-4.3.1.tgz#d9c581aca3d23bbfe9bd27c25fee65322b276393"
-  integrity sha512-uD0KVFds7drOwLEvfp4zRBOXuHCxkWLYDQcYvlbG+2baZ9po2TGZz8WjfzhfueYjo9+Uwk+bM0NQT6g4cg/Q+A==
+govuk-frontend@4.7.0:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-4.7.0.tgz#69950b6c2e69f435ffe9aa60d8dee232dac977de"
+  integrity sha512-0OsdCusF5qvLWwKziU8zqxiC0nq6WP0ZQuw51ymZ/1V0tO71oIKMlSLN2S9bm8RcEGSoidPt2A34gKxePrLjvg==
 
 graceful-fs@^4.1.15, graceful-fs@^4.1.2:
   version "4.2.11"
