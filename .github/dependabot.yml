@@ -23,3 +23,12 @@ updates:
     - dependabot
     commit-message:
       prefix: BAU
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    target-branch: main
+    labels:
+      - dependabot
+    commit-message:
+      prefix: BAU
