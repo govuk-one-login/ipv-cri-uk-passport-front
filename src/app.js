@@ -6,15 +6,19 @@ const session = require("express-session");
 const AWS = require("aws-sdk");
 const DynamoDBStore = require("connect-dynamodb")(session);
 const wizard = require("hmpo-form-wizard");
-const commonExpress = require("di-ipv-cri-common-express");
+const commonExpress = require("@govuk-one-login/di-ipv-cri-common-express");
 
 const setHeaders = commonExpress.lib.headers;
 const setScenarioHeaders = commonExpress.lib.scenarioHeaders;
 const setAxiosDefaults = commonExpress.lib.axios;
 
 const { setAPIConfig, setOAuthPaths } = require("./lib/settings");
-const { setGTM } = require("di-ipv-cri-common-express/src/lib/settings");
-const { getGTM } = require("di-ipv-cri-common-express/src/lib/locals");
+const {
+  setGTM
+} = require("@govuk-one-login/di-ipv-cri-common-express/src/lib/settings");
+const {
+  getGTM
+} = require("@govuk-one-login/di-ipv-cri-common-express/src/lib/locals");
 const steps = require("./app/passport/steps");
 const fields = require("./app/passport/fields");
 const featureSets = require("./app/passport/featureSets");
@@ -61,7 +65,7 @@ const sessionConfig = {
   ...(SESSION_TABLE_NAME && { sessionStore: dynamoDBSessionStore })
 };
 
-const helmetConfig = require("di-ipv-cri-common-express/src/lib/helmet");
+const helmetConfig = require("@govuk-one-login/di-ipv-cri-common-express/src/lib/helmet");
 
 const { app, router } = setup({
   config: { APP_ROOT: __dirname },
@@ -83,7 +87,9 @@ const { app, router } = setup({
   publicImagesDirs: ["../dist/public/images"],
   views: [
     path.resolve(
-      path.dirname(require.resolve("di-ipv-cri-common-express")),
+      path.dirname(
+        require.resolve("@govuk-one-login/di-ipv-cri-common-express")
+      ),
       "components"
     ),
     "views"

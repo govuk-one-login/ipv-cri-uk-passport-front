@@ -43,9 +43,9 @@ govuk:
         - href: "https://home.account.gov.uk/contact-gov-uk-one-login"
           text: "Support"
     contentLicence:
-      #html: "Unchanged from Default"
+      html: 'All content is available under the <a class="govuk-footer__link" href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Open Government Licence v3.0</a>, except where otherwise stated.'
     copyright:
-      #text: "Unchanged from Default"
+      text: "© Crown copyright"
 
 passport:
   title: Enter your details exactly as they appear on your UK passport
