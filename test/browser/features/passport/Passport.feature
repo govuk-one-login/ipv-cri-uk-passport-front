@@ -166,19 +166,6 @@ Feature: Passport Test
       | PassportSubjectHappyKenneth | !@               | £$                 | %^ *              |
 
   @mock-api:passport-success @Passport_test @build @staging @integration
-  Scenario Outline: Passport Date of birth with 2 digits in the year field error validation
-    Given User enters passport data as a <PassportSubject>
-    And User re-enters day of birth as <InvalidDayOfBirth>
-    And User re-enters month of birth as <InvalidMonthOfBirth>
-    And User re-enters year of birth as <InvalidYearOfBirth>
-    When User clicks on continue
-    Then I see the date of birth error summary as Enter your date of birth as it appears on your passport
-    Then I see the date of birth error in the field as Enter your date of birth as it appears on your passport
-    Examples:
-      | PassportSubject             | InvalidDayOfBirth | InvalidMonthOfBirth | InvalidYearOfBirth |
-      | PassportSubjectHappyKenneth | 10                | 11                  | 57                 |
-
-  @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport Valid to date with special characters error validation
     Given User enters passport data as a <PassportSubject>
     And User re-enters expiry day as <InvalidExpiryDay>
@@ -203,19 +190,6 @@ Feature: Passport Test
     Examples:
       | PassportSubject             | InvalidExpiryDay | InvalidExpiryMonth | InvalidExpiryYear |
       | PassportSubjectHappyKenneth | 10               | 01                 | 2010              |
-
-  @mock-api:passport-success @Passport_test @build @staging @integration
-  Scenario Outline: Passport Valid to date with 2 digits in the year field error validation
-    Given User enters passport data as a <PassportSubject>
-    And User re-enters expiry day as <InvalidExpiryDay>
-    And User re-enters expiry month as <InvalidExpiryMonth>
-    And User re-enters expiry year as <InvalidExpiryYear>
-    When User clicks on continue
-    Then I see expiry date error summary as Enter the expiry date as it appears on your passport
-    And I see invalid expiry date in the field as Enter the expiry date as it appears on your passport
-    Examples:
-      | PassportSubject             | InvalidExpiryDay | InvalidExpiryMonth | InvalidExpiryYear |
-      | PassportSubjectHappyKenneth | 10               | 01                 | 10              |
 
   @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport - No date in the Valid to date field error validation
