@@ -52,7 +52,7 @@ passport:
   serviceNameRequired: true
   passportInformationContext: "Mae eich pasbort yn cynnwys llawer o wybodaeth y gallwn ei wirio i sicrhau mai chi yw pwy rydych yn ei ddweud ydych chi."
   checkDetailsContext: "Byddwn yn gwirio’ch manylion gyda Swyddfa Basbort EM i wneud yn siwr nad yw eich pasbort wedi’i ganslo na’i hysbysu fel wedi’i golli neu ei ddwyn."
-  passportTryAnotherWay: 'Os nad oes gennych basbort y DU neu os na allwch gofio’ch manylion, gallwch <a href="prove-another-way" class="govuk-link">brofi pwy ydych chi mewn ffordd arall</a> yn lle hynny.'
+  passportTryAnotherWay: 'Os nad oes gennych basbort y DU neu os na allwch gofio’ch manylion, gallwch <a href="/prove-another-way" class="govuk-link">brofi pwy ydych chi mewn ffordd arall</a> yn lle hynny.'
   passportGivenNames: "Enwau a roddwyd"
   retryBannerTitle: "Gwall"
   retryTitle: "Gwiriwch bod eich manylion yn cyfateb i’r hyn sydd ar eich pasbort y DU"
@@ -65,12 +65,6 @@ passport:
   retryMessageList2: "rydych wedi rhoi eich enwau cyntaf a chanol (‘enwau a roddwydl’) yn yr adrannau cywir"
   retryMessageList3: "rydych wedi gadael yr adran enwau canol yn wag os nad oes gennych unrhyw enwau canol"
   retryMessageList4: "mae’r dyddiau a misoedd yn y drefn gywir yn eich dyddiad geni a phasbort yn dod i ben"
-
-prove-another-way:
-  title: "Profi pwy ydych chi mewn ffordd arall"
-  content:
-    - "Mae’n rhaid cael pasbort y DU i brofi pwy ydych chi gyda chyfrif GOV.UK. Os nad oes gennych un neu os na allwch gofio eich manylion, gallwch brofi pwy ydych chi mewn ffordd arall."
-    - "Efallai y bydd hyn yn cymryd mwy na 10 munud i chi."
 
 error:
   title: "Mae’n ddrwg gennym, mae problem"

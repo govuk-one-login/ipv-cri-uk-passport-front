@@ -52,15 +52,3 @@ expiryDate:
 
 "date-year":
   label: Year
-
-proveAnotherWayRadio:
-  label: What would you like to do?
-  validation:
-    required: You must choose an option to continue
-  items:
-    proveAnotherWay:
-      label: Prove your identity another way
-      value: continue
-    retry:
-      label: Try to enter your passport details and prove your identity with a GOV.UK account
-      value: retry

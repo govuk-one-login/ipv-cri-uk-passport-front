@@ -24,15 +24,8 @@ module.exports = {
   },
   "/prove-another-way": {
     prereqs: ["/"],
-    fields: ["proveAnotherWayRadio"],
-    next: [
-      {
-        field: "proveAnotherWayRadio",
-        value: "retry",
-        next: "/details"
-      },
-      "/oauth2/callback"
-    ]
+    skip: true,
+    next: "/oauth2/callback"
   },
   "/validate": {
     controller: validate,

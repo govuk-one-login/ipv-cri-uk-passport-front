@@ -44,14 +44,3 @@ date-month:
   label: "Mis"
 date-year:
   label: "Blwyddyn"
-proveAnotherWayRadio:
-  label: "Beth hoffech chi ei wneud?"
-  validation:
-    required: "Mae’n rhaid i chi ddewis opsiwn i barhau"
-  items:
-    proveAnotherWay:
-      label: "Profi pwy ydych chi mewn ffordd arall"
-      value: "parhau"
-    retry:
-      label: "Ceisiwch roi manylion eich pasbort a phrofi pwy ydych chi gyda chyfrif GOV.UK"
-      value: "ail gynnig"
