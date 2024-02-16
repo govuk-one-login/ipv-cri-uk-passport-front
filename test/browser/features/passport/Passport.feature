@@ -88,6 +88,32 @@ Feature: Passport Test
       | PassportSubjectHappyKenneth | 51                | 71                  | 198                |
 
   @mock-api:passport-success @Passport_test @build @staging @integration
+  Scenario Outline: Passport Date of birth field failure as two digits provided
+    Given User enters passport data as a <PassportSubject>
+    And User re-enters day of birth as <validDayOfBirth>
+    And User re-enters month of birth as <validMonthOfBirth>
+    And User re-enters year of birth as <InvalidYearOfBirth>
+    When User clicks on continue
+    Then I see the date of birth error summary as Enter your date of birth as it appears on your passport
+    Then I see the date of birth error in the field as Enter your date of birth as it appears on your passport
+    Examples:
+      | PassportSubject             | validDayOfBirth | validMonthOfBirth | InvalidYearOfBirth |
+      | PassportSubjectHappyKenneth | 8                | 7                  | 65                |
+
+  @mock-api:passport-success @Passport_test @build @staging @integration
+  Scenario Outline: Passport Expiry Date field failure as two digits provided
+    Given User enters passport data as a <PassportSubject>
+    And User re-enters expiry day as <validDayOfExpiry>
+    And User re-enters expiry month as <validMonthOfExpiry>
+    And User re-enters expiry year as <InvalidYearOfExpiry>
+    When User clicks on continue
+    Then I see expiry date error summary as Enter the expiry date as it appears on your passport
+    And I see invalid expiry date in the field as Enter the expiry date as it appears on your passport
+    Examples:
+      | PassportSubject             | validDayOfExpiry | validMonthOfExpiry | InvalidYearOfExpiry |
+      | PassportSubjectHappyKenneth | 5                | 5                  | 25                |
+
+  @mock-api:passport-success @Passport_test @build @staging @integration
   Scenario Outline: Passport Date of birth with special characters error validation
     Given User enters passport data as a <PassportSubject>
     And User re-enters day of birth as <InvalidDayOfBirth>

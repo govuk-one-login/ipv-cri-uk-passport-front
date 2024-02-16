@@ -34,4 +34,13 @@ describe("details controller", () => {
 
     expect(req.sessionModel.get("showRetryMessage")).to.equal(false);
   });
+
+  it("should not pad the year field", async () => {
+    var value = "30";
+    var offset = 0;
+
+    var finalYear = await details._padYear(value, offset);
+
+    expect(finalYear).to.equal("30");
+  });
 });
