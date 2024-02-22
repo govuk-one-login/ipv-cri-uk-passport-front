@@ -404,6 +404,12 @@ exports.PassportPage = class PlaywrightDevPage {
     await expect(textContent.trim()).to.equal(assertBetaBannerText.trim());
   }
 
+  async assertContactOneLoginTeamLink(contactOneLoginTeamLink) {
+    await this.page.waitForLoadState("domcontentloaded");
+    expect(await this.isCurrentPage()).to.be.true;
+    expect(await this.errorLink.innerText()).to.equal(contactOneLoginTeamLink);
+}
+
   async assertFooterLink() {
     await this.supportLink.click();
     await this.page.waitForTimeout(2000); //waitForNavigation and waitForLoadState do not work in this case
