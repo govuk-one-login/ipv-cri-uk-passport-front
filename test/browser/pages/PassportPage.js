@@ -30,6 +30,8 @@ exports.PassportPage = class PlaywrightDevPage {
       "xpath=/html/body/footer/div/div/div[1]/ul/li[5]/a"
     );
 
+    this.header = this.page.locator('xpath=//*[@id="header"]');
+
     // Error summary items
 
     this.invalidLastNameErrorInSummary = this.page.locator(
@@ -471,5 +473,11 @@ exports.PassportPage = class PlaywrightDevPage {
 
   async goToPage(pageName) {
     await this.page.goto(this.page.url() + pageName);
+  }
+
+  async assertPageHeading(pageHeading) {
+    await this.page.waitForLoadState("domcontentloaded");
+    expect(await this.isCurrentPage()).to.be.true;
+    expect(await this.header.innerText()).to.equal(pageHeading);
   }
 };

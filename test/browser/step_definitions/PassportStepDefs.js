@@ -415,3 +415,12 @@ Given(/^I go to page not found$/, async function () {
   const passportPage = new PassportPage(this.page);
   await passportPage.goToPage("not-found");
 });
+
+Then(
+  /^I see the heading (.*)$/,
+  { timeout: 2 * 5000 },
+  async function (pageHeading) {
+    const passportPage = new PassportPage(this.page);
+    await passportPage.assertPageHeading(pageHeading);
+  }
+);
