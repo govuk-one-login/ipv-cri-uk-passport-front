@@ -330,10 +330,13 @@ Then(/^the beta banner reads (.*)$/, async function (betaBannerText) {
   await passportPage.assertBetaBannerText(betaBannerText);
 });
 
-Then(/^I see Contact the One Login team link reads (.*)$/, async function (contactOneLoginTeamLink) {
-   const passportPage = new PassportPage(this.page);
-   await passportPage.assertContactOneLoginTeamLink(contactOneLoginTeamLink);
-});
+Then(
+  /^I see Contact the One Login team link reads (.*)$/,
+  async function (contactOneLoginTeamLink) {
+    const passportPage = new PassportPage(this.page);
+    await passportPage.assertContactOneLoginTeamLink(contactOneLoginTeamLink);
+  }
+);
 
 Then(/^I can see the DoB fields titled (.*)$/, async function (dobFieldTitle) {
   const passportPage = new PassportPage(this.page);

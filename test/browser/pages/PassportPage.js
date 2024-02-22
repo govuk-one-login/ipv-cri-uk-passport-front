@@ -410,7 +410,7 @@ exports.PassportPage = class PlaywrightDevPage {
     await this.page.waitForLoadState("domcontentloaded");
     expect(await this.isCurrentPage()).to.be.true;
     expect(await this.errorLink.innerText()).to.equal(contactOneLoginTeamLink);
-}
+  }
 
   async assertFooterLink() {
     await this.supportLink.click();
