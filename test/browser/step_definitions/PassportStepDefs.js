@@ -373,7 +373,6 @@ Given(
   async function (supportLink) {
     const passportPage = new PassportPage(this.page);
     await passportPage.assertFooterLink(supportLink);
-    await this.page.goBack();
   }
 );
 

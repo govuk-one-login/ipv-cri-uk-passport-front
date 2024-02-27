@@ -407,9 +407,12 @@ exports.PassportPage = class PlaywrightDevPage {
   async assertFooterLink() {
     await this.supportLink.click();
     await this.page.waitForTimeout(2000); //waitForNavigation and waitForLoadState do not work in this case
-    expect(await this.page.url()).to.equal(
+    let context = await this.page.context();
+    let pages = await context.pages();
+    expect(await pages[1].url()).to.equal(
       "https://home.account.gov.uk/contact-gov-uk-one-login"
     );
+    await pages[1].close();
   }
 
   async assertBannerLink() {
