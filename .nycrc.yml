@@ -9,7 +9,7 @@ exclude:
   - "src/app/passport/fields.js"
   - "src/lib/*"
   - "src/app.js"
-report-dir: coverage
+report-dir: reports/coverage
 statements: 80
 branches: 80
 functions: 80

@@ -12,55 +12,56 @@
 {% from "hmpo-date/macro.njk" import hmpoDate %}
 
 {% block mainContent %}
-    {% if values.showRetryMessage and not (ctx("errors") | length) %}
-    {# user is retrying #}
-    <h1 id="header" data-page="{{hmpoPageKey}}" class="govuk-heading-l">
-        {{ translate("passport.retryTitle") }}
-    </h1>
+    {% if values.showRetryMessage and not(ctx("errors") | length) %}
+        {# user is retrying #}
+        <h1 id="header" data-page="{{hmpoPageKey}}" class="govuk-heading-l">
+            {{ translate("passport.retryTitle") }}
+        </h1>
     {% else %}
-    {# user's first attempt #}
-    <h1 id="header" data-page="{{hmpoPageKey}}" class="govuk-heading-l">
-        {{ translate("passport.title") }}
-    </h1>
- {% endif %}
+        {# user's first attempt #}
+        <h1 id="header" data-page="{{hmpoPageKey}}" class="govuk-heading-l">
+            {{ translate("passport.title") }}
+        </h1>
+    {% endif %}
 
-{% if values.showRetryMessage and not (ctx("errors") | length) %}
-{# user is retrying, show more information about how to complete the form #}
-{% set retryHtml %}
-<h2>{{ translate("passport.retryMessageHeading") }}</h2>
-<p>
-    {{ translate("passport.retryMessageParagraph1") }}
-</p>
-<p>
-    {{ translate("passport.retryMessageParagraph2") }}
-</p>
-<ul class="govuk-list govuk-list--bullet">
-    <li>{{ translate("passport.retryMessageList1") }}</li>
-    <li>{{ translate("passport.retryMessageList2") }}</li>
-    <li>{{ translate("passport.retryMessageList3") }}</li>
-    <li>{{ translate("passport.retryMessageList4") }}</li>
-</ul>
-{% endset %}
+    {% if values.showRetryMessage and not(ctx("errors") | length) %}
+        {# user is retrying, show more information about how to complete the form #}
+        {% set retryHtml %}
+        <h2>{{ translate("passport.retryMessageHeading") }}</h2>
+        <p>
+            {{ translate("passport.retryMessageParagraph1") }}
+        </p>
+        <p>
+            {{ translate("passport.retryMessageParagraph2") }}
+        </p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>{{ translate("passport.retryMessageList1") }}</li>
+            <li>{{ translate("passport.retryMessageList2") }}</li>
+            <li>{{ translate("passport.retryMessageList3") }}</li>
+            <li>{{ translate("passport.retryMessageList4") }}</li>
+        </ul>
+        {% endset %}
 
-{{ govukNotificationBanner({
+        {{ govukNotificationBanner({
 html: retryHtml,
 titleText: translate("passport.retryBannerTitle"),
 role: 'alert',
 classes:'passport-message'
 }) }}
 
-{% else %}
-{# user's first attempt #}
-    <p> {{ translate("passport.passportInformationContext") }} </p>
-    <p> {{ translate("passport.checkDetailsContext") }}  </p>
-{% endif %}
+    {% else %}
+        {# user's first attempt #}
+        <p>
+            {{ translate("passport.passportInformationContext") }}
+        </p>
+        <p>
+            {{ translate("passport.checkDetailsContext") }}
+        </p>
+    {% endif %}
 
-{{ govukInsetText({
+    {{ govukInsetText({
 html: translate("passport.passportTryAnotherWay")
 }) }}
-
-
-
 
     {% call hmpoForm(ctx) %}
 
@@ -84,18 +85,18 @@ html: translate("passport.passportTryAnotherWay")
 
     {% if firstNameError and middleNameError %}
         <div class="govuk-form-group govuk-form-group--error">
-    {% else %}
-        <div class="govuk-form-group ">
-    {% endif %}
+        {% else %}
+            <div class="govuk-form-group ">
+            {% endif %}
 
-        {% call govukFieldset({
+            {% call govukFieldset({
         legend: {
         text: translate("passport.passportGivenNames"),
         classes: "govuk-!-margin-0"
         }
         }) %}
-        <div class="govuk-inset-text govuk-!-margin-top-2 govuk-!-padding-top-1">
-            {{ hmpoText(ctx, {
+            <div class="govuk-inset-text govuk-!-margin-top-2 govuk-!-padding-top-1">
+                {{ hmpoText(ctx, {
             id: "firstName",
             label: {
             classes: "govuk-label"
@@ -103,51 +104,50 @@ html: translate("passport.passportTryAnotherWay")
             classes: "govuk-input"
             }) }}
 
-            {{ hmpoText(ctx, {
+                {{ hmpoText(ctx, {
             id: "middleNames",
             label: {
             classes: "govuk-label"
             },
             classes: "govuk-input"
             }) }}
+            </div>
+            {% endcall %}
         </div>
-        {% endcall %}
-    </div>
 
-
-    {{ hmpoDate(ctx, {
+        {{ hmpoDate(ctx, {
         id: "dateOfBirth",
         legend: {
             classes: "govuk-label"
         }
     }) }}
 
-    {{ hmpoDate(ctx, {
+        {{ hmpoDate(ctx, {
         id: "expiryDate",
         legend: {
             classes: "govuk-label"
         }
     }) }}
 
-    {% if values.showRetryMessage and not (ctx("errors") | length) %}
-        {# user is retrying, show warning message they have run out of attempts #}
-                {{ govukWarningText({
+        {% if values.showRetryMessage and not(ctx("errors") | length) %}
+            {# user is retrying, show warning message they have run out of attempts #}
+            {{ govukWarningText({
                 text: translate("passport.retryWarningText"),
                 iconFallbackText: translate("passport.retryWarningTitle")
                 }) }}
-    {% endif %}
+        {% endif %}
 
-    {{ hmpoSubmit(ctx, {id: 'submitButton'}) }}
+        {{ hmpoSubmit(ctx, {id: 'submitButton'}) }}
 
-    {% endcall %}
+        {% endcall %}
 
-{% endblock %}
+    {% endblock %}
 
-{% block scripts %}
-{{ super ()}}
-<script nonce="{{ cspNonce }}">
+    {% block scripts %}
+        {{ super ()}}
+        <script nonce="{{ cspNonce }}">
 
-<!--    Disable enter button from submitting the form but allow if form submit button is focused-->
+            <!--    Disable enter button from submitting the form but allow if form submit button is focused-->
     var form = document.getElementsByTagName('form')[0];
     form.addEventListener("keydown", function (event) {
 
@@ -183,13 +183,29 @@ html: translate("passport.passportTryAnotherWay")
             }
         })
     }
-
+ 
+    window.addEventListener('load', function () {
+      window
+      .DI
+      .analyticsGa4
+      .pageViewTracker
+      .trackOnPageLoad({
+        statusCode: '200', // Access status code
+        englishPageTitle: '{{translate("pages.passport.title")}}',
+        taxonomy_level1: 'CRI', // Access taxonomy level 1
+        taxonomy_level2: 'Passport', // Access taxonomy level 2
+        content_id: '001',
+        logged_in_status: true,
+        dynamic: false,
+      });
+    });
+  
     </script>
-{% endblock %}
+    {% endblock %}
 
-{# generate the specific footer items required for the PYI flows #}
-{% set footerNavItems = translate("govuk.footerNavItems") %}
+    {# generate the specific footer items required for the PYI flows #}
+    {% set footerNavItems = translate("govuk.footerNavItems") %}
 
-{% block footer %}
-    {{ govukFooter( footerNavItems ) }}
-{% endblock %}
+    {% block footer %}
+        {{ govukFooter( footerNavItems ) }}
+    {% endblock %}

@@ -2,15 +2,36 @@
 {% set hmpoPageKey = "error" %}
 
 {% block mainContent %}
-<h1 id="header" data-page="{{hmpoPageKey}}" class="govuk-heading-l">
-    {{ translate(hmpoPageKey+'.title', { default: [] }) | safe }}
-</h1>
+    <h1 id="header" data-page="{{hmpoPageKey}}" class="govuk-heading-l">
+        {{ translate(hmpoPageKey+'.title', { default: [] }) | safe }}
+    </h1>
 
-{% from "hmpo-html/macro.njk" import hmpoHtml %}
-{{ hmpoHtml(translate(hmpoPageKey + ".content", { default: [] })) }}
+    {% from "hmpo-html/macro.njk" import hmpoHtml %}
+    {{ hmpoHtml(translate(hmpoPageKey + ".content", { default: [] })) }}
 {% endblock %}
 
 {% block scripts %}
-<script type="text/javascript" nonce='{{cspNonce}}'>window.DI = window.DI || {};window.DI.httpStatusCode = 500</script>
-{{ super ()}}
+    <script type="text/javascript" nonce='{{cspNonce}}'>
+        window.DI = window.DI || {};
+        window.DI.httpStatusCode = 500
+    </script>
+    <script {% if cspNonce %} nonce="{{ cspNonce }}"{%  endif %}>
+        window.addEventListener('load', function () {
+            window
+                .DI
+                .analyticsGa4
+                .pageViewTracker
+                .trackOnPageLoad({
+                    statusCode: '500', // Access status code
+                    englishPageTitle: '{{translate("pages.error.title")}}',
+                    taxonomy_level1: 'CRI', // Access taxonomy level 1
+                    taxonomy_level2: 'error', // Access taxonomy level 2
+                    content_id: '003',
+                    logged_in_status: true,
+                    dynamic: false
+                });
+        });
+    </script>
+    {{ super ()}}
+
 {% endblock %}

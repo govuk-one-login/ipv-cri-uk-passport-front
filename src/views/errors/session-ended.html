@@ -2,14 +2,31 @@
 {% set hmpoPageKey = "sessionEnded" %}
 
 {% block mainContent %}
-<h1 id="header" data-page="{{hmpoPageKey}}" class="govuk-heading-l">
-    {{ translate(hmpoPageKey+'.title', { default: [] }) | safe }}
-</h1>
+    <h1 id="header" data-page="{{hmpoPageKey}}" class="govuk-heading-l">
+        {{ translate(hmpoPageKey+'.title', { default: [] }) | safe }}
+    </h1>
 
-{% from "hmpo-html/macro.njk" import hmpoHtml %}
-{{ hmpoHtml(translate(hmpoPageKey + ".content", { default: [] })) }}
+    {% from "hmpo-html/macro.njk" import hmpoHtml %}
+    {{ hmpoHtml(translate(hmpoPageKey + ".content", { default: [] })) }}
 {% endblock %}
 
 {% block scripts %}
-{{ super ()}}
+    <script {% if cspNonce %} nonce="{{ cspNonce }}"{%  endif %}>
+        window.addEventListener('load', function () {
+            window
+                .DI
+                .analyticsGa4
+                .pageViewTracker
+                .trackOnPageLoad({
+                    statusCode: '200', // Access status code
+                    englishPageTitle: '{{translate("pages.sessionEnded.title")}}',
+                    taxonomy_level1: 'CRI', // Access taxonomy level 1
+                    taxonomy_level2: 'session-ended', // Access taxonomy level 2
+                    content_id: '005',
+                    logged_in_status: true,
+                    dynamic: false
+                });
+        });
+    </script>
+    {{ super ()}}
 {% endblock %}
