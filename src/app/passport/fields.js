@@ -65,7 +65,8 @@ module.exports = {
       "required",
       "date",
       { type: "before", arguments: [new Date().toISOString().split("T")[0]] }
-    ]
+    ],
+    autocomplete: "bday"
   },
   expiryDate: {
     type: "date",
@@ -78,6 +79,7 @@ module.exports = {
         type: "expiryDate",
         ...expiryDateValidatorObj
       }
-    ]
+    ],
+    autocomplete: "expiryDate"
   }
 };
