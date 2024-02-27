@@ -12,64 +12,65 @@
 {% from "hmpo-date/macro.njk" import hmpoDate %}
 
 {% block mainContent %}
-    {% if values.showRetryMessage and not(ctx("errors") | length) %}
-        {# user is retrying #}
-        <h1 id="header" data-page="{{hmpoPageKey}}" class="govuk-heading-l">
-            {{ translate("passport.retryTitle") }}
-        </h1>
-    {% else %}
-        {# user's first attempt #}
-        <h1 id="header" data-page="{{hmpoPageKey}}" class="govuk-heading-l">
-            {{ translate("passport.title") }}
-        </h1>
-    {% endif %}
+{% if values.showRetryMessage and not(ctx("errors") | length) %}
+{# user is retrying #}
+<h1 id="header" data-page="{{hmpoPageKey}}" class="govuk-heading-l">
+    {{ translate("passport.retryTitle") }}
+</h1>
+{% else %}
+{# user's first attempt #}
+<h1 id="header" data-page="{{hmpoPageKey}}" class="govuk-heading-l">
+    {{ translate("passport.title") }}
+</h1>
+{% endif %}
 
-    {% if values.showRetryMessage and not(ctx("errors") | length) %}
-        {# user is retrying, show more information about how to complete the form #}
-        {% set retryHtml %}
-        <h2>{{ translate("passport.retryMessageHeading") }}</h2>
-        <p>
-            {{ translate("passport.retryMessageParagraph1") }}
-        </p>
-        <p>
-            {{ translate("passport.retryMessageParagraph2") }}
-        </p>
-        <ul class="govuk-list govuk-list--bullet">
-            <li>{{ translate("passport.retryMessageList1") }}</li>
-            <li>{{ translate("passport.retryMessageList2") }}</li>
-            <li>{{ translate("passport.retryMessageList3") }}</li>
-            <li>{{ translate("passport.retryMessageList4") }}</li>
-        </ul>
-        {% endset %}
+{% if values.showRetryMessage and not(ctx("errors") | length) %}
+{# user is retrying, show more information about how to complete the form #}
+{% set retryHtml %}
+<h2>{{ translate("passport.retryMessageHeading") }}</h2>
+<p>
+    {{ translate("passport.retryMessageParagraph1") }}
+</p>
+<p>
+    {{ translate("passport.retryMessageParagraph2") }}
+</p>
+<ul class="govuk-list govuk-list--bullet">
+    <li>{{ translate("passport.retryMessageList1") }}</li>
+    <li>{{ translate("passport.retryMessageList2") }}</li>
+    <li>{{ translate("passport.retryMessageList3") }}</li>
+    <li>{{ translate("passport.retryMessageList4") }}</li>
+</ul>
+{% endset %}
 
-        {{ govukNotificationBanner({
+{{ govukNotificationBanner({
 html: retryHtml,
 titleText: translate("passport.retryBannerTitle"),
 role: 'alert',
 classes:'passport-message'
 }) }}
 
-    {% else %}
-        {# user's first attempt #}
-        <p>
-            {{ translate("passport.passportInformationContext") }}
-        </p>
-        <p>
-            {{ translate("passport.checkDetailsContext") }}
-        </p>
-    {% endif %}
+{% else %}
+{# user's first attempt #}
+<p>
+    {{ translate("passport.passportInformationContext") }}
+</p>
+<p>
+    {{ translate("passport.checkDetailsContext") }}
+</p>
+{% endif %}
 
-    {{ govukInsetText({
+{{ govukInsetText({
 html: translate("passport.passportTryAnotherWay")
 }) }}
 
-    {% call hmpoForm(ctx) %}
+    {% call hmpoForm(ctx, {autocomplete:'on'}) %}
 
     {{ hmpoText(ctx, {
         id: "passportNumber",
         label: {
             classes: "govuk-label"
-        }
+        },
+        autocomplete: "passportNumber"
     }) }}
 
     {{ hmpoText(ctx, {
@@ -77,7 +78,8 @@ html: translate("passport.passportTryAnotherWay")
         label: {
             classes: "govuk-label"
         },
-        classes: "govuk-input"
+        classes: "govuk-input",
+        autocomplete: "family-name"
     }) }}
 
     {%- set firstNameError = hmpoGetError(ctx, {id: 'firstName'}) %}
@@ -101,7 +103,8 @@ html: translate("passport.passportTryAnotherWay")
             label: {
             classes: "govuk-label"
             },
-            classes: "govuk-input"
+            classes: "govuk-input",
+            autocomplete: "given-name"
             }) }}
 
                 {{ hmpoText(ctx, {
@@ -109,7 +112,8 @@ html: translate("passport.passportTryAnotherWay")
             label: {
             classes: "govuk-label"
             },
-            classes: "govuk-input"
+            classes: "govuk-input",
+            autocomplete: "additional-name"
             }) }}
             </div>
             {% endcall %}
@@ -183,7 +187,7 @@ html: translate("passport.passportTryAnotherWay")
             }
         })
     }
- 
+
     window.addEventListener('load', function () {
       window
       .DI
@@ -199,7 +203,7 @@ html: translate("passport.passportTryAnotherWay")
         dynamic: false,
       });
     });
-  
+
     </script>
     {% endblock %}
 
