@@ -268,6 +268,7 @@ Feature: Passport Test
     Then I delete the session cookie
     And User clicks on continue
     Then they should see an error page
+    And I see Contact the One Login team link reads Contact the GOV.UK One Login team (opens in a new tab)
     And I assert the link on the error page is correct and live
     Then I go to page not found
     And I assert the link on the page not found page is correct and live
