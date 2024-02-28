@@ -261,7 +261,8 @@ Feature: Passport Test
 
   @mock-api:passport-success
   Scenario: Check support links
-    Given I see support link Support in the footer and assert the url is correct and live
+    Given the Support link reads Support (opens in new tab)
+    And I see support link Support in the footer and assert the url is correct and live
     When I view the beta banner
     Then the beta banner reads This is a new service – your feedback (opens in new tab) will help us to improve it.
     And I assert the link in the banner is correct and live
